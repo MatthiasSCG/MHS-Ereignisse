@@ -84,6 +84,64 @@
     .stack{ display:flex; flex-direction:column; gap:12px; }
     .card + .card{ margin-top:24px; }
 
+    /* Filter-Toolbar (kompakt, über der Tabelle) */
+    .filter-toolbar {
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      padding:12px 16px;
+      background:var(--card);
+      border:1px solid #e5e7eb;
+      border-radius:var(--radius);
+      margin-bottom:16px;
+    }
+    .filter-toolbar .search{ max-width:280px; }
+    @media (max-width:768px){
+      .filter-toolbar{ flex-direction:column; align-items:stretch; }
+      .filter-toolbar .toolbar{ justify-content:space-between; }
+      .filter-toolbar .search{ max-width:100%; }
+    }
+
+    /* Tabellen-Card (Hauptfokus) */
+    .card-table {
+      box-shadow:0 8px 32px rgba(2,6,23,.10);
+    }
+
+    /* Eingabe-Card (dezenter, am Ende) */
+    .card-input {
+      background:var(--bg);
+      box-shadow:none;
+      border:1px dashed #d1d5db;
+      margin-top:20px;
+    }
+    .input-header {
+      font-size:14px;
+      font-weight:600;
+      color:var(--muted);
+      margin-bottom:12px;
+    }
+    .input-grid {
+      display:grid;
+      gap:12px;
+      align-items:end;
+      grid-template-columns:140px 140px 140px 1fr auto;
+    }
+    .input-grid .stack-text{ min-width:0; }
+    .input-grid .stack-buttons .toolbar{ flex-wrap:nowrap; }
+    .input-grid .label-spacer{ display:block; height:18px; }
+    @media (max-width:960px){
+      .input-grid{ grid-template-columns:1fr 1fr 1fr; }
+      .input-grid .stack-text{ grid-column:1 / -1; }
+      .input-grid .stack-buttons{ grid-column:1 / -1; justify-self:end; }
+    }
+    @media (max-width:600px){
+      .input-grid{ grid-template-columns:1fr; }
+      .input-grid .stack-buttons{ justify-self:stretch; }
+      .input-grid .stack-buttons .toolbar{ justify-content:stretch; }
+      .input-grid .stack-buttons .btn{ flex:1; }
+    }
+
     .grid{ display:grid; gap:12px; align-items:center; grid-template-columns:180px 180px 140px minmax(0,1fr) max-content; }
     @media (max-width:960px){ .grid{ grid-template-columns:1fr 1fr; } }
     @media (max-width:600px){ .grid{ grid-template-columns:1fr; } }
@@ -106,8 +164,8 @@
       border-color:var(--primary);
       box-shadow:0 0 0 3px rgba(37,99,235,.15);
     }
-    #date,#end{ width:70%; }
-    #text{ width:85%; }
+    #date,#end{ width:100%; }
+    #text{ width:100%; }
 
     .toolbar{ display:flex; gap:8px; align-items:center; }
     .toolbar-spread{ justify-content:space-between; }
@@ -280,6 +338,13 @@
     [data-theme="dark"] .cat-termin{ color:#fbbf24; background:#4a3412; }
     [data-theme="dark"] .cat-erinnerung{ color:#34d399; background:#0a3d2e; }
     [data-theme="dark"] .cat-sonstiges{ color:#94a3b8; background:#1e293b; }
+    /* Filter-Toolbar Dark Mode */
+    [data-theme="dark"] .filter-toolbar{ background:#0f172a; border-color:#334155; }
+    /* Eingabe-Card Dark Mode */
+    [data-theme="dark"] .card-input{ background:#0b1220; border-color:#334155; }
+    [data-theme="dark"] .input-header{ color:#94a3b8; }
+    /* Tabellen-Card Dark Mode */
+    [data-theme="dark"] .card-table{ box-shadow:none; }
   </style>
 </head>
 <body>
@@ -300,8 +365,60 @@
         </div>
       </header>
 
-      <section class="card stack">
-        <div class="grid">
+      <!-- Filter-Toolbar -->
+      <section class="filter-toolbar">
+        <div class="toolbar toolbar-flex">
+          <input id="search" class="search" type="text" placeholder="Filtern..." />
+          <select id="filterCategory" title="Nach Kategorie filtern">
+            <option value="">Alle Kategorien</option>
+            <option value="geburtstag">Geburtstag</option>
+            <option value="todestag">Todestag</option>
+            <option value="jahrestag">Jahrestag</option>
+            <option value="jubilaeum">Jubiläum</option>
+            <option value="projekt">Projekt</option>
+            <option value="termin">Termin</option>
+            <option value="erinnerung">Erinnerung</option>
+            <option value="sonstiges">Sonstiges</option>
+            <option value="none">Ohne Kategorie</option>
+          </select>
+        </div>
+        <div class="toolbar">
+          <select id="sortKey" title="Sortieren nach">
+            <option value="date" selected>Zeitpunkt</option>
+            <option value="end">Endzeitpunkt</option>
+            <option value="text">Ereignis</option>
+            <option value="category">Kategorie</option>
+          </select>
+          <button id="sortDirBtn" class="btn-icon" title="Sortierrichtung umschalten" aria-label="Sortierrichtung">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 16l-6-6h12z"/></svg>
+          </button>
+        </div>
+      </section>
+
+      <!-- Tabelle (Hauptbereich) -->
+      <section class="card card-table stack">
+        <div class="table-wrap">
+          <table id="table" aria-describedby="tableHint">
+            <thead>
+              <tr>
+                <th class="col-date">Zeitpunkt</th>
+                <th class="col-date">Endzeitpunkt</th>
+                <th class="col-cat">Kategorie</th>
+                <th>Ereignis</th>
+                <th class="days">Differenz zu heute oder Endzeitpunkt</th>
+                <th class="actions">Aktionen</th>
+              </tr>
+            </thead>
+            <tbody id="tbody"></tbody>
+          </table>
+        </div>
+        <div id="tableHint" class="muted">Tipp: Doppelklick auf eine Zeile zum Bearbeiten.</div>
+      </section>
+
+      <!-- Eingabebereich (am Ende, dezenter) -->
+      <section class="card card-input">
+        <div class="input-header">Neues Ereignis</div>
+        <div class="input-grid">
           <div class="stack">
             <label for="date">Zeitpunkt</label>
             <input id="date" type="date" />
@@ -324,67 +441,19 @@
               <option value="sonstiges">Sonstiges</option>
             </select>
           </div>
-          <div class="stack">
+          <div class="stack stack-text">
             <label for="text">Ereignis</label>
             <input id="text" type="text" placeholder="Beschreibe das Ereignis…" />
           </div>
-          <div class="stack">
-            <label>&nbsp;</label>
+          <div class="stack stack-buttons">
+            <label class="label-spacer">&nbsp;</label>
             <div class="toolbar">
               <button id="addBtn" class="btn btn-primary">Hinzufügen</button>
               <button id="clearBtn" class="btn btn-ghost">Zurücksetzen</button>
             </div>
           </div>
         </div>
-        <div class="toolbar toolbar-spread">
-          <div class="toolbar toolbar-flex">
-            <input id="search" class="search" type="text" placeholder="Filtern..." />
-            <select id="filterCategory" title="Nach Kategorie filtern">
-              <option value="">Alle Kategorien</option>
-              <option value="geburtstag">Geburtstag</option>
-              <option value="todestag">Todestag</option>
-              <option value="jahrestag">Jahrestag</option>
-              <option value="jubilaeum">Jubiläum</option>
-              <option value="projekt">Projekt</option>
-              <option value="termin">Termin</option>
-              <option value="erinnerung">Erinnerung</option>
-              <option value="sonstiges">Sonstiges</option>
-              <option value="none">Ohne Kategorie</option>
-            </select>
-          </div>
-          <div class="toolbar">
-            <select id="sortKey" title="Sortieren nach">
-              <option value="date" selected>Zeitpunkt</option>
-              <option value="end">Endzeitpunkt</option>
-              <option value="text">Ereignis</option>
-              <option value="category">Kategorie</option>
-            </select>
-            <button id="sortDirBtn" class="btn-icon" title="Sortierrichtung umschalten" aria-label="Sortierrichtung">
-              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 16l-6-6h12z"/></svg>
-            </button>
-            <div class="muted" id="fileInfo">Keine Datei geöffnet</div>
-          </div>
-        </div>
         <div class="muted text-center mt-6">konzeptioniert von Matthias</div>
-      </section>
-
-      <section class="card stack">
-        <div class="table-wrap">
-          <table id="table" aria-describedby="tableHint">
-            <thead>
-              <tr>
-                <th class="col-date">Zeitpunkt</th>
-                <th class="col-date">Endzeitpunkt</th>
-                <th class="col-cat">Kategorie</th>
-                <th>Ereignis</th>
-                <th class="days">Differenz zu heute oder Endzeitpunkt</th>
-                <th class="actions">Aktionen</th>
-              </tr>
-            </thead>
-            <tbody id="tbody"></tbody>
-          </table>
-        </div>
-        <div id="tableHint" class="muted">Tipp: Doppelklick auf eine Zeile zum Bearbeiten.</div>
       </section>
 
     </div>

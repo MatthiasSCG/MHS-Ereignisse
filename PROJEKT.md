@@ -316,17 +316,53 @@ Alle geplanten Erweiterungen werden als [GitHub Issues](https://github.com/Matth
 | Phase | Features | Issues |
 |-------|----------|--------|
 | **v1.1** | Kategorien/Tags | ✅ Abgeschlossen |
-| **v1.2** | Wiederkehrende Ereignisse, Erweiterte Suche | #1, #12 |
-| **v1.3** | PWA-Unterstützung, Notizen | #9, #3 |
-| **v1.4** | Import/Export-Formate | #11, #4 |
+| **v1.2** | Bugfix: Mehrfachbearbeitung | ✅ Abgeschlossen |
+| **v1.3** | UI-Verbesserungen | #15, #16, #17, #18, #19 |
+| **v1.4** | PWA-Unterstützung, Notizen | #9, #3 |
+| **v1.5** | Wiederkehrende Ereignisse, Erweiterte Suche | #1, #12 |
 | **v2.0** | Kalenderansicht, Dashboard | #5, #6 |
-| **v2.1** | Benachrichtigungen, Drag & Drop | #2, #7 |
-| **v3.0** | Cloud-Synchronisation | #10 |
+| **v2.1** | Import/Export-Formate, Benachrichtigungen | #11, #4, #2 |
+| **v2.2** | Drag & Drop, Theme-Optionen | #7, #8 |
+| **v3.0** | Mehrsprachigkeit (i18n) | #13 |
+| **v4.0** | Cloud-Synchronisation | #10 |
+
+### Offene Issues nach Priorität
+
+#### Hohe Priorität
+| Issue | Titel |
+|-------|-------|
+| #1 | Wiederkehrende Ereignisse |
+| #9 | Progressive Web App (PWA) |
+
+#### Mittlere Priorität
+| Issue | Titel |
+|-------|-------|
+| #2 | Benachrichtigungen/Erinnerungen |
+| #3 | Notizen/Beschreibungen |
+| #5 | Kalenderansicht |
+| #6 | Dashboard/Startseite |
+| #11 | Import-Funktionen |
+| #12 | Erweiterte Suche |
+| #13 | Mehrsprachigkeit (i18n) |
+| #15 | UI: Layout-Umstrukturierung - Eingabe am Ende |
+
+#### Niedrige Priorität
+| Issue | Titel |
+|-------|-------|
+| #4 | Export-Formate erweitern |
+| #7 | Drag & Drop |
+| #8 | Erweiterte Theme-Optionen |
+| #10 | Cloud-Synchronisation |
+| #16 | UI: Header-Aktionen in Dropdown-Menü |
+| #17 | UI: Statusleiste am unteren Rand |
+| #18 | UI: Button "Alle löschen" umbenennen |
+| #19 | UI: Visuelle Hierarchie verbessern |
 
 ### Labels
 
 | Label | Beschreibung |
 |-------|--------------|
+| `bug` | Fehler beheben |
 | `enhancement` | Neue Funktion oder Verbesserung |
 | `ui` | Benutzeroberfläche |
 | `technical` | Technische Verbesserung |
