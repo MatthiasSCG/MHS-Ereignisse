@@ -1590,7 +1590,7 @@
    */
 
   /** @constant {string} Zentrale Versionsnummer der Anwendung */
-  const APP_VERSION = '1.9.0';
+  const APP_VERSION = '1.10.0';
 
   (function(){
     /**
@@ -1993,7 +1993,7 @@
     const escapeHTML = (str='') => String(str).replace(/[&<>"']/g, (ch)=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','\'':'&#39;' }[ch]));
 
     const serializePlain = () => entries.map(e => `${e.date||''}\t${e.end||''}\t${sanitizeText(e.text||'')}`).join('\n');
-const serializeJSON = () => JSON.stringify(entries, null, 2);
+const serializeJSON = () => JSON.stringify({ entries, savedFilters }, null, 2);
     const parsePlain = (text='') => {
       const lines = String(text||'').replace(/\r/g,'').split('\n');
       const arr = [];
@@ -2009,7 +2009,36 @@ const serializeJSON = () => JSON.stringify(entries, null, 2);
       }
       return arr;
     };
-    const deserializeSmart = (text) => { try{ const obj=JSON.parse(text); if(Array.isArray(obj)) return obj; if(obj && Array.isArray(obj.entries)) return obj.entries; }catch(e){} return parsePlain(text); };
+    const deserializeSmart = (text) => {
+      try {
+        const obj = JSON.parse(text);
+        if (Array.isArray(obj)) return { entries: obj, savedFilters: [] };
+        if (obj && Array.isArray(obj.entries)) {
+          return { entries: obj.entries, savedFilters: Array.isArray(obj.savedFilters) ? obj.savedFilters : [] };
+        }
+      } catch(e) {}
+      return { entries: parsePlain(text), savedFilters: [] };
+    };
+    /**
+     * Merges imported filters with existing filters, avoiding duplicates by ID
+     * @param {Array} importedFilters - Filters from imported file
+     */
+    const mergeFilters = (importedFilters) => {
+      if (!Array.isArray(importedFilters) || importedFilters.length === 0) return;
+      const existingIds = new Set(savedFilters.map(f => f.id));
+      let addedCount = 0;
+      for (const filter of importedFilters) {
+        if (filter && filter.id && !existingIds.has(filter.id)) {
+          savedFilters.push(filter);
+          existingIds.add(filter.id);
+          addedCount++;
+        }
+      }
+      if (addedCount > 0) {
+        localStorage.setItem(SAVED_FILTERS_KEY, JSON.stringify(savedFilters));
+        renderSavedFilters();
+      }
+    };
 
     // ---------- Date math & formatting ----------
     const MS_PER_DAY = 86400000; const NF_DE = new Intl.NumberFormat('de-DE');
@@ -3116,7 +3145,7 @@ tbody.appendChild(tr);
     /**
      * Fallback-Methode zum Öffnen von Dateien (für Browser ohne File System API)
      */
-    const fallbackOpen = ()=>{ const input=document.getElementById('fileInput'); input.onchange=async()=>{ const f=input.files[0]; if(!f) return; const text=await f.text(); entries=deserializeSmart(text); fileHandle=null; updateStatusBar(); updateSaveStatus('saved'); render(); input.value=''; }; input.click(); };
+    const fallbackOpen = ()=>{ const input=document.getElementById('fileInput'); input.onchange=async()=>{ const f=input.files[0]; if(!f) return; const text=await f.text(); const data=deserializeSmart(text); entries=data.entries; mergeFilters(data.savedFilters); fileHandle=null; updateStatusBar(); updateSaveStatus('saved'); render(); input.value=''; }; input.click(); };
 
     /**
      * Öffnet eine JSON-Datei mit Ereignisdaten
@@ -3145,7 +3174,9 @@ tbody.appendChild(tr);
             fileHandle = handle;
             const file = await handle.getFile();
             const text = await file.text();
-            entries = deserializeSmart(text);
+            const data = deserializeSmart(text);
+            entries = data.entries;
+            mergeFilters(data.savedFilters);
             saveToLocalStorage();
             updateStatusBar(); updateSaveStatus('saved');
             render();

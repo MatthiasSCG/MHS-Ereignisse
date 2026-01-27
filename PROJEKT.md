@@ -5,7 +5,7 @@
 **Name:** Ereignisse und deren Zeitraum zu heute
 **Typ:** Single-Page Web-Anwendung (SPA)
 **Autor:** Matthias
-**Version:** 1.9
+**Version:** 1.10
 **Letzte Aktualisierung:** 2026-01-27
 **Repository:** https://github.com/MatthiasSCG/MHS-Ereignisse (privat)
 
@@ -105,22 +105,43 @@ interface Entry {
 ### JSON-Export-Format
 
 ```json
-[
-  {
-    "id": "m1abc123-xyz789",
-    "date": "2025-01-15",
-    "end": "",
-    "category": "projekt",
-    "text": "Projektstart",
-    "notes": "Erste Notizen zum Projekt",
-    "recurring": false,
-    "predecessors": [],
-    "successors": ["m2def456-abc123"],
-    "createdAt": "2025-01-15T10:30:00.000Z",
-    "updatedAt": "2025-01-15T10:30:00.000Z"
-  }
-]
+{
+  "entries": [
+    {
+      "id": "m1abc123-xyz789",
+      "date": "2025-01-15",
+      "end": "",
+      "category": "projekt",
+      "text": "Projektstart",
+      "notes": "Erste Notizen zum Projekt",
+      "recurring": false,
+      "predecessors": [],
+      "successors": ["m2def456-abc123"],
+      "createdAt": "2025-01-15T10:30:00.000Z",
+      "updatedAt": "2025-01-15T10:30:00.000Z"
+    }
+  ],
+  "savedFilters": [
+    {
+      "id": "filter-abc123",
+      "name": "Mein Filter",
+      "filter": {
+        "query": "Projekt",
+        "categories": ["projekt"],
+        "dateFrom": "",
+        "dateTo": "",
+        "preset": "",
+        "hasNotes": false,
+        "isRecurring": false,
+        "hasTimespan": false
+      }
+    }
+  ]
+}
 ```
+
+> **Rückwärtskompatibilität:** Alte Dateien im Array-Format `[{...}]` werden weiterhin unterstützt.
+> Beim Import werden gespeicherte Filter mit bestehenden zusammengeführt (Duplikate nach ID vermieden).
 
 ### Verfügbare Kategorien
 
@@ -321,6 +342,7 @@ Alle geplanten Erweiterungen werden als [GitHub Issues](https://github.com/Matth
 | **v1.7** | PWA-Unterstützung | ✅ Abgeschlossen (#9) |
 | **v1.8** | Wiederkehrende Ereignisse | ✅ Abgeschlossen (#1) |
 | **v1.9** | Erweiterte Suche | ✅ Abgeschlossen (#12) |
+| **v1.10** | Filter in JSON-Export | ✅ Abgeschlossen (#26) |
 | **v2.0** | Kalenderansicht, Dashboard | #5, #6 |
 | **v2.1** | Import/Export-Formate, Benachrichtigungen | #11, #4, #2 |
 | **v2.2** | Drag & Drop, Theme-Optionen | #7, #8 |

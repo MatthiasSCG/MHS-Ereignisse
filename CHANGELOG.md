@@ -7,6 +7,16 @@ und dieses Projekt verwendet [Semantic Versioning](https://semver.org/lang/de/).
 
 ## [Unreleased]
 
+## [1.10.0] - 2026-01-27
+
+### Added
+- Gespeicherte Filter werden im JSON-Export integriert (#26)
+- Neues JSON-Format: `{ entries: [...], savedFilters: [...] }`
+- Filter werden beim Import mit bestehenden zusammengeführt (Duplikate werden vermieden)
+
+### Changed
+- Rückwärtskompatibilität: Alte JSON-Dateien (nur Array) werden weiterhin unterstützt
+
 ## [1.9.0] - 2026-01-27
 
 ### Added
@@ -142,7 +152,9 @@ und dieses Projekt verwendet [Semantic Versioning](https://semver.org/lang/de/).
 - XSS-Schutz durch `escapeHTML()` für alle Benutzereingaben
 - Input-Sanitization durch `sanitizeText()` für Textbereinigung
 
-[Unreleased]: https://github.com/MatthiasSCG/MHS-Ereignisse/compare/v1.8.0...HEAD
+[Unreleased]: https://github.com/MatthiasSCG/MHS-Ereignisse/compare/v1.10.0...HEAD
+[1.10.0]: https://github.com/MatthiasSCG/MHS-Ereignisse/compare/v1.9.0...v1.10.0
+[1.9.0]: https://github.com/MatthiasSCG/MHS-Ereignisse/compare/v1.8.0...v1.9.0
 [1.8.0]: https://github.com/MatthiasSCG/MHS-Ereignisse/compare/v1.7.0...v1.8.0
 [1.7.0]: https://github.com/MatthiasSCG/MHS-Ereignisse/compare/v1.6.0...v1.7.0
 [1.6.0]: https://github.com/MatthiasSCG/MHS-Ereignisse/compare/v1.5.0...v1.6.0
