@@ -56,6 +56,7 @@ Eine lokale Web-Anwendung zur Verwaltung von Ereignissen mit automatischer Berec
 0003_MHS_Ereignisse/
 ├── .git/                 # Git-Repository
 ├── .gitignore            # Git-Ignorierungsliste
+├── README.md             # GitHub-Startseite
 ├── Ereignisse.html       # Hauptanwendung (Single-File)
 ├── PROJEKT.md            # Projektdokumentation
 ├── CHANGELOG.md          # Änderungshistorie (Keep a Changelog)
