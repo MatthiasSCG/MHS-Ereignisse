@@ -325,7 +325,6 @@ Alle geplanten Erweiterungen werden als [GitHub Issues](https://github.com/Matth
 | Issue | Titel |
 |-------|-------|
 | #1 | Wiederkehrende Ereignisse |
-| #9 | Progressive Web App (PWA) |
 
 #### Mittlere Priorität
 | Issue | Titel |
