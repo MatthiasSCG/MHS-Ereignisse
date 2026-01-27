@@ -564,6 +564,281 @@
       font-size:11px;
       color:var(--muted);
     }
+
+    /* Verknüpfungs-Icons in der Tabellenansicht */
+    .link-indicators {
+      display:flex;
+      gap:8px;
+      margin-top:4px;
+    }
+    .link-indicator {
+      display:inline-flex;
+      align-items:center;
+      gap:3px;
+      padding:2px 6px;
+      font-size:11px;
+      color:var(--muted);
+      background:#f1f5f9;
+      border-radius:4px;
+      cursor:default;
+    }
+    .link-indicator:hover {
+      background:#e2e8f0;
+    }
+    .link-indicator svg {
+      width:12px;
+      height:12px;
+    }
+    [data-theme="dark"] .link-indicator {
+      background:#1e293b;
+      color:#94a3b8;
+    }
+    [data-theme="dark"] .link-indicator:hover {
+      background:#334155;
+    }
+
+    /* Verknüpfungs-Buttons im Bearbeiten-Modus */
+    .link-edit-row {
+      display:flex;
+      gap:6px;
+      margin-top:8px;
+      flex-wrap:wrap;
+    }
+    .link-edit-btn {
+      display:inline-flex;
+      align-items:center;
+      gap:4px;
+      padding:4px 8px;
+      font-size:11px;
+      border:1px solid #d1d5db;
+      border-radius:6px;
+      background:#fff;
+      color:var(--ink);
+      cursor:pointer;
+      transition:background .15s, border-color .15s;
+    }
+    .link-edit-btn:hover {
+      background:#f8fafc;
+      border-color:#94a3b8;
+    }
+    .link-edit-btn svg {
+      width:14px;
+      height:14px;
+    }
+    [data-theme="dark"] .link-edit-btn {
+      background:#1e293b;
+      border-color:#334155;
+      color:var(--ink);
+    }
+    [data-theme="dark"] .link-edit-btn:hover {
+      background:#334155;
+      border-color:#475569;
+    }
+
+    /* Modal-Dialog */
+    .modal-overlay {
+      position:fixed;
+      inset:0;
+      background:rgba(0,0,0,.5);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      z-index:1000;
+      padding:20px;
+    }
+    .modal {
+      background:var(--card);
+      border-radius:var(--radius);
+      box-shadow:0 25px 50px rgba(0,0,0,.25);
+      max-width:500px;
+      width:100%;
+      max-height:80vh;
+      display:flex;
+      flex-direction:column;
+    }
+    .modal-header {
+      padding:16px 20px;
+      border-bottom:1px solid #e5e7eb;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+    }
+    .modal-title {
+      font-size:16px;
+      font-weight:600;
+      margin:0;
+    }
+    .modal-close {
+      width:32px;
+      height:32px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      border:none;
+      background:none;
+      cursor:pointer;
+      color:var(--muted);
+      border-radius:6px;
+    }
+    .modal-close:hover {
+      background:#f1f5f9;
+      color:var(--ink);
+    }
+    .modal-close svg {
+      width:20px;
+      height:20px;
+    }
+    .modal-body {
+      padding:16px 20px;
+      overflow-y:auto;
+      flex:1;
+    }
+    .modal-footer {
+      padding:12px 20px;
+      border-top:1px solid #e5e7eb;
+      display:flex;
+      gap:8px;
+      justify-content:flex-end;
+    }
+    [data-theme="dark"] .modal {
+      border:1px solid #334155;
+    }
+    [data-theme="dark"] .modal-header {
+      border-color:#334155;
+    }
+    [data-theme="dark"] .modal-footer {
+      border-color:#334155;
+    }
+    [data-theme="dark"] .modal-close:hover {
+      background:#1e293b;
+    }
+
+    /* Modal-Filterfeld */
+    .modal-filter {
+      margin-bottom:12px;
+    }
+    .modal-filter input {
+      width:100%;
+    }
+
+    /* Modal-Liste für Festlegen-Dialog */
+    .link-select-list {
+      max-height:300px;
+      overflow-y:auto;
+      border:1px solid #e5e7eb;
+      border-radius:8px;
+    }
+    .link-select-item {
+      display:flex;
+      align-items:flex-start;
+      gap:10px;
+      padding:10px 12px;
+      border-bottom:1px solid #e5e7eb;
+      cursor:pointer;
+      transition:background .1s;
+    }
+    .link-select-item:last-child {
+      border-bottom:none;
+    }
+    .link-select-item:hover {
+      background:#f8fafc;
+    }
+    .link-select-item.selected {
+      background:#eff6ff;
+    }
+    .link-select-item input[type="radio"] {
+      margin-top:3px;
+      flex-shrink:0;
+    }
+    .link-select-info {
+      flex:1;
+      min-width:0;
+    }
+    .link-select-date {
+      font-size:12px;
+      color:var(--muted);
+      margin-bottom:2px;
+    }
+    .link-select-text {
+      font-size:14px;
+      word-break:break-word;
+    }
+    [data-theme="dark"] .link-select-list {
+      border-color:#334155;
+    }
+    [data-theme="dark"] .link-select-item {
+      border-color:#334155;
+    }
+    [data-theme="dark"] .link-select-item:hover {
+      background:#1e293b;
+    }
+    [data-theme="dark"] .link-select-item.selected {
+      background:#1e3a5f;
+    }
+
+    /* Modal-Liste für Pflegen-Dialog */
+    .link-manage-list {
+      border:1px solid #e5e7eb;
+      border-radius:8px;
+    }
+    .link-manage-item {
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      padding:10px 12px;
+      border-bottom:1px solid #e5e7eb;
+    }
+    .link-manage-item:last-child {
+      border-bottom:none;
+    }
+    .link-manage-info {
+      flex:1;
+      min-width:0;
+    }
+    .link-manage-date {
+      font-size:12px;
+      color:var(--muted);
+    }
+    .link-manage-text {
+      font-size:14px;
+      word-break:break-word;
+    }
+    .link-manage-remove {
+      flex-shrink:0;
+      padding:4px 10px;
+      font-size:12px;
+      border:1px solid #fca5a5;
+      border-radius:6px;
+      background:#fef2f2;
+      color:#dc2626;
+      cursor:pointer;
+    }
+    .link-manage-remove:hover {
+      background:#fee2e2;
+    }
+    [data-theme="dark"] .link-manage-list {
+      border-color:#334155;
+    }
+    [data-theme="dark"] .link-manage-item {
+      border-color:#334155;
+    }
+    [data-theme="dark"] .link-manage-remove {
+      background:#450a0a;
+      border-color:#991b1b;
+      color:#fca5a5;
+    }
+    [data-theme="dark"] .link-manage-remove:hover {
+      background:#7f1d1d;
+    }
+
+    /* Leere Liste */
+    .link-empty {
+      padding:20px;
+      text-align:center;
+      color:var(--muted);
+      font-size:14px;
+    }
   </style>
 </head>
 <body>
@@ -724,7 +999,7 @@
    */
 
   /** @constant {string} Zentrale Versionsnummer der Anwendung */
-  const APP_VERSION = '1.5.0';
+  const APP_VERSION = '1.6.0';
 
   (function(){
     /**
@@ -736,6 +1011,8 @@
      * @property {string} text - Beschreibung des Ereignisses
      * @property {string} category - Kategorie-Schlüssel (optional)
      * @property {string} notes - Mehrzeilige Notizen (optional)
+     * @property {string[]} predecessors - IDs der Vorgänger-Ereignisse (optional)
+     * @property {string[]} successors - IDs der Nachfolger-Ereignisse (optional)
      * @property {string} createdAt - Erstellungszeitpunkt (ISO-Timestamp)
      * @property {string} updatedAt - Letzter Änderungszeitpunkt (ISO-Timestamp)
      */
@@ -822,6 +1099,156 @@
       const escaped = escapeHTML(notes);
       return `<div class="notes-display">${escaped}</div>`;
     };
+
+    // ---------- Verknüpfungs-Hilfsfunktionen ----------
+    /**
+     * Fügt eine bidirektionale Verknüpfung zwischen zwei Einträgen hinzu
+     * @param {string} sourceId - ID des Quell-Eintrags
+     * @param {string} targetId - ID des Ziel-Eintrags
+     * @param {'predecessor'|'successor'} type - Art der Verknüpfung
+     */
+    const addLink = (sourceId, targetId, type) => {
+      const source = entries.find(e => e.id === sourceId);
+      const target = entries.find(e => e.id === targetId);
+      if (!source || !target || sourceId === targetId) return;
+
+      if (type === 'predecessor') {
+        // source bekommt target als Vorgänger
+        if (!source.predecessors.includes(targetId)) {
+          source.predecessors.push(targetId);
+        }
+        // target bekommt source als Nachfolger (bidirektional)
+        if (!target.successors.includes(sourceId)) {
+          target.successors.push(sourceId);
+        }
+      } else if (type === 'successor') {
+        // source bekommt target als Nachfolger
+        if (!source.successors.includes(targetId)) {
+          source.successors.push(targetId);
+        }
+        // target bekommt source als Vorgänger (bidirektional)
+        if (!target.predecessors.includes(sourceId)) {
+          target.predecessors.push(sourceId);
+        }
+      }
+      source.updatedAt = nowISOTimestamp();
+      target.updatedAt = nowISOTimestamp();
+    };
+
+    /**
+     * Entfernt eine bidirektionale Verknüpfung zwischen zwei Einträgen
+     * @param {string} sourceId - ID des Quell-Eintrags
+     * @param {string} targetId - ID des Ziel-Eintrags
+     * @param {'predecessor'|'successor'} type - Art der Verknüpfung
+     */
+    const removeLink = (sourceId, targetId, type) => {
+      const source = entries.find(e => e.id === sourceId);
+      const target = entries.find(e => e.id === targetId);
+      if (!source || !target) return;
+
+      if (type === 'predecessor') {
+        // target aus source.predecessors entfernen
+        source.predecessors = source.predecessors.filter(id => id !== targetId);
+        // source aus target.successors entfernen (bidirektional)
+        target.successors = target.successors.filter(id => id !== sourceId);
+      } else if (type === 'successor') {
+        // target aus source.successors entfernen
+        source.successors = source.successors.filter(id => id !== targetId);
+        // source aus target.predecessors entfernen (bidirektional)
+        target.predecessors = target.predecessors.filter(id => id !== sourceId);
+      }
+      source.updatedAt = nowISOTimestamp();
+      target.updatedAt = nowISOTimestamp();
+    };
+
+    /**
+     * Bereinigt alle Verknüpfungen zu einem gelöschten Eintrag
+     * @param {string} deletedId - ID des gelöschten Eintrags
+     */
+    const cleanupLinksForDeletedEntry = (deletedId) => {
+      entries.forEach(e => {
+        if (e.predecessors.includes(deletedId)) {
+          e.predecessors = e.predecessors.filter(id => id !== deletedId);
+          e.updatedAt = nowISOTimestamp();
+        }
+        if (e.successors.includes(deletedId)) {
+          e.successors = e.successors.filter(id => id !== deletedId);
+          e.updatedAt = nowISOTimestamp();
+        }
+      });
+    };
+
+    /**
+     * Erstellt HTML für die Verknüpfungs-Indikatoren in der Tabellenansicht
+     * @param {Entry} entry - Der Eintrag
+     * @returns {string} HTML-String für die Indikatoren
+     */
+    const buildLinkIndicators = (entry) => {
+      const predCount = (entry.predecessors || []).length;
+      const succCount = (entry.successors || []).length;
+      if (predCount === 0 && succCount === 0) return '';
+
+      const predEntries = (entry.predecessors || [])
+        .map(id => entries.find(e => e.id === id))
+        .filter(Boolean);
+      const succEntries = (entry.successors || [])
+        .map(id => entries.find(e => e.id === id))
+        .filter(Boolean);
+
+      const predTooltip = predEntries.length > 0
+        ? `Vorgänger:\n${predEntries.map(e => `• ${e.date}: ${e.text}`).join('\n')}`
+        : '';
+      const succTooltip = succEntries.length > 0
+        ? `Nachfolger:\n${succEntries.map(e => `• ${e.date}: ${e.text}`).join('\n')}`
+        : '';
+
+      let html = '<div class="link-indicators">';
+      if (predCount > 0) {
+        html += `<span class="link-indicator" title="${escapeHTML(predTooltip)}">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z"/></svg>
+          ${predCount}
+        </span>`;
+      }
+      if (succCount > 0) {
+        html += `<span class="link-indicator" title="${escapeHTML(succTooltip)}">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg>
+          ${succCount}
+        </span>`;
+      }
+      html += '</div>';
+      return html;
+    };
+
+    /**
+     * Erstellt HTML für die Verknüpfungs-Buttons im Bearbeiten-Modus
+     * @param {Entry} entry - Der Eintrag
+     * @returns {string} HTML-String für die Buttons
+     */
+    const buildLinkEditButtons = (entry) => {
+      const predCount = (entry.predecessors || []).length;
+      const succCount = (entry.successors || []).length;
+      return `
+        <div class="link-edit-row">
+          <button type="button" class="link-edit-btn" data-link-action="add-predecessor" title="Vorgänger festlegen">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z"/></svg>
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+          </button>
+          <button type="button" class="link-edit-btn" data-link-action="manage-predecessors" title="Vorgänger pflegen (${predCount})">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z"/></svg>
+            ${predCount}
+          </button>
+          <button type="button" class="link-edit-btn" data-link-action="add-successor" title="Nachfolger festlegen">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg>
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+          </button>
+          <button type="button" class="link-edit-btn" data-link-action="manage-successors" title="Nachfolger pflegen (${succCount})">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg>
+            ${succCount}
+          </button>
+        </div>
+      `;
+    };
+
     /** @type {Entry[]} */ let entries = [];
     let fileHandle = null; // FileSystemFileHandle | null
     let editingId = null;  // ID des aktuell bearbeiteten Eintrags
@@ -911,8 +1338,14 @@
             saveToLocalStorage();
           }
         }
-        // Sicherstellen, dass alle Einträge category- und notes-Felder haben
-        entries = entries.map(e => ({ ...e, category: e.category || '', notes: e.notes || '' }));
+        // Sicherstellen, dass alle Einträge category-, notes-, predecessors- und successors-Felder haben
+        entries = entries.map(e => ({
+          ...e,
+          category: e.category || '',
+          notes: e.notes || '',
+          predecessors: Array.isArray(e.predecessors) ? e.predecessors : [],
+          successors: Array.isArray(e.successors) ? e.successors : []
+        }));
       } catch(e) {
         entries = [];
       }
@@ -945,7 +1378,7 @@ const serializeJSON = () => JSON.stringify(entries, null, 2);
         if(parts.length>=3){ end=(parts[1]||'').trim(); txt=sanitizeText(parts.slice(2).join('\t')); }
         else { txt=sanitizeText(parts[1]||''); }
         const t = nowISOTimestamp();
-        arr.push({ id:uid(), date, end, text:txt, category:'', notes:'', createdAt:t, updatedAt:t });
+        arr.push({ id:uid(), date, end, text:txt, category:'', notes:'', predecessors:[], successors:[], createdAt:t, updatedAt:t });
       }
       return arr;
     };
@@ -1107,7 +1540,7 @@ const d=daysFromToday(startIso); if(d==null) return false; const absd=Math.abs(d
         const tr=document.createElement('tr');
         tr.dataset.id=e.id;
         tr.innerHTML=`
-          <td><span class="badge">${e.date||''}</span></td>
+          <td><span class="badge">${e.date||''}</span>${buildLinkIndicators(e)}</td>
           <td><span class="badge">${e.end||''}</span></td>
           <td>${buildCategoryBadge(e.category)}</td>
           <td>${escapeHTML(e.text)}${buildNotesDisplay(e.notes)}</td>
@@ -1159,7 +1592,10 @@ tbody.appendChild(tr);
       const editable=document.createElement('tr');
       editable.dataset.id=e.id;
       editable.innerHTML=`
-        <td><input type="date" value="${e.date||''}"/></td>
+        <td>
+          <input type="date" value="${e.date||''}"/>
+          ${buildLinkEditButtons(e)}
+        </td>
         <td><input type="date" value="${e.end||''}"/></td>
         <td>${buildCategorySelect(e.category || '')}</td>
         <td>
@@ -1183,6 +1619,23 @@ tbody.appendChild(tr);
       const wrap=editable.querySelector('.days-wrap');
       const updateDays=()=>{ wrap.innerHTML=buildDaysInner(dateIn.value, endIn.value); adjustDaysColWidth(); };
       dateIn.addEventListener('input',updateDays);
+
+      // Verknüpfungs-Buttons Event-Handler
+      editable.querySelectorAll('[data-link-action]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const action = btn.dataset.linkAction;
+          if (action === 'add-predecessor') {
+            showLinkSelectDialog(e.id, 'predecessor');
+          } else if (action === 'manage-predecessors') {
+            showLinkManageDialog(e.id, 'predecessor');
+          } else if (action === 'add-successor') {
+            showLinkSelectDialog(e.id, 'successor');
+          } else if (action === 'manage-successors') {
+            showLinkManageDialog(e.id, 'successor');
+          }
+        });
+      });
+
       editable.querySelector('[data-action="save"]').addEventListener('click',()=>{
         const newDate = dateIn.value || e.date;
         const newEnd = endIn.value || e.end;
@@ -1233,7 +1686,7 @@ tbody.appendChild(tr);
         return;
       }
       const t = nowISOTimestamp();
-      entries.push({ id: uid(), date, end, category, text, notes, createdAt: t, updatedAt: t });
+      entries.push({ id: uid(), date, end, category, text, notes, predecessors: [], successors: [], createdAt: t, updatedAt: t });
       dateEl.value=''; endEl.value=''; categoryEl.value=''; textEl.value=''; notesEl.value='';
       dateEl.focus(); saveToLocalStorage(); render();
     }
@@ -1244,7 +1697,8 @@ tbody.appendChild(tr);
     function duplicateEntry(id){
       const e = entries.find(x => x.id === id); if(!e) return;
       const t = nowISOTimestamp();
-      entries.push({ id: uid(), date: e.date, end: e.end, category: e.category || '', text: e.text, notes: e.notes || '', createdAt: t, updatedAt: t });
+      // Duplizierte Einträge haben keine Verknüpfungen
+      entries.push({ id: uid(), date: e.date, end: e.end, category: e.category || '', text: e.text, notes: e.notes || '', predecessors: [], successors: [], createdAt: t, updatedAt: t });
       saveToLocalStorage(); render();
     }
 
@@ -1252,7 +1706,218 @@ tbody.appendChild(tr);
      * Löscht einen Eintrag nach Bestätigung
      * @param {string} id - ID des zu löschenden Eintrags
      */
-    function deleteEntry(id){ if(!confirm('Eintrag wirklich löschen?')) return; entries = entries.filter(e=>e.id!==id); saveToLocalStorage(); render(); }
+    function deleteEntry(id){
+      if(!confirm('Eintrag wirklich löschen?')) return;
+      // Verknüpfungen zu diesem Eintrag bereinigen
+      cleanupLinksForDeletedEntry(id);
+      entries = entries.filter(e=>e.id!==id);
+      saveToLocalStorage();
+      render();
+    }
+
+    // ---------- Verknüpfungs-Dialoge ----------
+    /**
+     * Zeigt einen Dialog zum Festlegen einer Verknüpfung an
+     * @param {string} entryId - ID des Eintrags
+     * @param {'predecessor'|'successor'} type - Art der Verknüpfung
+     */
+    function showLinkSelectDialog(entryId, type) {
+      const entry = entries.find(e => e.id === entryId);
+      if (!entry) return;
+
+      const title = type === 'predecessor' ? 'Vorgänger festlegen' : 'Nachfolger festlegen';
+      const existingLinks = type === 'predecessor' ? entry.predecessors : entry.successors;
+
+      // Alle Einträge außer dem aktuellen und bereits verknüpften
+      const availableEntries = entries.filter(e =>
+        e.id !== entryId && !existingLinks.includes(e.id)
+      ).sort((a, b) => (b.date || '').localeCompare(a.date || ''));
+
+      const overlay = document.createElement('div');
+      overlay.className = 'modal-overlay';
+      overlay.innerHTML = `
+        <div class="modal">
+          <div class="modal-header">
+            <h2 class="modal-title">${title}</h2>
+            <button class="modal-close" title="Schließen">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="modal-filter">
+              <input type="text" placeholder="Filter..." id="linkFilterInput" />
+            </div>
+            <div class="link-select-list" id="linkSelectList">
+              ${availableEntries.length === 0
+                ? '<div class="link-empty">Keine weiteren Ereignisse verfügbar</div>'
+                : availableEntries.map(e => `
+                  <label class="link-select-item" data-id="${e.id}">
+                    <input type="radio" name="linkSelect" value="${e.id}" />
+                    <div class="link-select-info">
+                      <div class="link-select-date">${e.date || 'Kein Datum'}${e.end ? ` – ${e.end}` : ''}</div>
+                      <div class="link-select-text">${escapeHTML(e.text)}</div>
+                    </div>
+                  </label>
+                `).join('')
+              }
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-ghost" data-modal-action="cancel">Abbrechen</button>
+            <button class="btn btn-primary" data-modal-action="confirm" ${availableEntries.length === 0 ? 'disabled' : ''}>Hinzufügen</button>
+          </div>
+        </div>
+      `;
+
+      document.body.appendChild(overlay);
+
+      // Filter-Funktionalität
+      const filterInput = overlay.querySelector('#linkFilterInput');
+      const listContainer = overlay.querySelector('#linkSelectList');
+
+      filterInput.addEventListener('input', () => {
+        const q = filterInput.value.toLowerCase();
+        const items = listContainer.querySelectorAll('.link-select-item');
+        items.forEach(item => {
+          const text = item.textContent.toLowerCase();
+          item.style.display = text.includes(q) ? '' : 'none';
+        });
+      });
+
+      // Radio-Button Klick-Handler
+      listContainer.addEventListener('click', (e) => {
+        const item = e.target.closest('.link-select-item');
+        if (item) {
+          listContainer.querySelectorAll('.link-select-item').forEach(i => i.classList.remove('selected'));
+          item.classList.add('selected');
+          item.querySelector('input[type="radio"]').checked = true;
+        }
+      });
+
+      // Schließen-Button
+      overlay.querySelector('.modal-close').addEventListener('click', () => {
+        overlay.remove();
+      });
+
+      // Abbrechen-Button
+      overlay.querySelector('[data-modal-action="cancel"]').addEventListener('click', () => {
+        overlay.remove();
+      });
+
+      // Hinzufügen-Button
+      overlay.querySelector('[data-modal-action="confirm"]').addEventListener('click', () => {
+        const selected = listContainer.querySelector('input[type="radio"]:checked');
+        if (selected) {
+          addLink(entryId, selected.value, type);
+          saveToLocalStorage();
+          overlay.remove();
+          render();
+        }
+      });
+
+      // ESC zum Schließen
+      const handleEsc = (e) => {
+        if (e.key === 'Escape') {
+          overlay.remove();
+          document.removeEventListener('keydown', handleEsc);
+        }
+      };
+      document.addEventListener('keydown', handleEsc);
+
+      // Fokus auf Filterfeld
+      filterInput.focus();
+    }
+
+    /**
+     * Zeigt einen Dialog zum Pflegen (Entfernen) von Verknüpfungen an
+     * @param {string} entryId - ID des Eintrags
+     * @param {'predecessor'|'successor'} type - Art der Verknüpfung
+     */
+    function showLinkManageDialog(entryId, type) {
+      const entry = entries.find(e => e.id === entryId);
+      if (!entry) return;
+
+      const title = type === 'predecessor' ? 'Vorgänger pflegen' : 'Nachfolger pflegen';
+      const linkedIds = type === 'predecessor' ? entry.predecessors : entry.successors;
+
+      const linkedEntries = linkedIds
+        .map(id => entries.find(e => e.id === id))
+        .filter(Boolean)
+        .sort((a, b) => (b.date || '').localeCompare(a.date || ''));
+
+      const overlay = document.createElement('div');
+      overlay.className = 'modal-overlay';
+      overlay.innerHTML = `
+        <div class="modal">
+          <div class="modal-header">
+            <h2 class="modal-title">${title}</h2>
+            <button class="modal-close" title="Schließen">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="link-manage-list" id="linkManageList">
+              ${linkedEntries.length === 0
+                ? '<div class="link-empty">Keine Verknüpfungen vorhanden</div>'
+                : linkedEntries.map(e => `
+                  <div class="link-manage-item" data-id="${e.id}">
+                    <div class="link-manage-info">
+                      <div class="link-manage-date">${e.date || 'Kein Datum'}${e.end ? ` – ${e.end}` : ''}</div>
+                      <div class="link-manage-text">${escapeHTML(e.text)}</div>
+                    </div>
+                    <button class="link-manage-remove" data-remove-id="${e.id}">Entfernen</button>
+                  </div>
+                `).join('')
+              }
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-ghost" data-modal-action="close">Schließen</button>
+          </div>
+        </div>
+      `;
+
+      document.body.appendChild(overlay);
+
+      const listContainer = overlay.querySelector('#linkManageList');
+
+      // Entfernen-Buttons
+      listContainer.addEventListener('click', (e) => {
+        const removeBtn = e.target.closest('.link-manage-remove');
+        if (removeBtn) {
+          const targetId = removeBtn.dataset.removeId;
+          removeLink(entryId, targetId, type);
+          saveToLocalStorage();
+          // Element aus der Liste entfernen
+          const item = removeBtn.closest('.link-manage-item');
+          item.remove();
+          // Prüfen ob Liste leer ist
+          if (listContainer.querySelectorAll('.link-manage-item').length === 0) {
+            listContainer.innerHTML = '<div class="link-empty">Keine Verknüpfungen vorhanden</div>';
+          }
+          render();
+        }
+      });
+
+      // Schließen-Button
+      overlay.querySelector('.modal-close').addEventListener('click', () => {
+        overlay.remove();
+      });
+
+      // Schließen-Button unten
+      overlay.querySelector('[data-modal-action="close"]').addEventListener('click', () => {
+        overlay.remove();
+      });
+
+      // ESC zum Schließen
+      const handleEsc = (e) => {
+        if (e.key === 'Escape') {
+          overlay.remove();
+          document.removeEventListener('keydown', handleEsc);
+        }
+      };
+      document.addEventListener('keydown', handleEsc);
+    }
 
     // ---------- Statusleiste ----------
     /**

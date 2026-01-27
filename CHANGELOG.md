@@ -7,6 +7,18 @@ und dieses Projekt verwendet [Semantic Versioning](https://semver.org/lang/de/).
 
 ## [Unreleased]
 
+## [1.6.0] - 2026-01-27
+
+### Added
+- Ereignis-Verknüpfungen: Vorgänger und Nachfolger (#24)
+- Neue Felder `predecessors` und `successors` im Datenmodell (n:m Beziehung)
+- Bidirektionale Verknüpfungen (wenn A Vorgänger von B, dann B automatisch Nachfolger von A)
+- 4 Icons im Bearbeiten-Modus unter "Zeitpunkt": Vorgänger festlegen/pflegen, Nachfolger festlegen/pflegen
+- Modal-Dialoge zum Festlegen (Radiobutton-Auswahl mit Textfilter) und Pflegen (Entfernen) von Verknüpfungen
+- Verknüpfungs-Indikatoren in der Tabellenansicht mit Anzahl und Tooltip
+- Automatische Bereinigung von Verknüpfungen beim Löschen eines Eintrags
+- Automatische Datenmigration für bestehende Einträge
+
 ## [1.5.0] - 2026-01-27
 
 ### Added
@@ -84,7 +96,8 @@ und dieses Projekt verwendet [Semantic Versioning](https://semver.org/lang/de/).
 - XSS-Schutz durch `escapeHTML()` für alle Benutzereingaben
 - Input-Sanitization durch `sanitizeText()` für Textbereinigung
 
-[Unreleased]: https://github.com/MatthiasSCG/MHS-Ereignisse/compare/v1.5.0...HEAD
+[Unreleased]: https://github.com/MatthiasSCG/MHS-Ereignisse/compare/v1.6.0...HEAD
+[1.6.0]: https://github.com/MatthiasSCG/MHS-Ereignisse/compare/v1.5.0...v1.6.0
 [1.5.0]: https://github.com/MatthiasSCG/MHS-Ereignisse/compare/v1.4.0...v1.5.0
 [1.4.0]: https://github.com/MatthiasSCG/MHS-Ereignisse/compare/v1.3.0...v1.4.0
 [1.3.0]: https://github.com/MatthiasSCG/MHS-Ereignisse/compare/v1.2.0...v1.3.0

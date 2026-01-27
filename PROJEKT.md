@@ -5,7 +5,7 @@
 **Name:** Ereignisse und deren Zeitraum zu heute
 **Typ:** Single-Page Web-Anwendung (SPA)
 **Autor:** Matthias
-**Version:** 1.5
+**Version:** 1.6
 **Letzte Aktualisierung:** 2026-01-27
 **Repository:** https://github.com/MatthiasSCG/MHS-Ereignisse (privat)
 
@@ -23,6 +23,7 @@ Eine lokale Web-Anwendung zur Verwaltung von Ereignissen mit automatischer Berec
 - **Meilenstein-Hervorhebung:** Visuelle Markierung bei runden Zahlen (1000 Tage, 100 Wochen, etc.)
 - **Kategorien:** Farbcodierte Kategorisierung von Ereignissen mit Filterfunktion
 - **Notizen:** Mehrzeilige Notizen für jedes Ereignis mit scrollbarer Anzeige
+- **Verknüpfungen:** Vorgänger/Nachfolger-Beziehungen zwischen Ereignissen (n:m)
 - **Datenpersistenz:** Lokale Speicherung im Browser und Export/Import als JSON
 - **Dark Mode:** Automatische Erkennung der Systemeinstellung mit manueller Umschaltung
 
@@ -84,6 +85,8 @@ interface Entry {
   category: string;    // Kategorie-Schlüssel (optional)
   text: string;        // Beschreibung des Ereignisses
   notes: string;       // Mehrzeilige Notizen (optional)
+  predecessors: string[];  // IDs der Vorgänger-Ereignisse (optional)
+  successors: string[];    // IDs der Nachfolger-Ereignisse (optional)
   createdAt: string;   // Erstellungszeitpunkt (ISO-Timestamp)
   updatedAt: string;   // Letzter Änderungszeitpunkt (ISO-Timestamp)
 }
@@ -100,6 +103,8 @@ interface Entry {
     "category": "projekt",
     "text": "Projektstart",
     "notes": "Erste Notizen zum Projekt",
+    "predecessors": [],
+    "successors": ["m2def456-abc123"],
     "createdAt": "2025-01-15T10:30:00.000Z",
     "updatedAt": "2025-01-15T10:30:00.000Z"
   }
@@ -298,8 +303,9 @@ Alle geplanten Erweiterungen werden als [GitHub Issues](https://github.com/Matth
 | **v1.3** | UI-Verbesserungen | ✅ Abgeschlossen |
 | **v1.4** | Notizen | ✅ Abgeschlossen (#3, #20) |
 | **v1.5** | Zentrale Versionsverwaltung | ✅ Abgeschlossen (#22) |
-| **v1.6** | PWA-Unterstützung | #9 |
-| **v1.7** | Wiederkehrende Ereignisse, Erweiterte Suche | #1, #12 |
+| **v1.6** | Ereignis-Verknüpfungen | ✅ Abgeschlossen (#24) |
+| **v1.7** | PWA-Unterstützung | #9 |
+| **v1.8** | Wiederkehrende Ereignisse, Erweiterte Suche | #1, #12 |
 | **v2.0** | Kalenderansicht, Dashboard | #5, #6 |
 | **v2.1** | Import/Export-Formate, Benachrichtigungen | #11, #4, #2 |
 | **v2.2** | Drag & Drop, Theme-Optionen | #7, #8 |

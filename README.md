@@ -15,6 +15,7 @@
 - **Meilensteine** – Visuelle Hervorhebung bei runden Zahlen (1000 Tage, 100 Wochen, etc.)
 - **Kategorien** – Farbcodierte Tags mit Filterfunktion
 - **Notizen** – Mehrzeilige Notizen pro Ereignis
+- **Verknüpfungen** – Vorgänger/Nachfolger-Beziehungen zwischen Ereignissen
 - **Datenpersistenz** – LocalStorage + JSON-Export/Import
 - **Dark Mode** – Automatisch oder manuell umschaltbar
 
@@ -56,4 +57,4 @@ Interne Verwendung – Alle Rechte vorbehalten.
 
 ---
 
-*Version 1.5 · Entwickelt von Matthias*
+*Version 1.6 · Entwickelt von Matthias*
