@@ -5,7 +5,7 @@
 **Name:** Ereignisse und deren Zeitraum zu heute
 **Typ:** Single-Page Web-Anwendung (SPA)
 **Autor:** Matthias
-**Version:** 1.6
+**Version:** 1.7
 **Letzte Aktualisierung:** 2026-01-27
 **Repository:** https://github.com/MatthiasSCG/MHS-Ereignisse (privat)
 
@@ -26,6 +26,7 @@ Eine lokale Web-Anwendung zur Verwaltung von Ereignissen mit automatischer Berec
 - **Verknüpfungen:** Vorgänger/Nachfolger-Beziehungen zwischen Ereignissen (n:m)
 - **Datenpersistenz:** Lokale Speicherung im Browser und Export/Import als JSON
 - **Dark Mode:** Automatische Erkennung der Systemeinstellung mit manueller Umschaltung
+- **PWA:** Installierbar als App mit Offline-Unterstützung
 
 ---
 
@@ -59,6 +60,12 @@ Eine lokale Web-Anwendung zur Verwaltung von Ereignissen mit automatischer Berec
 ├── .gitignore            # Git-Ignorierungsliste
 ├── README.md             # GitHub-Startseite
 ├── Ereignisse.html       # Hauptanwendung (Single-File)
+├── manifest.json         # PWA Web App Manifest
+├── sw.js                 # PWA Service Worker
+├── icons/                # PWA App-Icons
+│   ├── icon.svg          # Vektor-Quelle
+│   ├── icon-192.png      # Android/Chrome Icon
+│   └── icon-512.png      # Splash Screen Icon
 ├── PROJEKT.md            # Projektdokumentation
 ├── CHANGELOG.md          # Änderungshistorie (Keep a Changelog)
 ├── Pruefergebnisse.md    # Code-Review und Qualitätsprüfung
@@ -304,7 +311,7 @@ Alle geplanten Erweiterungen werden als [GitHub Issues](https://github.com/Matth
 | **v1.4** | Notizen | ✅ Abgeschlossen (#3, #20) |
 | **v1.5** | Zentrale Versionsverwaltung | ✅ Abgeschlossen (#22) |
 | **v1.6** | Ereignis-Verknüpfungen | ✅ Abgeschlossen (#24) |
-| **v1.7** | PWA-Unterstützung | #9 |
+| **v1.7** | PWA-Unterstützung | ✅ Abgeschlossen (#9) |
 | **v1.8** | Wiederkehrende Ereignisse, Erweiterte Suche | #1, #12 |
 | **v2.0** | Kalenderansicht, Dashboard | #5, #6 |
 | **v2.1** | Import/Export-Formate, Benachrichtigungen | #11, #4, #2 |

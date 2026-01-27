@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>Icon Generator - MHS Ereignisse</title>
+  <style>
+    body { font-family: system-ui, sans-serif; padding: 40px; background: #f5f7fb; }
+    h1 { color: #1e40af; }
+    .icons { display: flex; gap: 40px; margin: 40px 0; }
+    .icon-box { text-align: center; }
+    .icon-box canvas { border: 1px solid #e5e7eb; border-radius: 16px; background: #fff; }
+    .icon-box p { margin: 10px 0 5px; font-weight: 500; }
+    .icon-box a { color: #2563eb; }
+    .info { background: #eff6ff; padding: 16px; border-radius: 8px; margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <h1>PWA Icon Generator</h1>
+  <p>Klicke auf die Links unter den Icons, um sie als PNG herunterzuladen.</p>
+
+  <div class="icons">
+    <div class="icon-box">
+      <canvas id="icon192" width="192" height="192"></canvas>
+      <p>192x192</p>
+      <a id="download192" download="icon-192.png" href="#">Download icon-192.png</a>
+    </div>
+    <div class="icon-box">
+      <canvas id="icon512" width="512" height="512"></canvas>
+      <p>512x512</p>
+      <a id="download512" download="icon-512.png" href="#">Download icon-512.png</a>
+    </div>
+  </div>
+
+  <div class="info">
+    <strong>Hinweis:</strong> Nach dem Download die Dateien in den <code>icons/</code> Ordner kopieren.
+  </div>
+
+  <script>
+    function drawIcon(ctx, size) {
+      const scale = size / 512;
+
+      // Hintergrund mit Gradient
+      const gradient = ctx.createLinearGradient(0, 0, size, size);
+      gradient.addColorStop(0, '#2563eb');
+      gradient.addColorStop(1, '#1d4ed8');
+
+      // Abgerundetes Rechteck
+      const radius = 96 * scale;
+      ctx.beginPath();
+      ctx.roundRect(0, 0, size, size, radius);
+      ctx.fillStyle = gradient;
+      ctx.fill();
+
+      // Kalender-Körper
+      ctx.fillStyle = 'rgba(255,255,255,0.95)';
+      ctx.beginPath();
+      ctx.roundRect(96*scale, 128*scale, 320*scale, 288*scale, 24*scale);
+      ctx.fill();
+
+      // Kalender-Header
+      ctx.fillStyle = '#1e40af';
+      ctx.beginPath();
+      ctx.roundRect(96*scale, 128*scale, 320*scale, 64*scale, [24*scale, 24*scale, 0, 0]);
+      ctx.fill();
+      ctx.fillRect(96*scale, 168*scale, 320*scale, 24*scale);
+
+      // Kalender-Ringe
+      ctx.fillStyle = '#fff';
+      ctx.beginPath();
+      ctx.roundRect(160*scale, 96*scale, 24*scale, 64*scale, 12*scale);
+      ctx.fill();
+      ctx.beginPath();
+      ctx.roundRect(328*scale, 96*scale, 24*scale, 64*scale, 12*scale);
+      ctx.fill();
+
+      // Tage-Punkte
+      const dots = [
+        { x: 176, y: 272, color: '#2563eb' },
+        { x: 256, y: 272, color: '#e5e7eb' },
+        { x: 336, y: 272, color: '#e5e7eb' },
+        { x: 176, y: 352, color: '#e5e7eb' },
+        { x: 256, y: 352, color: '#e5e7eb' },
+        { x: 336, y: 352, color: '#10b981' }
+      ];
+
+      dots.forEach(dot => {
+        ctx.fillStyle = dot.color;
+        ctx.beginPath();
+        ctx.arc(dot.x * scale, dot.y * scale, 20 * scale, 0, Math.PI * 2);
+        ctx.fill();
+      });
+    }
+
+    // Icons zeichnen
+    const ctx192 = document.getElementById('icon192').getContext('2d');
+    const ctx512 = document.getElementById('icon512').getContext('2d');
+
+    drawIcon(ctx192, 192);
+    drawIcon(ctx512, 512);
+
+    // Download-Links setzen
+    document.getElementById('download192').href = document.getElementById('icon192').toDataURL('image/png');
+    document.getElementById('download512').href = document.getElementById('icon512').toDataURL('image/png');
+  </script>
+</body>
+</html>

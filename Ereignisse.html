@@ -5,6 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self';" />
   <title>Ereignisse</title>
+  <!-- PWA Meta Tags -->
+  <meta name="theme-color" content="#2563eb" />
+  <meta name="description" content="Verwaltung von Ereignissen mit automatischer Zeitdifferenz-Berechnung" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="Ereignisse" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
   <style>
     :root {
       --primary:#2563eb;
@@ -999,7 +1007,7 @@
    */
 
   /** @constant {string} Zentrale Versionsnummer der Anwendung */
-  const APP_VERSION = '1.6.0';
+  const APP_VERSION = '1.7.0';
 
   (function(){
     /**
@@ -2219,6 +2227,33 @@ tbody.appendChild(tr);
       if ((e.ctrlKey||e.metaKey) && k==='o') { e.preventDefault(); openFile(); }
     });
   })();
+
+  // Service Worker Registration (PWA)
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('./sw.js')
+        .then((registration) => {
+          console.log('[PWA] Service Worker registered:', registration.scope);
+
+          // Update-Check bei Seitenladung
+          registration.addEventListener('updatefound', () => {
+            const newWorker = registration.installing;
+            newWorker.addEventListener('statechange', () => {
+              if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                // Neue Version verfügbar
+                if (confirm('Eine neue Version ist verfügbar. Jetzt aktualisieren?')) {
+                  newWorker.postMessage({ type: 'SKIP_WAITING' });
+                  window.location.reload();
+                }
+              }
+            });
+          });
+        })
+        .catch((error) => {
+          console.log('[PWA] Service Worker registration failed:', error);
+        });
+    });
+  }
   </script>
 </body>
 </html>

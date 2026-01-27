@@ -18,6 +18,7 @@
 - **Verknüpfungen** – Vorgänger/Nachfolger-Beziehungen zwischen Ereignissen
 - **Datenpersistenz** – LocalStorage + JSON-Export/Import
 - **Dark Mode** – Automatisch oder manuell umschaltbar
+- **PWA** – Installierbar als App, Offline-fähig
 
 ## Verwendung
 
@@ -57,4 +58,4 @@ Interne Verwendung – Alle Rechte vorbehalten.
 
 ---
 
-*Version 1.6 · Entwickelt von Matthias*
+*Version 1.7 · Entwickelt von Matthias*

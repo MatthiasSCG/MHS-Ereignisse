@@ -7,6 +7,17 @@ und dieses Projekt verwendet [Semantic Versioning](https://semver.org/lang/de/).
 
 ## [Unreleased]
 
+## [1.7.0] - 2026-01-27
+
+### Added
+- Progressive Web App (PWA) Unterstützung (#9)
+- Web App Manifest (`manifest.json`) für App-Installation
+- Service Worker (`sw.js`) für Offline-Funktionalität und Caching
+- App-Icons in verschiedenen Größen (192x192, 512x512)
+- PWA Meta-Tags für iOS und Android
+- Update-Benachrichtigung bei neuen Versionen
+- Stale-While-Revalidate Caching-Strategie
+
 ## [1.6.0] - 2026-01-27
 
 ### Added
@@ -96,7 +107,8 @@ und dieses Projekt verwendet [Semantic Versioning](https://semver.org/lang/de/).
 - XSS-Schutz durch `escapeHTML()` für alle Benutzereingaben
 - Input-Sanitization durch `sanitizeText()` für Textbereinigung
 
-[Unreleased]: https://github.com/MatthiasSCG/MHS-Ereignisse/compare/v1.6.0...HEAD
+[Unreleased]: https://github.com/MatthiasSCG/MHS-Ereignisse/compare/v1.7.0...HEAD
+[1.7.0]: https://github.com/MatthiasSCG/MHS-Ereignisse/compare/v1.6.0...v1.7.0
 [1.6.0]: https://github.com/MatthiasSCG/MHS-Ereignisse/compare/v1.5.0...v1.6.0
 [1.5.0]: https://github.com/MatthiasSCG/MHS-Ereignisse/compare/v1.4.0...v1.5.0
 [1.4.0]: https://github.com/MatthiasSCG/MHS-Ereignisse/compare/v1.3.0...v1.4.0
