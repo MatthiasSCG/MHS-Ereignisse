@@ -478,6 +478,106 @@
     [data-theme="dark"] .dropdown-item:hover {
       background:#1f2937;
     }
+
+    /* Notizen */
+    .notes-icon {
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      width:18px;
+      height:18px;
+      color:var(--muted);
+      cursor:help;
+      vertical-align:middle;
+      margin-left:6px;
+      position:relative;
+    }
+    .notes-icon svg {
+      width:14px;
+      height:14px;
+    }
+    .notes-icon:hover {
+      color:var(--primary);
+    }
+    /* Tooltip für Notizen */
+    .notes-tooltip {
+      position:absolute;
+      bottom:calc(100% + 8px);
+      left:50%;
+      transform:translateX(-50%);
+      background:var(--card);
+      border:1px solid #e5e7eb;
+      border-radius:8px;
+      padding:8px 12px;
+      font-size:12px;
+      color:var(--ink);
+      white-space:pre-wrap;
+      max-width:300px;
+      min-width:150px;
+      box-shadow:0 4px 12px rgba(0,0,0,.15);
+      z-index:200;
+      display:none;
+      text-align:left;
+      line-height:1.4;
+    }
+    .notes-icon:hover .notes-tooltip {
+      display:block;
+    }
+    .notes-tooltip::after {
+      content:"";
+      position:absolute;
+      top:100%;
+      left:50%;
+      transform:translateX(-50%);
+      border:6px solid transparent;
+      border-top-color:var(--card);
+    }
+    [data-theme="dark"] .notes-tooltip {
+      background:var(--card);
+      border-color:#334155;
+    }
+    /* Notizen-Textarea im Eingabeformular */
+    textarea {
+      width:100%;
+      padding:8px 12px;
+      border-radius:10px;
+      border:1px solid #d1d5db;
+      background:#fff;
+      font-size:14px;
+      font-family:inherit;
+      line-height:1.4;
+      resize:vertical;
+      min-height:60px;
+      transition:border-color .15s, box-shadow .15s;
+    }
+    textarea:focus {
+      outline:none;
+      border-color:var(--primary);
+      box-shadow:0 0 0 3px rgba(37,99,235,.15);
+    }
+    textarea::placeholder {
+      color:#9ca3af;
+    }
+    [data-theme="dark"] textarea {
+      background:#0b1220;
+      color:#e5e7eb;
+      border-color:#334155;
+    }
+    [data-theme="dark"] textarea::placeholder {
+      color:#64748b;
+    }
+    /* Notizen-Zeile im Eingabeformular */
+    .input-notes-row {
+      grid-column:1 / -1;
+      margin-top:4px;
+    }
+    .input-notes-row .stack {
+      gap:4px;
+    }
+    .input-notes-row label {
+      font-size:11px;
+      color:var(--muted);
+    }
   </style>
 </head>
 <body>
@@ -605,6 +705,12 @@
               <button id="clearBtn" class="btn btn-ghost">Zurücksetzen</button>
             </div>
           </div>
+          <div class="input-notes-row">
+            <div class="stack">
+              <label for="notes">Notizen (optional)</label>
+              <textarea id="notes" rows="2" placeholder="Zusätzliche Informationen..."></textarea>
+            </div>
+          </div>
         </div>
         </section>
 
@@ -626,7 +732,7 @@
   <script>
   'use strict';
   (function(){
-    /** @typedef {{id:string, date:string, end:string, text:string, category:string, createdAt:string, updatedAt:string}} Entry */
+    /** @typedef {{id:string, date:string, end:string, text:string, category:string, notes:string, createdAt:string, updatedAt:string}} Entry */
     const $ = (s,el=document)=>el.querySelector(s);
     const $$ = (s,el=document)=>Array.from(el.querySelectorAll(s));
 
@@ -659,6 +765,14 @@
         return `<option value="${key}" ${selected}>${val.label}</option>`;
       }).join('');
       return `<select ${idAttr} style="width:100%">${options}</select>`;
+    };
+    const buildNotesIcon = (notes) => {
+      if (!notes || !notes.trim()) return '';
+      const escaped = escapeHTML(notes);
+      return `<span class="notes-icon" title="Notiz vorhanden">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+        <span class="notes-tooltip">${escaped}</span>
+      </span>`;
     };
     /** @type {Entry[]} */ let entries = [];
     let fileHandle = null; // FileSystemFileHandle | null
@@ -711,13 +825,13 @@
           raw = localStorage.getItem('zeiten-eintraege-v1');
           if (raw) {
             entries = JSON.parse(raw);
-            // Migration: Kategorie-Feld hinzufügen
-            entries = entries.map(e => ({ ...e, category: e.category || '' }));
+            // Migration: Kategorie- und Notizen-Felder hinzufügen
+            entries = entries.map(e => ({ ...e, category: e.category || '', notes: e.notes || '' }));
             saveToLocalStorage();
           }
         }
-        // Sicherstellen, dass alle Einträge ein category-Feld haben
-        entries = entries.map(e => ({ ...e, category: e.category || '' }));
+        // Sicherstellen, dass alle Einträge category- und notes-Felder haben
+        entries = entries.map(e => ({ ...e, category: e.category || '', notes: e.notes || '' }));
       } catch(e) {
         entries = [];
       }
@@ -739,7 +853,7 @@ const serializeJSON = () => JSON.stringify(entries, null, 2);
         if(parts.length>=3){ end=(parts[1]||'').trim(); txt=sanitizeText(parts.slice(2).join('\t')); }
         else { txt=sanitizeText(parts[1]||''); }
         const t = nowISOTimestamp();
-        arr.push({ id:uid(), date, end, text:txt, category:'', createdAt:t, updatedAt:t });
+        arr.push({ id:uid(), date, end, text:txt, category:'', notes:'', createdAt:t, updatedAt:t });
       }
       return arr;
     };
@@ -844,6 +958,7 @@ const d=daysFromToday(startIso); if(d==null) return false; const absd=Math.abs(d
     const endEl     = document.getElementById('end');
     const textEl    = document.getElementById('text');
     const categoryEl = document.getElementById('category');
+    const notesEl   = document.getElementById('notes');
     const searchEl  = document.getElementById('search');
     const filterCategoryEl = document.getElementById('filterCategory');
     const sortKeyEl = document.getElementById('sortKey');
@@ -877,8 +992,8 @@ const d=daysFromToday(startIso); if(d==null) return false; const absd=Math.abs(d
         return 0;
       })
         .filter(e=>{
-          // Textsuche
-          const matchesText = !q || e.text.toLowerCase().includes(q) || (e.date||'').includes(q) || (e.end||'').includes(q) || getCategoryLabel(e.category).toLowerCase().includes(q);
+          // Textsuche (inkl. Notizen)
+          const matchesText = !q || e.text.toLowerCase().includes(q) || (e.notes||'').toLowerCase().includes(q) || (e.date||'').includes(q) || (e.end||'').includes(q) || getCategoryLabel(e.category).toLowerCase().includes(q);
           // Kategorie-Filter
           let matchesCat = true;
           if (catFilter === 'none') {
@@ -897,7 +1012,7 @@ const d=daysFromToday(startIso); if(d==null) return false; const absd=Math.abs(d
           <td><span class="badge">${e.date||''}</span></td>
           <td><span class="badge">${e.end||''}</span></td>
           <td>${buildCategoryBadge(e.category)}</td>
-          <td>${escapeHTML(e.text)}</td>
+          <td>${escapeHTML(e.text)}${buildNotesIcon(e.notes)}</td>
           <td class="days">${buildDaysCell(e.date, e.end)}</td>
           <td class="actions">
             <div class="actions-row">
@@ -949,7 +1064,10 @@ tbody.appendChild(tr);
         <td><input type="date" value="${e.date||''}"/></td>
         <td><input type="date" value="${e.end||''}"/></td>
         <td>${buildCategorySelect(e.category || '')}</td>
-        <td><input type="text" value="${escapeHTML(e.text)}"/></td>
+        <td>
+          <input type="text" value="${escapeHTML(e.text)}" style="margin-bottom:6px"/>
+          <textarea rows="2" placeholder="Notizen...">${escapeHTML(e.notes || '')}</textarea>
+        </td>
         <td class="days">${buildDaysCell(e.date, e.end)}</td>
         <td class="actions"><div class="actions-row">
           <button class="btn-icon" data-action="save" title="Speichern" aria-label="Speichern"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.2l-3.5-3.5-1.4 1.4L9 19l12-12-1.4-1.4z"/></svg></button>
@@ -962,6 +1080,7 @@ tbody.appendChild(tr);
 
       const [dateIn,endIn]=editable.querySelectorAll('input[type="date"]');
       const textIn=editable.querySelector('input[type="text"]');
+      const notesIn=editable.querySelector('textarea');
       const catIn=editable.querySelector('select');
       const wrap=editable.querySelector('.days-wrap');
       const updateDays=()=>{ wrap.innerHTML=buildDaysInner(dateIn.value, endIn.value); adjustDaysColWidth(); };
@@ -970,12 +1089,13 @@ tbody.appendChild(tr);
         const newDate = dateIn.value || e.date;
         const newEnd = endIn.value || e.end;
         const newCat = catIn.value || '';
+        const newNotes = notesIn.value || '';
         if(!validateDates(newDate, newEnd)){
           alert('Der Endzeitpunkt muss nach dem Zeitpunkt liegen.');
           endIn.focus();
           return;
         }
-        const updated={...e, date:newDate, end:newEnd, category:newCat, text:textIn.value, updatedAt:nowISOTimestamp()};
+        const updated={...e, date:newDate, end:newEnd, category:newCat, text:textIn.value, notes:newNotes, updatedAt:nowISOTimestamp()};
         const idx=entries.findIndex(x=>x.id===e.id); if(idx!==-1) entries[idx]=updated;
         enableAllActions();
         saveToLocalStorage(); render();
@@ -997,6 +1117,7 @@ tbody.appendChild(tr);
       const end  = (endEl.value||'').trim();
       const category = categoryEl.value || '';
       const text = textEl.value.trim();
+      const notes = notesEl.value.trim();
       if(!text){ textEl.focus(); return; }
       if(!validateDates(date, end)){
         alert('Der Endzeitpunkt muss nach dem Zeitpunkt liegen.');
@@ -1004,14 +1125,14 @@ tbody.appendChild(tr);
         return;
       }
       const t = nowISOTimestamp();
-      entries.push({ id: uid(), date, end, category, text, createdAt: t, updatedAt: t });
-      dateEl.value=''; endEl.value=''; categoryEl.value=''; textEl.value='';
+      entries.push({ id: uid(), date, end, category, text, notes, createdAt: t, updatedAt: t });
+      dateEl.value=''; endEl.value=''; categoryEl.value=''; textEl.value=''; notesEl.value='';
       dateEl.focus(); saveToLocalStorage(); render();
     }
     function duplicateEntry(id){
       const e = entries.find(x => x.id === id); if(!e) return;
       const t = nowISOTimestamp();
-      entries.push({ id: uid(), date: e.date, end: e.end, category: e.category || '', text: e.text, createdAt: t, updatedAt: t });
+      entries.push({ id: uid(), date: e.date, end: e.end, category: e.category || '', text: e.text, notes: e.notes || '', createdAt: t, updatedAt: t });
       saveToLocalStorage(); render();
     }
     function deleteEntry(id){ if(!confirm('Eintrag wirklich löschen?')) return; entries = entries.filter(e=>e.id!==id); saveToLocalStorage(); render(); }
@@ -1197,7 +1318,7 @@ tbody.appendChild(tr);
 
     // ---------- Events & Init ----------
     document.getElementById('addBtn').addEventListener('click', addEntry);
-    document.getElementById('clearBtn').addEventListener('click', ()=>{ dateEl.value=''; endEl.value=''; categoryEl.value=''; textEl.value=''; dateEl.focus(); });
+    document.getElementById('clearBtn').addEventListener('click', ()=>{ dateEl.value=''; endEl.value=''; categoryEl.value=''; textEl.value=''; notesEl.value=''; dateEl.focus(); });
 
     // Datei-Dropdown
     const fileDropdown = document.getElementById('fileDropdown');
