@@ -233,8 +233,9 @@
       justify-content:center;
       cursor:pointer;
     }
-    .btn-icon:hover{ background:#f1f5f9; }
+    .btn-icon:hover:not(:disabled){ background:#f1f5f9; }
     .btn-icon.danger{ color:#991b1b; border-color:#fecaca; background:#fff1f2; }
+    .btn-icon:disabled{ opacity:0.4; cursor:not-allowed; }
     .btn-icon svg{ width:12px; height:12px; pointer-events:none; }
 
     .actions-row{ display:flex; gap:8px; flex-wrap:nowrap; align-items:center; }
@@ -252,7 +253,8 @@
     [data-theme="dark"] .btn:hover{ background:#111827; }
     [data-theme="dark"] .btn-ghost{ background:#0f172a; color:#e5e7eb; border-color:#334155; }
     [data-theme="dark"] .btn-icon{ border-color:#334155; background:#0f172a; color:#e5e7eb; }
-    [data-theme="dark"] .btn-icon:hover{ background:#111827; }
+    [data-theme="dark"] .btn-icon:hover:not(:disabled){ background:#111827; }
+    [data-theme="dark"] .btn-icon:disabled{ opacity:0.4; }
     [data-theme="dark"] input[type="date"], [data-theme="dark"] input[type="text"]{ background:#0b1220; color:#e5e7eb; border-color:#334155; }
     [data-theme="dark"] input::placeholder{ color:#94a3b8; }
     /* Select (Dropdown) in Dark mode */
@@ -429,6 +431,24 @@
     };
     /** @type {Entry[]} */ let entries = [];
     let fileHandle = null; // FileSystemFileHandle | null
+    let editingId = null;  // ID des aktuell bearbeiteten Eintrags
+
+    // ---------- Edit-Mode Helpers ----------
+    const disableOtherActions = () => {
+      tbody.querySelectorAll('tr').forEach(tr => {
+        if (tr.dataset.id !== editingId) {
+          tr.querySelectorAll('.btn-icon[data-action]').forEach(btn => {
+            btn.disabled = true;
+          });
+        }
+      });
+    };
+    const enableAllActions = () => {
+      editingId = null;
+      tbody.querySelectorAll('.btn-icon[data-action]').forEach(btn => {
+        btn.disabled = false;
+      });
+    };
 
     // ---------- Helpers ----------
     // File System Access API detection (Chrome, Edge, Opera on secure context)
@@ -661,6 +681,8 @@ tbody.appendChild(tr);
     tbody.addEventListener('click', (e) => {
       const btn = e.target.closest('[data-action]');
       if (!btn) return;
+      // Deaktivierte Buttons ignorieren
+      if (btn.disabled) return;
       const tr = btn.closest('tr');
       if (!tr) return;
       const id = tr.dataset.id;
@@ -673,6 +695,8 @@ tbody.appendChild(tr);
     });
 
     tbody.addEventListener('dblclick', (e) => {
+      // Blockieren wenn bereits ein Eintrag bearbeitet wird
+      if (editingId) return;
       const tr = e.target.closest('tr');
       if (!tr || tr.querySelector('input')) return;
       const id = tr.dataset.id;
@@ -681,6 +705,9 @@ tbody.appendChild(tr);
     });
 
     function enterEditMode(tr,e){
+      // Bearbeitungsmodus aktivieren und andere Buttons deaktivieren
+      editingId = e.id;
+
       const editable=document.createElement('tr');
       editable.dataset.id=e.id;
       editable.innerHTML=`
@@ -694,6 +721,10 @@ tbody.appendChild(tr);
           <button class="btn-icon" data-action="cancel" title="Abbrechen" aria-label="Abbrechen"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.3 5.7L12 12l6.3 6.3-1.4 1.4L12 13.4l-6.3 6.3-1.4-1.4L10.6 12 4.3 5.7l1.4-1.4L12 10.6l4.9-4.9z"/></svg></button>
         </div></td>`;
       tbody.replaceChild(editable,tr);
+
+      // Andere Aktions-Buttons deaktivieren
+      disableOtherActions();
+
       const [dateIn,endIn]=editable.querySelectorAll('input[type="date"]');
       const textIn=editable.querySelector('input[type="text"]');
       const catIn=editable.querySelector('select');
@@ -710,9 +741,14 @@ tbody.appendChild(tr);
           return;
         }
         const updated={...e, date:newDate, end:newEnd, category:newCat, text:textIn.value, updatedAt:nowISOTimestamp()};
-        const idx=entries.findIndex(x=>x.id===e.id); if(idx!==-1) entries[idx]=updated; saveToLocalStorage(); render();
+        const idx=entries.findIndex(x=>x.id===e.id); if(idx!==-1) entries[idx]=updated;
+        enableAllActions();
+        saveToLocalStorage(); render();
       });
-      editable.querySelector('[data-action="cancel"]').addEventListener('click',render);
+      editable.querySelector('[data-action="cancel"]').addEventListener('click',()=>{
+        enableAllActions();
+        render();
+      });
     }
 
     // ---------- CRUD ----------

@@ -5,7 +5,7 @@
 **Name:** Ereignisse und deren Zeitraum zu heute
 **Typ:** Single-Page Web-Anwendung (SPA)
 **Autor:** Matthias
-**Version:** 1.1
+**Version:** 1.2
 **Letzte Aktualisierung:** 2026-01-27
 **Repository:** https://github.com/MatthiasSCG/MHS-Ereignisse (privat)
 
@@ -271,6 +271,15 @@ Archiv/
 ---
 
 ## Änderungshistorie
+
+### Version 1.2 (2026-01-27)
+
+- **Bugfix:** Mehrere Einträge gleichzeitig bearbeiten
+  - Problem: Beim Speichern eines Eintrags gingen Änderungen in anderen bearbeiteten Einträgen verloren
+  - Lösung: Während ein Eintrag bearbeitet wird, sind die Bearbeitungs-Buttons bei anderen Einträgen deaktiviert
+  - Visuelles Feedback durch ausgegraute Buttons
+- GitHub-Integration hinzugefügt
+- Projektdokumentation auf GitHub Issues umgestellt
 
 ### Version 1.1 (2026-01-26)
 
