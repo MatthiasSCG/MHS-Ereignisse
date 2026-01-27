@@ -366,6 +366,45 @@
     [data-theme="dark"] .input-grid label{ color:#64748b; }
     /* Tabellen-Card Dark Mode */
     [data-theme="dark"] .card-table{ box-shadow:none; border-color:#475569; }
+
+    /* Statusleiste */
+    .statusbar {
+      position:fixed;
+      bottom:0;
+      left:0;
+      right:0;
+      height:28px;
+      display:flex;
+      align-items:center;
+      gap:16px;
+      padding:0 16px;
+      background:#f8fafc;
+      border-top:1px solid #e5e7eb;
+      font-size:12px;
+      color:var(--muted);
+      z-index:50;
+    }
+    .statusbar-item {
+      display:flex;
+      align-items:center;
+      gap:4px;
+      white-space:nowrap;
+    }
+    .statusbar-item.saved{ color:#059669; }
+    .statusbar-item.unsaved{ color:#d97706; }
+    .statusbar-right {
+      margin-left:auto;
+    }
+    .statusbar-separator {
+      width:1px;
+      height:14px;
+      background:#e5e7eb;
+    }
+    /* Padding am Body für Statusleiste */
+    body { padding-bottom:28px; }
+    /* Statusleiste Dark Mode */
+    [data-theme="dark"] .statusbar{ background:#0f172a; border-top-color:#334155; }
+    [data-theme="dark"] .statusbar-separator{ background:#334155; }
   </style>
 </head>
 <body>
@@ -474,11 +513,20 @@
             </div>
           </div>
         </div>
-        <div class="muted text-center mt-6">konzeptioniert von Matthias</div>
-      </section>
+        </section>
 
     </div>
   </div>
+
+  <!-- Statusleiste -->
+  <footer class="statusbar">
+    <div class="statusbar-item" id="statusFile">Keine Datei</div>
+    <div class="statusbar-separator"></div>
+    <div class="statusbar-item" id="statusCount">0 Einträge</div>
+    <div class="statusbar-separator"></div>
+    <div class="statusbar-item" id="statusSaved">—</div>
+    <div class="statusbar-item statusbar-right">konzeptioniert von Matthias</div>
+  </footer>
 
   <input id="fileInput" type="file" accept=".json,application/json" style="display:none" />
 
@@ -705,10 +753,13 @@ const d=daysFromToday(startIso); if(d==null) return false; const absd=Math.abs(d
     const categoryEl = document.getElementById('category');
     const searchEl  = document.getElementById('search');
     const filterCategoryEl = document.getElementById('filterCategory');
-    const fileInfoEl= document.getElementById('fileInfo');
     const sortKeyEl = document.getElementById('sortKey');
     const sortDirBtn = document.getElementById('sortDirBtn');
     const themeBtn = document.getElementById('themeBtn');
+    // Statusleisten-Elemente
+    const statusFileEl = document.getElementById('statusFile');
+    const statusCountEl = document.getElementById('statusCount');
+    const statusSavedEl = document.getElementById('statusSaved');
     let sortKey = 'date';
     let sortDir = 'desc';
     const THEME_KEY = 'zeiten-theme';
@@ -765,6 +816,7 @@ const d=daysFromToday(startIso); if(d==null) return false; const absd=Math.abs(d
 tbody.appendChild(tr);
       }
       adjustDaysColWidth();
+      updateStatusBar();
     };
 
     // Event-Delegation für tbody
@@ -871,9 +923,34 @@ tbody.appendChild(tr);
     }
     function deleteEntry(id){ if(!confirm('Eintrag wirklich löschen?')) return; entries = entries.filter(e=>e.id!==id); saveToLocalStorage(); render(); }
 
+    // ---------- Statusleiste ----------
+    const updateStatusBar = () => {
+      // Dateiname
+      statusFileEl.textContent = fileHandle ? fileHandle.name : 'Keine Datei';
+      // Anzahl Einträge
+      const total = entries.length;
+      const visibleRows = tbody.querySelectorAll('tr').length;
+      statusCountEl.textContent = visibleRows < total
+        ? `${visibleRows} von ${total} Einträgen`
+        : `${total} ${total === 1 ? 'Eintrag' : 'Einträge'}`;
+    };
+    const updateSaveStatus = (status) => {
+      statusSavedEl.classList.remove('saved', 'unsaved');
+      if (status === 'saved') {
+        const now = new Date();
+        const time = now.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' });
+        statusSavedEl.textContent = `✓ Gespeichert ${time}`;
+        statusSavedEl.classList.add('saved');
+      } else if (status === 'unsaved') {
+        statusSavedEl.textContent = '● Ungespeichert';
+        statusSavedEl.classList.add('unsaved');
+      } else {
+        statusSavedEl.textContent = '—';
+      }
+    };
+
     // ---------- Datei-Handling ----------
-    const updateFileInfo = (extra)=>{ const name=fileHandle ? (fileHandle.name || 'Ereignisse_Daten.json') : 'Keine Datei geöffnet'; fileInfoEl.textContent = extra ? `${name} · ${extra}` : name; };
-    const fallbackOpen = ()=>{ const input=document.getElementById('fileInput'); input.onchange=async()=>{ const f=input.files[0]; if(!f) return; const text=await f.text(); entries=deserializeSmart(text); fileHandle=null; updateFileInfo('aus Upload'); render(); input.value=''; }; input.click(); };
+    const fallbackOpen = ()=>{ const input=document.getElementById('fileInput'); input.onchange=async()=>{ const f=input.files[0]; if(!f) return; const text=await f.text(); entries=deserializeSmart(text); fileHandle=null; updateStatusBar(); updateSaveStatus('saved'); render(); input.value=''; }; input.click(); };
     async function openFile(){
       try {
         if (supportsFS) {
@@ -898,7 +975,7 @@ tbody.appendChild(tr);
             const text = await file.text();
             entries = deserializeSmart(text);
             saveToLocalStorage();
-            updateFileInfo('Geöffnet');
+            updateStatusBar(); updateSaveStatus('saved');
             render();
           } catch (err) {
             if (err && err.name === 'AbortError') return;
@@ -918,8 +995,8 @@ tbody.appendChild(tr);
       }
     }
 
-    function fallbackSave(){ const blob=new Blob([serializeJSON()], {type:'application/json;charset=utf-8'}); const url=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download='Ereignisse_Daten.json'; document.body.appendChild(a); a.click(); setTimeout(()=>{ URL.revokeObjectURL(url); a.remove(); },0); updateFileInfo('Heruntergeladen'); }
-    function fallbackSaveAs(){ let name=prompt('Dateiname für Export:','Ereignisse_Daten.json'); if(name===null) return; name=(name||'Ereignisse_Daten.json').trim(); const blob=new Blob([serializeJSON()],{type:'application/json;charset=utf-8'}); const url=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download=name; document.body.appendChild(a); a.click(); setTimeout(()=>{ URL.revokeObjectURL(url); a.remove(); },0); updateFileInfo('Heruntergeladen'); }
+    function fallbackSave(){ const blob=new Blob([serializeJSON()], {type:'application/json;charset=utf-8'}); const url=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download='Ereignisse_Daten.json'; document.body.appendChild(a); a.click(); setTimeout(()=>{ URL.revokeObjectURL(url); a.remove(); },0); updateStatusBar(); updateSaveStatus('saved'); }
+    function fallbackSaveAs(){ let name=prompt('Dateiname für Export:','Ereignisse_Daten.json'); if(name===null) return; name=(name||'Ereignisse_Daten.json').trim(); const blob=new Blob([serializeJSON()],{type:'application/json;charset=utf-8'}); const url=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download=name; document.body.appendChild(a); a.click(); setTimeout(()=>{ URL.revokeObjectURL(url); a.remove(); },0); updateStatusBar(); updateSaveStatus('saved'); }
     async function writeHandle(handle, content){
       // Write robustly as a Blob to avoid UA quirks when passing raw strings
       // Compatible with Chrome and Edge (Chromium-based)
@@ -962,7 +1039,7 @@ tbody.appendChild(tr);
                 return;
               }
               await writeHandle(fileHandle, serializeJSON());
-              updateFileInfo('Gespeichert');
+              updateStatusBar(); updateSaveStatus('saved');
             } else {
               await saveFileAs();
             }
@@ -1006,7 +1083,7 @@ tbody.appendChild(tr);
             }
             fileHandle = handle;
             await writeHandle(fileHandle, serializeJSON());
-            updateFileInfo('Gespeichert');
+            updateStatusBar(); updateSaveStatus('saved');
           } catch (err) {
             if (err && err.name === 'AbortError') return;
             if (err && err.name === 'NotAllowedError') {
