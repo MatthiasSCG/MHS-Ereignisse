@@ -5,7 +5,7 @@
 **Name:** Ereignisse und deren Zeitraum zu heute
 **Typ:** Single-Page Web-Anwendung (SPA)
 **Autor:** Matthias
-**Version:** 1.3
+**Version:** 1.4
 **Letzte Aktualisierung:** 2026-01-27
 **Repository:** https://github.com/MatthiasSCG/MHS-Ereignisse (privat)
 
@@ -22,6 +22,7 @@ Eine lokale Web-Anwendung zur Verwaltung von Ereignissen mit automatischer Berec
 - **Zeitspannen:** Unterstützung von Ereignissen mit Start- und Endzeitpunkt
 - **Meilenstein-Hervorhebung:** Visuelle Markierung bei runden Zahlen (1000 Tage, 100 Wochen, etc.)
 - **Kategorien:** Farbcodierte Kategorisierung von Ereignissen mit Filterfunktion
+- **Notizen:** Mehrzeilige Notizen für jedes Ereignis mit scrollbarer Anzeige
 - **Datenpersistenz:** Lokale Speicherung im Browser und Export/Import als JSON
 - **Dark Mode:** Automatische Erkennung der Systemeinstellung mit manueller Umschaltung
 
@@ -78,6 +79,7 @@ interface Entry {
   end: string;         // Enddatum im ISO-Format (optional)
   category: string;    // Kategorie-Schlüssel (optional)
   text: string;        // Beschreibung des Ereignisses
+  notes: string;       // Mehrzeilige Notizen (optional)
   createdAt: string;   // Erstellungszeitpunkt (ISO-Timestamp)
   updatedAt: string;   // Letzter Änderungszeitpunkt (ISO-Timestamp)
 }
@@ -93,6 +95,7 @@ interface Entry {
     "end": "",
     "category": "projekt",
     "text": "Projektstart",
+    "notes": "Erste Notizen zum Projekt",
     "createdAt": "2025-01-15T10:30:00.000Z",
     "updatedAt": "2025-01-15T10:30:00.000Z"
   }
@@ -272,6 +275,20 @@ Archiv/
 
 ## Änderungshistorie
 
+### Version 1.4 (2026-01-27)
+
+- **Notizen-Funktion implementiert (#3):**
+  - Neues `notes`-Feld im Datenmodell für mehrzeilige Notizen
+  - Textarea im Eingabeformular für Notizen
+  - Notizen beim Bearbeiten änderbar
+  - Suche durchsucht auch Notizen
+  - Automatische Datenmigration für bestehende Einträge
+- **Notizen-Anzeige verbessert (#20):**
+  - Direkte Anzeige der Notizen in der Tabelle statt Icon mit Tooltip
+  - Scrollbare Container für längere Notizen (max. 60px Höhe)
+  - Benutzerdefinierte Scrollbar-Styles
+  - Dark Mode Unterstützung
+
 ### Version 1.3 (2026-01-27)
 
 - **UI-Verbesserungen:**
@@ -327,8 +344,9 @@ Alle geplanten Erweiterungen werden als [GitHub Issues](https://github.com/Matth
 | **v1.1** | Kategorien/Tags | ✅ Abgeschlossen |
 | **v1.2** | Bugfix: Mehrfachbearbeitung | ✅ Abgeschlossen |
 | **v1.3** | UI-Verbesserungen | ✅ Abgeschlossen |
-| **v1.4** | PWA-Unterstützung, Notizen | #9, #3 |
-| **v1.5** | Wiederkehrende Ereignisse, Erweiterte Suche | #1, #12 |
+| **v1.4** | Notizen | ✅ Abgeschlossen (#3, #20) |
+| **v1.5** | PWA-Unterstützung | #9 |
+| **v1.6** | Wiederkehrende Ereignisse, Erweiterte Suche | #1, #12 |
 | **v2.0** | Kalenderansicht, Dashboard | #5, #6 |
 | **v2.1** | Import/Export-Formate, Benachrichtigungen | #11, #4, #2 |
 | **v2.2** | Drag & Drop, Theme-Optionen | #7, #8 |
@@ -347,7 +365,6 @@ Alle geplanten Erweiterungen werden als [GitHub Issues](https://github.com/Matth
 | Issue | Titel |
 |-------|-------|
 | #2 | Benachrichtigungen/Erinnerungen |
-| #3 | Notizen/Beschreibungen |
 | #5 | Kalenderansicht |
 | #6 | Dashboard/Startseite |
 | #11 | Import-Funktionen |
