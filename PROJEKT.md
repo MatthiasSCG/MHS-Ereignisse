@@ -298,112 +298,32 @@ Archiv/
 
 ---
 
-## Erweiterungsideen
+## Erweiterungsideen & Roadmap
 
-Die folgenden Ideen sind für zukünftige Versionen vorgesehen und nach Kategorien geordnet.
-
-### Funktionale Erweiterungen
-
-#### ~~1. Kategorien/Tags~~ ✅ Implementiert in v1.1
-- ~~Ereignisse mit Kategorien versehen (z.B. "Geburtstag", "Projekt", "Jubiläum")~~
-- ~~Farbcodierung pro Kategorie~~
-- ~~Filter nach Kategorien~~
-- **Status:** ✅ Abgeschlossen
-
-#### 2. Wiederkehrende Ereignisse
-- Jährliche Wiederholungen (Geburtstage, Jahrestage)
-- Automatische Berechnung des nächsten Vorkommens
-- Option: "Zeige nur zukünftige Termine"
-- **Aufwand:** Mittel | **Priorität:** Hoch
-
-#### 3. Benachrichtigungen/Erinnerungen
-- Browser-Notifications für bevorstehende Ereignisse
-- Konfigurierbare Vorlaufzeit (1 Tag, 1 Woche, 1 Monat)
-- Tägliche Zusammenfassung beim Öffnen
-- **Aufwand:** Mittel | **Priorität:** Mittel
-
-#### 4. Notizen/Beschreibungen
-- Mehrzeiliges Notizfeld pro Ereignis
-- Markdown-Unterstützung für Formatierung
-- Anhänge/Links speichern
-- **Aufwand:** Niedrig | **Priorität:** Mittel
-
-#### 5. Export-Formate
-- CSV-Export für Excel
-- iCal-Export (.ics) für Kalender-Apps
-- PDF-Export mit Druckansicht
-- **Aufwand:** Mittel | **Priorität:** Niedrig
-
----
-
-### Benutzeroberfläche
-
-#### 6. Kalenderansicht
-- Monatsansicht mit Ereignis-Markierungen
-- Wochenansicht für detaillierte Planung
-- Timeline-Darstellung für Zeitspannen
-- **Aufwand:** Hoch | **Priorität:** Mittel
-
-#### 7. Dashboard/Startseite
-- Anstehende Ereignisse der nächsten 7/30 Tage
-- Kürzlich vergangene Meilensteine
-- Statistiken (ältestes Ereignis, Anzahl pro Kategorie)
-- **Aufwand:** Mittel | **Priorität:** Mittel
-
-#### 8. Drag & Drop
-- Ereignisse per Drag & Drop neu anordnen
-- Datum durch Ziehen ändern
-- Mehrfachauswahl für Bulk-Aktionen
-- **Aufwand:** Mittel | **Priorität:** Niedrig
-
-#### 9. Erweiterte Theme-Optionen
-- Automatischer Wechsel nach Tageszeit
-- Zusätzliche Themes (High Contrast, Sepia)
-- Benutzerdefinierte Farbschemata
-- **Aufwand:** Niedrig | **Priorität:** Niedrig
-
----
-
-### Technische Erweiterungen
-
-#### 10. Progressive Web App (PWA)
-- Vollständige Offline-Funktionalität mit Service Worker
-- Installierbar auf Desktop und Mobile
-- Hintergrund-Synchronisation
-- **Aufwand:** Mittel | **Priorität:** Hoch
-
-#### 11. Cloud-Synchronisation
-- Optional: Synchronisation mit Google Drive/OneDrive
-- Mehrere Geräte synchron halten
-- Versionierung/Backup
-- **Aufwand:** Hoch | **Priorität:** Niedrig
-
-#### 12. Import-Funktionen
-- CSV-Import aus Excel
-- iCal-Import aus anderen Kalendern
-- Merge-Funktion für mehrere Dateien
-- **Aufwand:** Mittel | **Priorität:** Mittel
-
-#### 13. Erweiterte Suche
-- Volltextsuche in Notizen
-- Datumsbereich-Filter (von-bis)
-- Regex-Unterstützung für Power-User
-- Speicherbare Suchfilter
-- **Aufwand:** Niedrig | **Priorität:** Mittel
-
----
+Alle geplanten Erweiterungen werden als [GitHub Issues](https://github.com/MatthiasSCG/MHS-Ereignisse/issues) verwaltet.
 
 ### Priorisierte Roadmap
 
-| Phase | Features | Status |
+| Phase | Features | Issues |
 |-------|----------|--------|
 | **v1.1** | Kategorien/Tags | ✅ Abgeschlossen |
-| **v1.2** | Wiederkehrende Ereignisse, Erweiterte Suche | Geplant |
-| **v1.3** | PWA-Unterstützung, Notizen | Geplant |
-| **v1.4** | Import/Export-Formate | Geplant |
-| **v2.0** | Kalenderansicht, Dashboard | Idee |
-| **v2.1** | Benachrichtigungen, Drag & Drop | Idee |
-| **v3.0** | Cloud-Synchronisation | Idee |
+| **v1.2** | Wiederkehrende Ereignisse, Erweiterte Suche | #1, #12 |
+| **v1.3** | PWA-Unterstützung, Notizen | #9, #3 |
+| **v1.4** | Import/Export-Formate | #11, #4 |
+| **v2.0** | Kalenderansicht, Dashboard | #5, #6 |
+| **v2.1** | Benachrichtigungen, Drag & Drop | #2, #7 |
+| **v3.0** | Cloud-Synchronisation | #10 |
+
+### Labels
+
+| Label | Beschreibung |
+|-------|--------------|
+| `enhancement` | Neue Funktion oder Verbesserung |
+| `ui` | Benutzeroberfläche |
+| `technical` | Technische Verbesserung |
+| `priority:high` | Hohe Priorität |
+| `priority:medium` | Mittlere Priorität |
+| `priority:low` | Niedrige Priorität |
 
 ---
 
