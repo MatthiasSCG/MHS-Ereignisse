@@ -103,33 +103,53 @@
       .filter-toolbar .search{ max-width:100%; }
     }
 
-    /* Tabellen-Card (Hauptfokus) */
+    /* Tabellen-Card (Hauptfokus - stärkere visuelle Gewichtung) */
     .card-table {
-      box-shadow:0 8px 32px rgba(2,6,23,.10);
+      box-shadow:0 8px 32px rgba(2,6,23,.12);
+      border:2px solid #e5e7eb;
     }
 
-    /* Eingabe-Card (dezenter, am Ende) */
+    /* Eingabe-Card (dezenter, am Ende - reduzierte visuelle Gewichtung) */
     .card-input {
-      background:var(--bg);
+      background:transparent;
       box-shadow:none;
-      border:1px dashed #d1d5db;
-      margin-top:20px;
+      border:1px solid #e5e7eb;
+      margin-top:16px;
+      padding:12px 16px;
     }
     .input-header {
+      font-size:13px;
+      font-weight:500;
+      color:var(--muted);
+      margin-bottom:10px;
+      display:flex;
+      align-items:center;
+      gap:6px;
+    }
+    .input-header::before {
+      content:"+";
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      width:18px;
+      height:18px;
+      border-radius:4px;
+      background:var(--primary);
+      color:#fff;
       font-size:14px;
       font-weight:600;
-      color:var(--muted);
-      margin-bottom:12px;
     }
     .input-grid {
       display:grid;
-      gap:12px;
+      gap:10px;
       align-items:end;
-      grid-template-columns:140px 140px 140px 1fr auto;
+      grid-template-columns:130px 130px 130px 1fr auto;
     }
+    .input-grid .stack{ gap:4px; }
+    .input-grid label{ font-size:11px; color:var(--muted); }
     .input-grid .stack-text{ min-width:0; }
     .input-grid .stack-buttons .toolbar{ flex-wrap:nowrap; }
-    .input-grid .label-spacer{ display:block; height:18px; }
+    .input-grid .label-spacer{ display:block; height:15px; }
     @media (max-width:960px){
       .input-grid{ grid-template-columns:1fr 1fr 1fr; }
       .input-grid .stack-text{ grid-column:1 / -1; }
@@ -341,10 +361,11 @@
     /* Filter-Toolbar Dark Mode */
     [data-theme="dark"] .filter-toolbar{ background:#0f172a; border-color:#334155; }
     /* Eingabe-Card Dark Mode */
-    [data-theme="dark"] .card-input{ background:#0b1220; border-color:#334155; }
-    [data-theme="dark"] .input-header{ color:#94a3b8; }
+    [data-theme="dark"] .card-input{ background:transparent; border-color:#334155; }
+    [data-theme="dark"] .input-header{ color:#64748b; }
+    [data-theme="dark"] .input-grid label{ color:#64748b; }
     /* Tabellen-Card Dark Mode */
-    [data-theme="dark"] .card-table{ box-shadow:none; }
+    [data-theme="dark"] .card-table{ box-shadow:none; border-color:#475569; }
   </style>
 </head>
 <body>
