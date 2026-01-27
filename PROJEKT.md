@@ -6,7 +6,8 @@
 **Typ:** Single-Page Web-Anwendung (SPA)
 **Autor:** Matthias
 **Version:** 1.1
-**Letzte Aktualisierung:** 2026-01-26
+**Letzte Aktualisierung:** 2026-01-27
+**Repository:** https://github.com/MatthiasSCG/MHS-Ereignisse (privat)
 
 ---
 
@@ -52,11 +53,13 @@ Eine lokale Web-Anwendung zur Verwaltung von Ereignissen mit automatischer Berec
 
 ```
 0003_MHS_Ereignisse/
+├── .git/                 # Git-Repository
+├── .gitignore            # Git-Ignorierungsliste
 ├── Ereignisse.html       # Hauptanwendung (Single-File)
 ├── PROJEKT.md            # Projektdokumentation
 ├── Pruefergebnisse.md    # Code-Review und Qualitätsprüfung
-├── Ereignisse_Daten.json # Exportierte Daten (optional)
-└── Archiv/               # Versionierte Sicherungen
+├── Ereignisse_Daten.json # Exportierte Daten (optional, nicht versioniert)
+└── Archiv/               # Lokale Sicherungen (nicht versioniert)
     └── v01.01/           # Version 1.1 (Format: vXX.YY)
         ├── Ereignisse.html
         └── PROJEKT.md
@@ -218,38 +221,49 @@ Die Datei kann direkt von einem Netzlaufwerk ausgeführt werden. Für volle File
 
 ## Entwicklungsworkflow
 
-### Versionierung
+### Git & GitHub
 
-Bei jeder neuen Version sind folgende Schritte durchzuführen:
+Das Projekt wird über Git versioniert und auf GitHub gehostet.
 
-1. **Projektdokumentation aktualisieren:**
-   - Versionsnummer in PROJEKT.md anpassen
-   - Änderungshistorie mit neuen Features/Fixes ergänzen
-   - Roadmap-Status aktualisieren (falls Features abgeschlossen)
+**Repository:** https://github.com/MatthiasSCG/MHS-Ereignisse
 
-2. **Archiv-Ordner erstellen:**
-   - Neuen Unterordner im Archiv anlegen
-   - Namensformat: `vXX.YY` (z.B. `v01.02` für Version 1.2)
-   - Alle wichtigen Dateien in den Archiv-Ordner kopieren:
-     - `Ereignisse.html`
-     - `PROJEKT.md`
-     - Weitere relevante Dateien (z.B. `Pruefergebnisse.md`)
+#### Wichtige Git-Befehle
 
-3. **Qualitätsprüfung:**
-   - Funktionalität im Browser testen
-   - Pruefergebnisse.md bei Bedarf aktualisieren
+```bash
+# Änderungen committen
+git add Ereignisse.html PROJEKT.md Pruefergebnisse.md
+git commit -m "Beschreibung der Änderungen"
 
-### Archiv-Struktur
+# Zu GitHub hochladen
+git push
+
+# Version taggen (bei Releases)
+git tag -a v1.2 -m "Version 1.2: Beschreibung"
+git push --tags
+```
+
+#### Workflow bei Änderungen
+
+1. **Änderungen durchführen** und testen
+2. **PROJEKT.md aktualisieren:**
+   - Versionsnummer anpassen
+   - Änderungshistorie ergänzen
+   - Roadmap-Status aktualisieren
+3. **Commit erstellen** mit aussagekräftiger Message
+4. **Push zu GitHub**
+5. **Optional:** Tag für Release erstellen
+
+### Lokales Archiv (optional)
+
+Zusätzlich zur Git-Versionierung können lokale Archiv-Ordner angelegt werden.
+Diese werden durch `.gitignore` von der Versionierung ausgeschlossen.
 
 ```
 Archiv/
 ├── v01.00/           # Version 1.0
 │   ├── Ereignisse.html
 │   └── PROJEKT.md
-├── v01.01/           # Version 1.1
-│   ├── Ereignisse.html
-│   └── PROJEKT.md
-└── v01.02/           # Version 1.2 (Beispiel)
+└── v01.01/           # Version 1.1
     ├── Ereignisse.html
     └── PROJEKT.md
 ```
