@@ -5,7 +5,7 @@
 **Name:** Ereignisse und deren Zeitraum zu heute
 **Typ:** Single-Page Web-Anwendung (SPA)
 **Autor:** Matthias
-**Version:** 1.7
+**Version:** 1.8
 **Letzte Aktualisierung:** 2026-01-27
 **Repository:** https://github.com/MatthiasSCG/MHS-Ereignisse (privat)
 
@@ -24,6 +24,7 @@ Eine lokale Web-Anwendung zur Verwaltung von Ereignissen mit automatischer Berec
 - **Kategorien:** Farbcodierte Kategorisierung von Ereignissen mit Filterfunktion
 - **Notizen:** Mehrzeilige Notizen für jedes Ereignis mit scrollbarer Anzeige
 - **Verknüpfungen:** Vorgänger/Nachfolger-Beziehungen zwischen Ereignissen (n:m)
+- **Wiederkehrende Ereignisse:** Jährliche Termine mit automatischer Berechnung des nächsten Vorkommens
 - **Datenpersistenz:** Lokale Speicherung im Browser und Export/Import als JSON
 - **Dark Mode:** Automatische Erkennung der Systemeinstellung mit manueller Umschaltung
 - **PWA:** Installierbar als App mit Offline-Unterstützung
@@ -92,6 +93,7 @@ interface Entry {
   category: string;    // Kategorie-Schlüssel (optional)
   text: string;        // Beschreibung des Ereignisses
   notes: string;       // Mehrzeilige Notizen (optional)
+  recurring: boolean;  // Jährlich wiederkehrendes Ereignis (optional)
   predecessors: string[];  // IDs der Vorgänger-Ereignisse (optional)
   successors: string[];    // IDs der Nachfolger-Ereignisse (optional)
   createdAt: string;   // Erstellungszeitpunkt (ISO-Timestamp)
@@ -110,6 +112,7 @@ interface Entry {
     "category": "projekt",
     "text": "Projektstart",
     "notes": "Erste Notizen zum Projekt",
+    "recurring": false,
     "predecessors": [],
     "successors": ["m2def456-abc123"],
     "createdAt": "2025-01-15T10:30:00.000Z",
@@ -312,7 +315,8 @@ Alle geplanten Erweiterungen werden als [GitHub Issues](https://github.com/Matth
 | **v1.5** | Zentrale Versionsverwaltung | ✅ Abgeschlossen (#22) |
 | **v1.6** | Ereignis-Verknüpfungen | ✅ Abgeschlossen (#24) |
 | **v1.7** | PWA-Unterstützung | ✅ Abgeschlossen (#9) |
-| **v1.8** | Wiederkehrende Ereignisse, Erweiterte Suche | #1, #12 |
+| **v1.8** | Wiederkehrende Ereignisse | ✅ Abgeschlossen (#1) |
+| **v1.9** | Erweiterte Suche | #12 |
 | **v2.0** | Kalenderansicht, Dashboard | #5, #6 |
 | **v2.1** | Import/Export-Formate, Benachrichtigungen | #11, #4, #2 |
 | **v2.2** | Drag & Drop, Theme-Optionen | #7, #8 |
@@ -324,7 +328,7 @@ Alle geplanten Erweiterungen werden als [GitHub Issues](https://github.com/Matth
 #### Hohe Priorität
 | Issue | Titel |
 |-------|-------|
-| #1 | Wiederkehrende Ereignisse |
+| #12 | Erweiterte Suche |
 
 #### Mittlere Priorität
 | Issue | Titel |
@@ -333,7 +337,6 @@ Alle geplanten Erweiterungen werden als [GitHub Issues](https://github.com/Matth
 | #5 | Kalenderansicht |
 | #6 | Dashboard/Startseite |
 | #11 | Import-Funktionen |
-| #12 | Erweiterte Suche |
 | #13 | Mehrsprachigkeit (i18n) |
 
 #### Niedrige Priorität

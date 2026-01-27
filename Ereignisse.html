@@ -847,6 +847,57 @@
       color:var(--muted);
       font-size:14px;
     }
+
+    /* Wiederkehrende Ereignisse - Checkbox */
+    .stack-checkbox {
+      display:flex;
+      align-items:center;
+    }
+    .stack-checkbox label {
+      display:flex;
+      align-items:center;
+      gap:0.5rem;
+      cursor:pointer;
+      font-size:0.85rem;
+      color:var(--muted);
+    }
+    .stack-checkbox input[type="checkbox"] {
+      width:1.1rem;
+      height:1.1rem;
+      cursor:pointer;
+      accent-color:var(--primary);
+    }
+
+    /* Wiederkehrende Ereignisse - Anzeige */
+    .recurring-info {
+      display:flex;
+      flex-direction:column;
+      gap:0.15rem;
+      margin-top:0.3rem;
+      font-size:0.8rem;
+    }
+    .recurring-badge {
+      color:var(--primary);
+      font-weight:500;
+    }
+    .recurring-countdown {
+      color:var(--muted);
+      font-size:0.75rem;
+    }
+    .recurring-today {
+      color:var(--primary);
+      font-weight:600;
+    }
+    .recurring-milestone {
+      color:#d97706;
+      font-size:0.75rem;
+      font-weight:500;
+    }
+
+    /* Wiederkehrende Ereignisse - Dark Mode */
+    [data-theme="dark"] .recurring-milestone {
+      color:#fbbf24;
+    }
   </style>
 </head>
 <body>
@@ -949,6 +1000,12 @@
             <label for="end">Endzeitpunkt</label>
             <input id="end" type="date" />
           </div>
+          <div class="stack stack-checkbox">
+            <label>
+              <input id="recurring" type="checkbox" />
+              Jährlich wiederkehrend
+            </label>
+          </div>
           <div class="stack">
             <label for="category">Kategorie</label>
             <select id="category">
@@ -1007,7 +1064,7 @@
    */
 
   /** @constant {string} Zentrale Versionsnummer der Anwendung */
-  const APP_VERSION = '1.7.0';
+  const APP_VERSION = '1.8.0';
 
   (function(){
     /**
@@ -1019,6 +1076,7 @@
      * @property {string} text - Beschreibung des Ereignisses
      * @property {string} category - Kategorie-Schlüssel (optional)
      * @property {string} notes - Mehrzeilige Notizen (optional)
+     * @property {boolean} recurring - Jährlich wiederkehrendes Ereignis (optional)
      * @property {string[]} predecessors - IDs der Vorgänger-Ereignisse (optional)
      * @property {string[]} successors - IDs der Nachfolger-Ereignisse (optional)
      * @property {string} createdAt - Erstellungszeitpunkt (ISO-Timestamp)
@@ -1346,11 +1404,12 @@
             saveToLocalStorage();
           }
         }
-        // Sicherstellen, dass alle Einträge category-, notes-, predecessors- und successors-Felder haben
+        // Sicherstellen, dass alle Einträge category-, notes-, recurring-, predecessors- und successors-Felder haben
         entries = entries.map(e => ({
           ...e,
           category: e.category || '',
           notes: e.notes || '',
+          recurring: e.recurring || false,
           predecessors: Array.isArray(e.predecessors) ? e.predecessors : [],
           successors: Array.isArray(e.successors) ? e.successors : []
         }));
@@ -1430,6 +1489,127 @@ const monthsOnlyRelativeISO = (iso)=>{ const p=partsFromTodayISO(iso); if(!p||p.
 const weeksOnlyBetweenText = (aIso,bIso)=>{ const d=daysBetween(aIso,bIso); if(d==null) return ''; const w=Math.floor(Math.abs(d)/7); if(!w) return ''; return `${fmtNum(w)} ${w===1?'Woche':'Wochen'}`; };
 const monthsOnlyBetweenText = (aIso,bIso)=>{ const p=partsBetweenISO(aIso,bIso); if(!p) return ''; const monthsAll=Math.abs(p.totalMonths ?? (p.years*12+p.months)); if(!monthsAll) return ''; return `${fmtNum(monthsAll)} ${monthsAll===1?'Monat':'Monaten'}`; };
 
+// ---------- Wiederkehrende Ereignisse ----------
+/**
+ * Berechnet das nächste jährliche Vorkommen eines Datums
+ * @param {string} isoDate - Datum im ISO-Format
+ * @returns {number|null} UTC-Timestamp des nächsten Vorkommens
+ */
+const getNextOccurrence = (isoDate) => {
+  const d = parseISODateOnly(isoDate);
+  if (d == null) return null;
+  const orig = new Date(d);
+  const today = new Date(todayUTC());
+
+  let next = Date.UTC(today.getUTCFullYear(), orig.getUTCMonth(), orig.getUTCDate());
+  if (next <= todayUTC()) {
+    next = Date.UTC(today.getUTCFullYear() + 1, orig.getUTCMonth(), orig.getUTCDate());
+  }
+  return next;
+};
+
+/**
+ * Berechnet das Alter/Jahre seit einem Ereignis zu einem Zieldatum
+ * @param {string} origIso - Ursprungsdatum im ISO-Format
+ * @param {number} targetUTC - Ziel-UTC-Timestamp
+ * @returns {number|null} Anzahl der Jahre
+ */
+const getAgeAtDate = (origIso, targetUTC) => {
+  const orig = parseISODateOnly(origIso);
+  if (orig == null || targetUTC == null) return null;
+  const o = new Date(orig);
+  const t = new Date(targetUTC);
+  return t.getUTCFullYear() - o.getUTCFullYear();
+};
+
+/**
+ * Konvertiert UTC-Timestamp zu ISO-Datumsstring
+ * @param {number} utc - UTC-Timestamp
+ * @returns {string} ISO-Datumsstring (YYYY-MM-DD)
+ */
+const utcToISO = (utc) => {
+  if (utc == null) return '';
+  const d = new Date(utc);
+  const y = d.getUTCFullYear();
+  const m = String(d.getUTCMonth() + 1).padStart(2, '0');
+  const day = String(d.getUTCDate()).padStart(2, '0');
+  return `${y}-${m}-${day}`;
+};
+
+/**
+ * Berechnet Tage bis zum nächsten Vorkommen
+ * @param {string} isoDate - Datum im ISO-Format
+ * @returns {number|null} Anzahl der Tage
+ */
+const daysUntilNext = (isoDate) => {
+  const next = getNextOccurrence(isoDate);
+  if (next == null) return null;
+  return Math.round((next - todayUTC()) / MS_PER_DAY);
+};
+
+/** @constant {number[]} Meilenstein-Jahre für Jubiläen */
+const YEAR_MILESTONES = [10, 18, 20, 25, 30, 40, 50, 60, 70, 75, 80, 90, 100];
+
+/**
+ * Findet den nächsten Meilenstein für ein wiederkehrendes Ereignis
+ * @param {string} origIso - Ursprungsdatum im ISO-Format
+ * @param {number} [yearsAhead=10] - Wie viele Jahre vorausschauen
+ * @returns {{milestone: number, yearsUntil: number}|null} Meilenstein-Info oder null
+ */
+const getNextMilestone = (origIso, yearsAhead = 10) => {
+  const next = getNextOccurrence(origIso);
+  const age = getAgeAtDate(origIso, next);
+  if (age == null) return null;
+
+  for (const m of YEAR_MILESTONES) {
+    if (m >= age && m < age + yearsAhead) {
+      return { milestone: m, yearsUntil: m - age };
+    }
+  }
+  return null;
+};
+
+/**
+ * Erstellt HTML für die Endzeitpunkt-Spalte (inkl. wiederkehrende Ereignisse)
+ * @param {Entry} e - Der Eintrag
+ * @returns {string} HTML-String
+ */
+const buildEndCell = (e) => {
+  let html = `<span class="badge">${e.end || ''}</span>`;
+
+  if (e.recurring && e.date) {
+    const nextUTC = getNextOccurrence(e.date);
+    const nextISO = utcToISO(nextUTC);
+    const age = getAgeAtDate(e.date, nextUTC);
+    const daysUntil = daysUntilNext(e.date);
+
+    html += `<div class="recurring-info">`;
+    html += `<span class="recurring-badge" title="Nächstes Vorkommen">`;
+    html += `${nextISO}`;
+    if (age != null) {
+      html += ` (${age}.)`;
+    }
+    html += `</span>`;
+
+    // Countdown
+    if (daysUntil != null && daysUntil > 0) {
+      html += `<span class="recurring-countdown">in ${fmtNum(daysUntil)} ${daysUntil === 1 ? 'Tag' : 'Tagen'}</span>`;
+    } else if (daysUntil === 0) {
+      html += `<span class="recurring-countdown recurring-today">heute!</span>`;
+    }
+
+    // Meilenstein-Hinweis
+    const ms = getNextMilestone(e.date);
+    if (ms && ms.yearsUntil > 0 && ms.yearsUntil <= 5) {
+      html += `<span class="recurring-milestone">${ms.milestone}. in ${ms.yearsUntil} ${ms.yearsUntil === 1 ? 'Jahr' : 'Jahren'}</span>`;
+    }
+
+    html += `</div>`;
+  }
+
+  return html;
+};
+
 // Unified line builder: if end given -> between dates, else -> relative to today
 const linesForDisplay = (startIso,endIso)=>{
   if(endIso){
@@ -1492,7 +1672,28 @@ const d=daysFromToday(startIso); if(d==null) return false; const absd=Math.abs(d
     const textEl    = document.getElementById('text');
     const categoryEl = document.getElementById('category');
     const notesEl   = document.getElementById('notes');
+    const recurringEl = document.getElementById('recurring');
     const searchEl  = document.getElementById('search');
+
+    // Kategorien, die automatisch "wiederkehrend" aktivieren
+    const RECURRING_CATEGORIES = ['geburtstag', 'todestag', 'jahrestag'];
+
+    // Auto-Aktivierung bei Kategorie-Änderung (nur wenn kein Enddatum)
+    categoryEl.addEventListener('change', () => {
+      if (RECURRING_CATEGORIES.includes(categoryEl.value) && !endEl.value) {
+        recurringEl.checked = true;
+      }
+    });
+
+    // Enddatum deaktiviert "wiederkehrend"
+    endEl.addEventListener('input', () => {
+      if (endEl.value) {
+        recurringEl.checked = false;
+        recurringEl.disabled = true;
+      } else {
+        recurringEl.disabled = false;
+      }
+    });
     const filterCategoryEl = document.getElementById('filterCategory');
     const sortKeyEl = document.getElementById('sortKey');
     const sortDirBtn = document.getElementById('sortDirBtn');
@@ -1549,7 +1750,7 @@ const d=daysFromToday(startIso); if(d==null) return false; const absd=Math.abs(d
         tr.dataset.id=e.id;
         tr.innerHTML=`
           <td><span class="badge">${e.date||''}</span>${buildLinkIndicators(e)}</td>
-          <td><span class="badge">${e.end||''}</span></td>
+          <td>${buildEndCell(e)}</td>
           <td>${buildCategoryBadge(e.category)}</td>
           <td>${escapeHTML(e.text)}${buildNotesDisplay(e.notes)}</td>
           <td class="days">${buildDaysCell(e.date, e.end)}</td>
@@ -1604,7 +1805,13 @@ tbody.appendChild(tr);
           <input type="date" value="${e.date||''}"/>
           ${buildLinkEditButtons(e)}
         </td>
-        <td><input type="date" value="${e.end||''}"/></td>
+        <td>
+          <input type="date" value="${e.end||''}"/>
+          <label class="recurring-edit-label" style="display:flex;align-items:center;gap:0.4rem;margin-top:6px;font-size:0.8rem;color:var(--muted);cursor:pointer;">
+            <input type="checkbox" class="recurring-checkbox" ${e.recurring ? 'checked' : ''} style="width:1rem;height:1rem;cursor:pointer;accent-color:var(--primary);"/>
+            Wiederkehrend
+          </label>
+        </td>
         <td>${buildCategorySelect(e.category || '')}</td>
         <td>
           <input type="text" value="${escapeHTML(e.text)}" style="margin-bottom:6px"/>
@@ -1624,9 +1831,23 @@ tbody.appendChild(tr);
       const textIn=editable.querySelector('input[type="text"]');
       const notesIn=editable.querySelector('textarea');
       const catIn=editable.querySelector('select');
+      const recurringIn=editable.querySelector('.recurring-checkbox');
       const wrap=editable.querySelector('.days-wrap');
       const updateDays=()=>{ wrap.innerHTML=buildDaysInner(dateIn.value, endIn.value); adjustDaysColWidth(); };
       dateIn.addEventListener('input',updateDays);
+
+      // Enddatum deaktiviert "wiederkehrend" im Edit-Modus
+      const updateRecurringState = () => {
+        if (endIn.value) {
+          recurringIn.checked = false;
+          recurringIn.disabled = true;
+        } else {
+          recurringIn.disabled = false;
+        }
+      };
+      endIn.addEventListener('input', updateRecurringState);
+      // Initial-Zustand setzen
+      updateRecurringState();
 
       // Verknüpfungs-Buttons Event-Handler
       editable.querySelectorAll('[data-link-action]').forEach(btn => {
@@ -1654,7 +1875,8 @@ tbody.appendChild(tr);
           endIn.focus();
           return;
         }
-        const updated={...e, date:newDate, end:newEnd, category:newCat, text:textIn.value, notes:newNotes, updatedAt:nowISOTimestamp()};
+        const newRecurring = recurringIn.checked;
+        const updated={...e, date:newDate, end:newEnd, category:newCat, text:textIn.value, notes:newNotes, recurring:newRecurring, updatedAt:nowISOTimestamp()};
         const idx=entries.findIndex(x=>x.id===e.id); if(idx!==-1) entries[idx]=updated;
         enableAllActions();
         saveToLocalStorage(); render();
@@ -1694,8 +1916,9 @@ tbody.appendChild(tr);
         return;
       }
       const t = nowISOTimestamp();
-      entries.push({ id: uid(), date, end, category, text, notes, predecessors: [], successors: [], createdAt: t, updatedAt: t });
-      dateEl.value=''; endEl.value=''; categoryEl.value=''; textEl.value=''; notesEl.value='';
+      const recurring = recurringEl.checked;
+      entries.push({ id: uid(), date, end, category, text, notes, recurring, predecessors: [], successors: [], createdAt: t, updatedAt: t });
+      dateEl.value=''; endEl.value=''; categoryEl.value=''; textEl.value=''; notesEl.value=''; recurringEl.checked = false; recurringEl.disabled = false;
       dateEl.focus(); saveToLocalStorage(); render();
     }
     /**
@@ -1706,7 +1929,7 @@ tbody.appendChild(tr);
       const e = entries.find(x => x.id === id); if(!e) return;
       const t = nowISOTimestamp();
       // Duplizierte Einträge haben keine Verknüpfungen
-      entries.push({ id: uid(), date: e.date, end: e.end, category: e.category || '', text: e.text, notes: e.notes || '', predecessors: [], successors: [], createdAt: t, updatedAt: t });
+      entries.push({ id: uid(), date: e.date, end: e.end, category: e.category || '', text: e.text, notes: e.notes || '', recurring: e.recurring || false, predecessors: [], successors: [], createdAt: t, updatedAt: t });
       saveToLocalStorage(); render();
     }
 

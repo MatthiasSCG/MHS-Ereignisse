@@ -7,6 +7,20 @@ und dieses Projekt verwendet [Semantic Versioning](https://semver.org/lang/de/).
 
 ## [Unreleased]
 
+## [1.8.0] - 2026-01-27
+
+### Added
+- Wiederkehrende Ereignisse für jährliche Termine wie Geburtstage, Jahrestage (#1)
+- Neues Feld `recurring` im Datenmodell (boolean)
+- Checkbox "Jährlich wiederkehrend" im Eingabeformular
+- Automatische Aktivierung bei Kategorien: Geburtstag, Todestag, Jahrestag
+- Anzeige des nächsten Vorkommens unter der Endzeitpunkt-Spalte
+- Countdown bis zum nächsten Vorkommen (z.B. "in 47 Tagen")
+- Alter/Jubiläums-Anzeige (z.B. "36.")
+- Meilenstein-Hinweise für runde Zahlen (10, 18, 25, 30, 40, 50... Jahre)
+- Bearbeiten-Modus: Checkbox zum Ändern des wiederkehrend-Status
+- Automatische Datenmigration für bestehende Einträge
+
 ## [1.7.0] - 2026-01-27
 
 ### Added
@@ -107,7 +121,8 @@ und dieses Projekt verwendet [Semantic Versioning](https://semver.org/lang/de/).
 - XSS-Schutz durch `escapeHTML()` für alle Benutzereingaben
 - Input-Sanitization durch `sanitizeText()` für Textbereinigung
 
-[Unreleased]: https://github.com/MatthiasSCG/MHS-Ereignisse/compare/v1.7.0...HEAD
+[Unreleased]: https://github.com/MatthiasSCG/MHS-Ereignisse/compare/v1.8.0...HEAD
+[1.8.0]: https://github.com/MatthiasSCG/MHS-Ereignisse/compare/v1.7.0...v1.8.0
 [1.7.0]: https://github.com/MatthiasSCG/MHS-Ereignisse/compare/v1.6.0...v1.7.0
 [1.6.0]: https://github.com/MatthiasSCG/MHS-Ereignisse/compare/v1.5.0...v1.6.0
 [1.5.0]: https://github.com/MatthiasSCG/MHS-Ereignisse/compare/v1.4.0...v1.5.0
