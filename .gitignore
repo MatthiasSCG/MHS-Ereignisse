@@ -1,0 +1,19 @@
+# Archiv-Ordner (lokale Sicherungen werden nicht versioniert)
+Archiv/
+
+# Betriebssystem-Dateien
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor-Dateien
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+
+# Temporäre Dateien
+*.tmp
+*.temp
+*.bak

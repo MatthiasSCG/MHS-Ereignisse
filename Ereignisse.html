@@ -1,0 +1,955 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self';" />
+  <title>Ereignisse</title>
+  <style>
+    :root {
+      --primary:#2563eb;
+      --ink:#111827;
+      --muted:#6b7280;
+      --bg:#f5f7fb;
+      --card:#ffffff;
+      --radius:12px;
+      --shadow:0 8px 24px rgba(2,6,23,.08);
+      --ctl-h:44px;
+      --col-gap:8px;
+    }
+
+    *{ box-sizing:border-box; }
+
+    body {
+      margin:0;
+      min-height:100dvh;
+      background:var(--bg);
+      color:var(--ink);
+      font-family:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    }
+
+    .page{ padding:24px; }
+    .container{ width:min(96vw, 1600px); margin:0 auto; }
+
+    header {
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+      color:var(--ink);
+      margin-bottom:18px;
+    }
+
+    .brand{ display:flex; align-items:center; gap:14px; }
+
+    .flag {
+      width:28px;
+      height:28px;
+      border-radius:50%;
+      background:radial-gradient(circle at 30% 30%, rgba(37,99,235,.25), rgba(37,99,235,.65));
+      box-shadow:var(--shadow);
+    }
+
+    h1{ margin:0; font-size:clamp(20px,3vw,28px); font-weight:700; letter-spacing:.25px; }
+    .actions{ display:flex; gap:10px; flex-wrap:wrap; }
+
+    .btn {
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+      height:var(--ctl-h);
+      padding:0 12px;
+      border-radius:10px;
+      border:1px solid #cbd5e1;
+      background:#fff;
+      color:#0f172a;
+      cursor:pointer;
+      transition:background .15s, border-color .15s, box-shadow .15s;
+    }
+    .btn:hover{ background:#f8fafc; }
+    .btn:focus{ outline:none; box-shadow:0 0 0 3px rgba(37,99,235,.18); }
+    .btn-primary{ background:var(--primary); border-color:transparent; color:#fff; }
+    .btn-primary:hover{ filter:brightness(.98); }
+    .btn-ghost{ background:#f8fafc; color:#0b1220; border-color:#e5e7eb; }
+
+    .card {
+      background:var(--card);
+      border:1px solid #e5e7eb;
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      padding:16px;
+      position:relative;
+    }
+    .stack{ display:flex; flex-direction:column; gap:12px; }
+    .card + .card{ margin-top:24px; }
+
+    .grid{ display:grid; gap:12px; align-items:center; grid-template-columns:180px 180px 140px minmax(0,1fr) max-content; }
+    @media (max-width:960px){ .grid{ grid-template-columns:1fr 1fr; } }
+    @media (max-width:600px){ .grid{ grid-template-columns:1fr; } }
+
+    label{ font-size:13px; color:#334155; }
+
+    input[type="date"],input[type="text"] {
+      width:100%;
+      padding:0 12px;
+      border-radius:10px;
+      border:1px solid #d1d5db;
+      background:#fff;
+      font-size:14px;
+      height:var(--ctl-h);
+      line-height:calc(var(--ctl-h) - 2px);
+      transition:border-color .15s, box-shadow .15s;
+    }
+    input[type="date"]:focus, input[type="text"]:focus {
+      outline:none;
+      border-color:var(--primary);
+      box-shadow:0 0 0 3px rgba(37,99,235,.15);
+    }
+    #date,#end{ width:70%; }
+    #text{ width:85%; }
+
+    .toolbar{ display:flex; gap:8px; align-items:center; }
+    .toolbar-spread{ justify-content:space-between; }
+    .toolbar-flex{ flex:1; min-width:0; }
+
+    select {
+      height:var(--ctl-h);
+      border-radius:10px;
+      border:1px solid #d1d5db;
+      background:#fff;
+      padding:0 10px;
+      font-size:14px;
+    }
+    #sortKey{ width:180px; }
+    #sortDirBtn.btn-icon{ width:32px; height:32px; }
+    #themeBtn.btn-icon{ width:var(--ctl-h); height:var(--ctl-h); }
+
+    .table-wrap {
+      overflow:auto;
+      border-radius:12px;
+      border:1px solid #e5e7eb;
+      background:#fff;
+      padding-inline:16px;
+    }
+    table {
+      border-collapse:separate;
+      border-spacing:var(--col-gap) 0;
+      margin:0;
+      width:100%;
+      min-width:0;
+      background:#fff;
+    }
+    thead th {
+      position:sticky;
+      top:0;
+      z-index:1;
+      background:#fff;
+      text-align:left;
+      font-size:12px;
+      letter-spacing:.02em;
+      color:#475569;
+      border-bottom:1px solid #e5e7eb;
+      padding:10px 12px;
+    }
+    tbody td {
+      padding:10px 12px;
+      border-bottom:1px solid #eef2f7;
+      vertical-align:top;
+      background:#fff;
+      border-radius:8px;
+    }
+    tbody tr:hover td{ background:#f8fafc; }
+
+    .search{ flex:1 1 auto; width:100%; min-width:160px; }
+
+    th.days{ text-align:left; }
+    td.days{ text-align:right; }
+    th.days,td.days{ width:var(--days-col-w, 140px); }
+    th.actions,td.actions{ width:120px; }
+    th.col-date{ width:130px; }
+    td.actions{ white-space:nowrap; }
+
+    .days-wrap{ display:inline-flex; flex-direction:column; align-items:flex-end; gap:4px; }
+    .days-badge,.days-sub {
+      display:inline-block;
+      font-size:12px;
+      color:#374151;
+      padding:2px 8px;
+      border-radius:999px;
+      border:1px solid #e5e7eb;
+      background:#f9fafb;
+      min-width:3ch;
+      text-align:right;
+      white-space:nowrap;
+    }
+    .days-range{ color:#1d4ed8; border-color:#c7d2fe; background:#eef2ff; }
+    .days-milestone{ color:#065f46; border-color:#86efac; background:#ecfdf5; font-weight:600; }
+
+    .badge{ font-size:12px; background:#eef2ff; color:#3730a3; padding:2px 8px; border-radius:999px; }
+
+    /* Kategorie-Badges */
+    .cat-badge {
+      display:inline-flex;
+      align-items:center;
+      gap:4px;
+      font-size:11px;
+      padding:2px 8px;
+      border-radius:999px;
+      font-weight:500;
+      white-space:nowrap;
+    }
+    .cat-badge::before {
+      content:"";
+      width:6px;
+      height:6px;
+      border-radius:50%;
+      background:currentColor;
+    }
+    .cat-none{ color:#6b7280; background:#f3f4f6; }
+    .cat-geburtstag{ color:#be185d; background:#fce7f3; }
+    .cat-todestag{ color:#1f2937; background:#e5e7eb; }
+    .cat-jahrestag{ color:#dc2626; background:#fee2e2; }
+    .cat-jubilaeum{ color:#7c3aed; background:#ede9fe; }
+    .cat-projekt{ color:#0369a1; background:#e0f2fe; }
+    .cat-termin{ color:#b45309; background:#fef3c7; }
+    .cat-erinnerung{ color:#047857; background:#d1fae5; }
+    .cat-sonstiges{ color:#475569; background:#f1f5f9; }
+
+    /* Kategorie-Select Styling */
+    #category, #filterCategory { width:140px; }
+    th.col-cat{ width:120px; }
+
+    .btn-icon {
+      width:24px;
+      height:24px;
+      padding:0;
+      border-radius:8px;
+      border:1px solid #e5e7eb;
+      background:#fff;
+      color:#0b1220;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      cursor:pointer;
+    }
+    .btn-icon:hover{ background:#f1f5f9; }
+    .btn-icon.danger{ color:#991b1b; border-color:#fecaca; background:#fff1f2; }
+    .btn-icon svg{ width:12px; height:12px; pointer-events:none; }
+
+    .actions-row{ display:flex; gap:8px; flex-wrap:nowrap; align-items:center; }
+    .muted{ font-size:12px; color:var(--muted); }
+    .text-center{ text-align:center; }
+    .mt-6{ margin-top:6px; }
+
+    /* === Dark mode ===================================================== */
+    [data-theme="dark"]{
+      --bg:#0b1220; --card:#0f172a; --ink:#e5e7eb; --muted:#94a3b8;
+    }
+    [data-theme="dark"] .card{ background:var(--card); border-color:#334155; box-shadow:none; }
+    [data-theme="dark"] header{ color:var(--ink); }
+    [data-theme="dark"] .btn{ border-color:#334155; background:#0f172a; color:#e5e7eb; }
+    [data-theme="dark"] .btn:hover{ background:#111827; }
+    [data-theme="dark"] .btn-ghost{ background:#0f172a; color:#e5e7eb; border-color:#334155; }
+    [data-theme="dark"] .btn-icon{ border-color:#334155; background:#0f172a; color:#e5e7eb; }
+    [data-theme="dark"] .btn-icon:hover{ background:#111827; }
+    [data-theme="dark"] input[type="date"], [data-theme="dark"] input[type="text"]{ background:#0b1220; color:#e5e7eb; border-color:#334155; }
+    [data-theme="dark"] input::placeholder{ color:#94a3b8; }
+    /* Select (Dropdown) in Dark mode */
+    [data-theme="dark"] select{ background:#0b1220; color:#e5e7eb; border-color:#334155; }
+    [data-theme="dark"] select:focus{ outline:none; border-color:#60a5fa; box-shadow:0 0 0 3px rgba(37,99,235,.25); }
+    [data-theme="dark"] select option{ background:#0f172a; color:#e5e7eb; }
+    [data-theme="dark"] .table-wrap{ background:#0f172a; border-color:#334155; }
+    [data-theme="dark"] table{ background:#0f172a; }
+    [data-theme="dark"] thead th{ background:#0f172a; color:#cbd5e1; border-bottom-color:#334155; }
+    [data-theme="dark"] tbody td{ background:#0f172a; border-bottom-color:#1f2937; }
+    [data-theme="dark"] tbody tr:hover td{ background:#111827; }
+    [data-theme="dark"] .badge{ background:#1f2937; color:#cbd5e1; }
+    [data-theme="dark"] .days-badge, [data-theme="dark"] .days-sub{ color:#cbd5e1; border-color:#334155; background:#111827; }
+    [data-theme="dark"] .days-range{ color:#93c5fd; border-color:#1e3a8a; background:#0b1733; }
+    [data-theme="dark"] .days-milestone{ color:#10b981; border-color:#065f46; background:#062d22; }
+    /* Kategorie-Badges Dark Mode */
+    [data-theme="dark"] .cat-none{ color:#9ca3af; background:#1f2937; }
+    [data-theme="dark"] .cat-geburtstag{ color:#f472b6; background:#4c1d4c; }
+    [data-theme="dark"] .cat-todestag{ color:#d1d5db; background:#374151; }
+    [data-theme="dark"] .cat-jahrestag{ color:#f87171; background:#7f1d1d; }
+    [data-theme="dark"] .cat-jubilaeum{ color:#a78bfa; background:#3b2d6b; }
+    [data-theme="dark"] .cat-projekt{ color:#38bdf8; background:#0c3d5a; }
+    [data-theme="dark"] .cat-termin{ color:#fbbf24; background:#4a3412; }
+    [data-theme="dark"] .cat-erinnerung{ color:#34d399; background:#0a3d2e; }
+    [data-theme="dark"] .cat-sonstiges{ color:#94a3b8; background:#1e293b; }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="container">
+      <header>
+        <div class="brand">
+          <div class="flag" aria-hidden="true"></div>
+          <div><h1>Ereignisse und deren Zeitraum zu heute</h1></div>
+        </div>
+        <div class="actions">
+          <button id="openBtn" class="btn" title="Datei öffnen">Datei öffnen</button>
+          <button id="saveBtn" class="btn" title="Speichern">Speichern</button>
+          <button id="saveAsBtn" class="btn btn-primary" title="Speichern unter…">Speichern unter…</button>
+          <button id="themeBtn" class="btn-icon" title="Dark Mode umschalten" aria-label="Dark Mode">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.64 13a1 1 0 00-1.05-1.36 7 7 0 01-8.23-8.23A1 1 0 0011 2.36 9 9 0 1021.64 13z"/></svg>
+          </button>
+        </div>
+      </header>
+
+      <section class="card stack">
+        <div class="grid">
+          <div class="stack">
+            <label for="date">Zeitpunkt</label>
+            <input id="date" type="date" />
+          </div>
+          <div class="stack">
+            <label for="end">Endzeitpunkt</label>
+            <input id="end" type="date" />
+          </div>
+          <div class="stack">
+            <label for="category">Kategorie</label>
+            <select id="category">
+              <option value="">Keine</option>
+              <option value="geburtstag">Geburtstag</option>
+              <option value="todestag">Todestag</option>
+              <option value="jahrestag">Jahrestag</option>
+              <option value="jubilaeum">Jubiläum</option>
+              <option value="projekt">Projekt</option>
+              <option value="termin">Termin</option>
+              <option value="erinnerung">Erinnerung</option>
+              <option value="sonstiges">Sonstiges</option>
+            </select>
+          </div>
+          <div class="stack">
+            <label for="text">Ereignis</label>
+            <input id="text" type="text" placeholder="Beschreibe das Ereignis…" />
+          </div>
+          <div class="stack">
+            <label>&nbsp;</label>
+            <div class="toolbar">
+              <button id="addBtn" class="btn btn-primary">Hinzufügen</button>
+              <button id="clearBtn" class="btn btn-ghost">Alle löschen</button>
+            </div>
+          </div>
+        </div>
+        <div class="toolbar toolbar-spread">
+          <div class="toolbar toolbar-flex">
+            <input id="search" class="search" type="text" placeholder="Filtern..." />
+            <select id="filterCategory" title="Nach Kategorie filtern">
+              <option value="">Alle Kategorien</option>
+              <option value="geburtstag">Geburtstag</option>
+              <option value="todestag">Todestag</option>
+              <option value="jahrestag">Jahrestag</option>
+              <option value="jubilaeum">Jubiläum</option>
+              <option value="projekt">Projekt</option>
+              <option value="termin">Termin</option>
+              <option value="erinnerung">Erinnerung</option>
+              <option value="sonstiges">Sonstiges</option>
+              <option value="none">Ohne Kategorie</option>
+            </select>
+          </div>
+          <div class="toolbar">
+            <select id="sortKey" title="Sortieren nach">
+              <option value="date" selected>Zeitpunkt</option>
+              <option value="end">Endzeitpunkt</option>
+              <option value="text">Ereignis</option>
+              <option value="category">Kategorie</option>
+            </select>
+            <button id="sortDirBtn" class="btn-icon" title="Sortierrichtung umschalten" aria-label="Sortierrichtung">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 16l-6-6h12z"/></svg>
+            </button>
+            <div class="muted" id="fileInfo">Keine Datei geöffnet</div>
+          </div>
+        </div>
+        <div class="muted text-center mt-6">konzeptioniert von Matthias</div>
+      </section>
+
+      <section class="card stack">
+        <div class="table-wrap">
+          <table id="table" aria-describedby="tableHint">
+            <thead>
+              <tr>
+                <th class="col-date">Zeitpunkt</th>
+                <th class="col-date">Endzeitpunkt</th>
+                <th class="col-cat">Kategorie</th>
+                <th>Ereignis</th>
+                <th class="days">Differenz zu heute oder Endzeitpunkt</th>
+                <th class="actions">Aktionen</th>
+              </tr>
+            </thead>
+            <tbody id="tbody"></tbody>
+          </table>
+        </div>
+        <div id="tableHint" class="muted">Tipp: Doppelklick auf eine Zeile zum Bearbeiten.</div>
+      </section>
+
+    </div>
+  </div>
+
+  <input id="fileInput" type="file" accept=".json,application/json" style="display:none" />
+
+  <script>
+  'use strict';
+  (function(){
+    /** @typedef {{id:string, date:string, end:string, text:string, category:string, createdAt:string, updatedAt:string}} Entry */
+    const $ = (s,el=document)=>el.querySelector(s);
+    const $$ = (s,el=document)=>Array.from(el.querySelectorAll(s));
+
+    const LS_KEY = 'zeiten-eintraege-v2';
+
+    // Kategorie-Definitionen
+    const CATEGORIES = {
+      '': { label: 'Keine', css: 'cat-none' },
+      'geburtstag': { label: 'Geburtstag', css: 'cat-geburtstag' },
+      'todestag': { label: 'Todestag', css: 'cat-todestag' },
+      'jahrestag': { label: 'Jahrestag', css: 'cat-jahrestag' },
+      'jubilaeum': { label: 'Jubiläum', css: 'cat-jubilaeum' },
+      'projekt': { label: 'Projekt', css: 'cat-projekt' },
+      'termin': { label: 'Termin', css: 'cat-termin' },
+      'erinnerung': { label: 'Erinnerung', css: 'cat-erinnerung' },
+      'sonstiges': { label: 'Sonstiges', css: 'cat-sonstiges' }
+    };
+
+    const getCategoryLabel = (cat) => CATEGORIES[cat]?.label || 'Keine';
+    const getCategoryCss = (cat) => CATEGORIES[cat]?.css || 'cat-none';
+    const buildCategoryBadge = (cat) => {
+      const css = getCategoryCss(cat);
+      const label = getCategoryLabel(cat);
+      return `<span class="cat-badge ${css}">${label}</span>`;
+    };
+    const buildCategorySelect = (selectedCat, id='') => {
+      const idAttr = id ? `id="${id}"` : '';
+      const options = Object.entries(CATEGORIES).map(([key, val]) => {
+        const selected = key === selectedCat ? 'selected' : '';
+        return `<option value="${key}" ${selected}>${val.label}</option>`;
+      }).join('');
+      return `<select ${idAttr} style="width:100%">${options}</select>`;
+    };
+    /** @type {Entry[]} */ let entries = [];
+    let fileHandle = null; // FileSystemFileHandle | null
+
+    // ---------- Helpers ----------
+    // File System Access API detection (Chrome, Edge, Opera on secure context)
+    const supportsFS = (() => {
+      if (!window.isSecureContext) return false;
+      if (typeof window.showOpenFilePicker !== 'function') return false;
+      if (typeof window.showSaveFilePicker !== 'function') return false;
+      // Additional check for Edge compatibility
+      const ua = navigator.userAgent;
+      const isChromium = !!window.chrome || ua.includes('Chromium');
+      const isEdge = ua.includes('Edg/');
+      const isChrome = ua.includes('Chrome/') && !isEdge;
+      // Both Chrome and Edge (Chromium-based) support File System Access API
+      return isChromium || isEdge || isChrome;
+    })();
+    const todayISO = () => { const d=new Date(); const y=d.getFullYear(); const m=String(d.getMonth()+1).padStart(2,'0'); const da=String(d.getDate()).padStart(2,'0'); return `${y}-${m}-${da}`; };
+    const nowISOTimestamp = () => new Date().toISOString();
+    const uid = () => `${Date.now().toString(36)}-${Math.random().toString(36).slice(2,8)}`;
+
+    const saveToLocalStorage = () => { try{ localStorage.setItem(LS_KEY, JSON.stringify(entries)); }catch(e){} };
+    const loadFromLocalStorage = () => {
+      try {
+        // Versuche zuerst neue Version zu laden
+        let raw = localStorage.getItem(LS_KEY);
+        if (raw) {
+          entries = JSON.parse(raw);
+        } else {
+          // Fallback: alte Version migrieren
+          raw = localStorage.getItem('zeiten-eintraege-v1');
+          if (raw) {
+            entries = JSON.parse(raw);
+            // Migration: Kategorie-Feld hinzufügen
+            entries = entries.map(e => ({ ...e, category: e.category || '' }));
+            saveToLocalStorage();
+          }
+        }
+        // Sicherstellen, dass alle Einträge ein category-Feld haben
+        entries = entries.map(e => ({ ...e, category: e.category || '' }));
+      } catch(e) {
+        entries = [];
+      }
+    };
+
+    const sanitizeText = (s='') => String(s).replace(/\r?\n/g,' ').replace(/\t/g,' ').trim();
+    const escapeHTML = (str='') => String(str).replace(/[&<>"']/g, (ch)=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','\'':'&#39;' }[ch]));
+
+    const serializePlain = () => entries.map(e => `${e.date||''}\t${e.end||''}\t${sanitizeText(e.text||'')}`).join('\n');
+const serializeJSON = () => JSON.stringify(entries, null, 2);
+    const parsePlain = (text='') => {
+      const lines = String(text||'').replace(/\r/g,'').split('\n');
+      const arr = [];
+      for(const ln of lines){
+        if(!ln || !ln.trim()) continue;
+        const parts = ln.split('\t');
+        const date = (parts[0]||'').trim();
+        let end='', txt='';
+        if(parts.length>=3){ end=(parts[1]||'').trim(); txt=sanitizeText(parts.slice(2).join('\t')); }
+        else { txt=sanitizeText(parts[1]||''); }
+        const t = nowISOTimestamp();
+        arr.push({ id:uid(), date, end, text:txt, category:'', createdAt:t, updatedAt:t });
+      }
+      return arr;
+    };
+    const deserializeSmart = (text) => { try{ const obj=JSON.parse(text); if(Array.isArray(obj)) return obj; if(obj && Array.isArray(obj.entries)) return obj.entries; }catch(e){} return parsePlain(text); };
+
+    // ---------- Date math & formatting ----------
+    const MS_PER_DAY = 86400000; const NF_DE = new Intl.NumberFormat('de-DE');
+    const fmtNum = (n) => NF_DE.format(Math.trunc(n));
+    const parseISODateOnly = (s) => { const m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(s||''); if(!m) return null; return Date.UTC(+m[1],+m[2]-1,+m[3]); };
+    const todayUTC = () => { const n=new Date(); return Date.UTC(n.getFullYear(), n.getMonth(), n.getDate()); };
+    const daysFromToday = (iso) => { const t=parseISODateOnly(iso); if(t==null) return null; return Math.round((t - todayUTC())/MS_PER_DAY); };
+
+    const joinWithAnd = (parts) => { const a=parts.filter(Boolean); if(a.length===0) return ''; if(a.length===1) return a[0]; if(a.length===2) return `${a[0]} und ${a[1]}`; return `${a.slice(0,-1).join(', ')} und ${a[a.length-1]}`; };
+    const fmtDays = (n) => {
+      if (n == null) return '';
+      if (n === 0) return 'heute';
+      const abs = Math.abs(n);
+      const unit = abs === 1 ? 'Tag' : 'Tagen';
+      return (n > 0 ? 'in ' : 'vor ') + `${fmtNum(abs)} ${unit}`;
+    };
+    const fmtWeeksDays = (n) => { if(n==null) return ''; if(n===0) return 'heute'; const abs=Math.abs(n); const w=Math.floor(abs/7); const d=abs%7; const parts=[]; if(w) parts.push(`${fmtNum(w)} ${w===1?'Woche':'Wochen'}`); if(d) parts.push(`${fmtNum(d)} ${d===1?'Tag':'Tagen'}`); return (n>0?'in ':'vor ')+joinWithAnd(parts); };
+
+    const addMonthsUTC = (date, months)=>{ const d=new Date(date.getTime()); d.setUTCMonth(d.getUTCMonth()+months); return d; };
+    const partsFromTodayISO = (iso)=>{ const t=parseISODateOnly(iso); if(t==null) return null; const today=todayUTC(); if(t===today) return {sign:0,years:0,months:0,weeks:0,days:0,totalMonths:0}; const start=new Date(Math.min(t,today)); const end=new Date(Math.max(t,today)); let monthsTotal=(end.getUTCFullYear()-start.getUTCFullYear())*12 + (end.getUTCMonth()-start.getUTCMonth()); let anchor=addMonthsUTC(start, monthsTotal); if(anchor.getTime()>end.getTime()){ monthsTotal--; anchor=addMonthsUTC(start, monthsTotal); } let daysRem=Math.round((end.getTime()-anchor.getTime())/MS_PER_DAY); const years=Math.floor(monthsTotal/12); const months=monthsTotal%12; const weeks=Math.floor(daysRem/7); const days=daysRem%7; const sign=t>today?1:-1; return {sign,years,months,weeks,days,totalMonths:monthsTotal}; };
+    const fmtMonthsWeeksDaysISO = (iso)=>{ const p=partsFromTodayISO(iso); if(!p) return ''; if(p.sign===0) return 'heute'; const monthsAll=Math.abs(p.totalMonths ?? (p.years*12 + p.months)); const parts=[]; if(monthsAll) parts.push(`${fmtNum(monthsAll)} ${monthsAll===1?'Monat':'Monaten'}`); if(p.weeks) parts.push(`${fmtNum(p.weeks)} ${p.weeks===1?'Woche':'Wochen'}`); if(p.days) parts.push(`${fmtNum(p.days)} ${p.days===1?'Tag':'Tagen'}`); return (p.sign>0?'in ':'vor ')+joinWithAnd(parts); };
+    const fmtYearsMonthsWeeksDaysISO = (iso)=>{ const p=partsFromTodayISO(iso); if(!p) return ''; if(p.sign===0) return 'heute'; const parts=[]; if(p.years) parts.push(`${fmtNum(p.years)} ${p.years===1?'Jahr':'Jahren'}`); if(p.months) parts.push(`${fmtNum(p.months)} ${p.months===1?'Monat':'Monaten'}`); if(p.weeks) parts.push(`${fmtNum(p.weeks)} ${p.weeks===1?'Woche':'Wochen'}`); if(p.days) parts.push(`${fmtNum(p.days)} ${p.days===1?'Tag':'Tagen'}`); return (p.sign>0?'in ':'vor ')+joinWithAnd(parts); };
+
+    const linesForDateISO_TODAY = (iso)=>{ const d=daysFromToday(iso); const arr=[fmtDays(d), fmtWeeksDays(d), fmtMonthsWeeksDaysISO(iso), fmtYearsMonthsWeeksDaysISO(iso)].filter(Boolean); const seen=new Set(); const uniq=[]; for(const s of arr){ if(!seen.has(s)){ seen.add(s); uniq.push(s);} } return uniq; };
+
+// --- Between two dates (start -> end) ---
+const daysBetween = (aIso,bIso)=>{ const a=parseISODateOnly(aIso); const b=parseISODateOnly(bIso); if(a==null||b==null) return null; return Math.round((b-a)/MS_PER_DAY); };
+const partsBetweenISO = (aIso,bIso)=>{ const a=parseISODateOnly(aIso); const b=parseISODateOnly(bIso); if(a==null||b==null) return null; if(a===b) return {sign:0,years:0,months:0,weeks:0,days:0,totalMonths:0}; const start=new Date(Math.min(a,b)); const end=new Date(Math.max(a,b)); let monthsTotal=(end.getUTCFullYear()-start.getUTCFullYear())*12 + (end.getUTCMonth()-start.getUTCMonth()); let anchor=addMonthsUTC(start, monthsTotal); if(anchor.getTime()>end.getTime()){ monthsTotal--; anchor=addMonthsUTC(start, monthsTotal); } let daysRem=Math.round((end.getTime()-anchor.getTime())/MS_PER_DAY); const years=Math.floor(monthsTotal/12); const months=monthsTotal%12; const weeks=Math.floor(daysRem/7); const days=daysRem%7; const sign=b>a?1:-1; return {sign,years,months,weeks,days,totalMonths:monthsTotal}; };
+const fmtDaysBetween = (aIso,bIso)=>{ const d=daysBetween(aIso,bIso); if(d==null) return ''; const abs=Math.abs(d); return `${fmtNum(abs)} ${abs===1?'Tag':'Tage'}`; };
+const fmtWeeksDaysBetween = (aIso,bIso)=>{ const d=daysBetween(aIso,bIso); if(d==null) return ''; const abs=Math.abs(d); const w=Math.floor(abs/7); const r=abs%7; const parts=[]; if(w) parts.push(`${fmtNum(w)} ${w===1?'Woche':'Wochen'}`); if(r) parts.push(`${fmtNum(r)} ${r===1?'Tag':'Tagen'}`); return joinWithAnd(parts); };
+const fmtMonthsWeeksDaysBetween = (aIso,bIso)=>{ const p=partsBetweenISO(aIso,bIso); if(!p) return ''; const monthsAll=Math.abs(p.totalMonths ?? (p.years*12+p.months)); const parts=[]; if(monthsAll) parts.push(`${fmtNum(monthsAll)} ${monthsAll===1?'Monat':'Monaten'}`); if(p.weeks) parts.push(`${fmtNum(p.weeks)} ${p.weeks===1?'Woche':'Wochen'}`); if(p.days) parts.push(`${fmtNum(p.days)} ${p.days===1?'Tag':'Tagen'}`); return joinWithAnd(parts); };
+const fmtYearsMonthsWeeksDaysBetween = (aIso,bIso)=>{ const p=partsBetweenISO(aIso,bIso); if(!p) return ''; const parts=[]; if(p.years) parts.push(`${fmtNum(p.years)} ${p.years===1?'Jahr':'Jahren'}`); if(p.months) parts.push(`${fmtNum(p.months)} ${p.months===1?'Monat':'Monaten'}`); if(p.weeks) parts.push(`${fmtNum(p.weeks)} ${p.weeks===1?'Woche':'Wochen'}`); if(p.days) parts.push(`${fmtNum(p.days)} ${p.days===1?'Tag':'Tagen'}`); return joinWithAnd(parts); };
+
+// --- helpers for milestone-only text (weeks / months) ---
+const weeksOnlyRelative = (iso)=>{ const d=daysFromToday(iso); if(d==null) return ''; const abs=Math.abs(d); const w=Math.floor(abs/7); if(!w) return ''; return (d>0?'in ':'vor ')+`${fmtNum(w)} ${w===1?'Woche':'Wochen'}`; };
+const monthsOnlyRelativeISO = (iso)=>{ const p=partsFromTodayISO(iso); if(!p||p.sign===0) return ''; const monthsAll=Math.abs(p.totalMonths ?? (p.years*12 + p.months)); if(!monthsAll) return ''; return (p.sign>0?'in ':'vor ')+`${fmtNum(monthsAll)} ${monthsAll===1?'Monat':'Monaten'}`; };
+const weeksOnlyBetweenText = (aIso,bIso)=>{ const d=daysBetween(aIso,bIso); if(d==null) return ''; const w=Math.floor(Math.abs(d)/7); if(!w) return ''; return `${fmtNum(w)} ${w===1?'Woche':'Wochen'}`; };
+const monthsOnlyBetweenText = (aIso,bIso)=>{ const p=partsBetweenISO(aIso,bIso); if(!p) return ''; const monthsAll=Math.abs(p.totalMonths ?? (p.years*12+p.months)); if(!monthsAll) return ''; return `${fmtNum(monthsAll)} ${monthsAll===1?'Monat':'Monaten'}`; };
+
+// Unified line builder: if end given -> between dates, else -> relative to today
+const linesForDisplay = (startIso,endIso)=>{
+  if(endIso){
+    const arr=[
+      fmtDaysBetween(startIso,endIso),
+      fmtWeeksDaysBetween(startIso,endIso),
+      fmtMonthsWeeksDaysBetween(startIso,endIso),
+      fmtYearsMonthsWeeksDaysBetween(startIso,endIso)
+    ].filter(Boolean);
+    const seen=new Set(); const out=[]; for(const s of arr){ if(!seen.has(s)){ seen.add(s); out.push(s);} } return out;
+  }
+  return linesForDateISO_TODAY(startIso);
+};
+
+    function shouldMarkLine(i, startIso, endIso){
+  if(endIso){
+    const d=daysBetween(startIso,endIso); if(d==null) return false;
+    const absd=Math.abs(d);
+    const daysR=absd%7;
+    const weeks=Math.floor(absd/7);
+    const p=partsBetweenISO(startIso,endIso);
+    const monthsAll=p?Math.abs(p.totalMonths ?? (p.years*12+p.months)):0;
+    const onlyYears=!!(p && p.years>0 && p.months===0 && p.weeks===0 && p.days===0);
+    if(i===0) return absd!==0 && (absd%1000===0);
+    if(i===1) return weeks!==0 && (weeks%100===0) && daysR===0; // Wochen-Meilenstein nur ohne Resttage
+    if(i===2) return monthsAll!==0 && (monthsAll%100===0) && p && p.weeks===0 && p.days===0; // Monate-Meilenstein nur ohne Wochen/Tage
+    if(i===3) return onlyYears;
+    return false;
+  }
+const d=daysFromToday(startIso); if(d==null) return false; const absd=Math.abs(d);
+  const weeks=Math.floor(absd/7);
+  const p=partsFromTodayISO(startIso);
+  const monthsAll=p?Math.abs(p.totalMonths ?? (p.years*12 + p.months)):0;
+  const onlyYears=!!(p && p.sign!==0 && p.years>0 && p.months===0 && p.weeks===0 && p.days===0);
+  if(i===0) return absd!==0 && (absd%1000===0);
+  if(i===1) return weeks!==0 && (weeks%100===0) && (absd%7===0);
+  if(i===2) return monthsAll!==0 && (monthsAll%100===0) && p && p.weeks===0 && p.days===0;
+  if(i===3) return onlyYears;
+  return false;
+}
+    const buildDaysInner = (iso,endIso) => {
+  const lines = linesForDisplay(iso,endIso);
+  return lines
+    .map((s,i) => {
+      let cls = (i===0 ? 'days-badge' : 'days-sub');
+      if (shouldMarkLine(i, iso, endIso)) cls += ' days-milestone';
+      if (endIso) cls += ' days-range';
+      return `<span class="${cls}">${s}</span>`;
+    })
+    .join('');
+};
+    const buildDaysCell = (iso,endIso)=>`<div class="days-wrap">${buildDaysInner(iso,endIso)}</div>`;
+    const adjustDaysColWidth = ()=>{ const badges=$$('.days .days-badge, .days .days-sub'); let maxW=120; for(const el of badges){ const w=el?el.scrollWidth:0; if(w>maxW) maxW=w; } document.documentElement.style.setProperty('--days-col-w', (maxW+20)+'px'); };
+    window.addEventListener('resize', adjustDaysColWidth);
+
+    // ---------- DOM refs (fix for ReferenceError) ----------
+    const tbody     = document.getElementById('tbody');
+    const dateEl    = document.getElementById('date');
+    const endEl     = document.getElementById('end');
+    const textEl    = document.getElementById('text');
+    const categoryEl = document.getElementById('category');
+    const searchEl  = document.getElementById('search');
+    const filterCategoryEl = document.getElementById('filterCategory');
+    const fileInfoEl= document.getElementById('fileInfo');
+    const sortKeyEl = document.getElementById('sortKey');
+    const sortDirBtn = document.getElementById('sortDirBtn');
+    const themeBtn = document.getElementById('themeBtn');
+    let sortKey = 'date';
+    let sortDir = 'desc';
+    const THEME_KEY = 'zeiten-theme';
+    let theme = localStorage.getItem(THEME_KEY) || ((window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light');
+
+    // ---------- Rendering ----------
+    const render = ()=>{
+      const q=(searchEl.value||'').toLowerCase();
+      const catFilter = filterCategoryEl.value;
+      const filtered = entries
+        .slice()
+        .sort((a,b)=>{
+        const key = sortKey;
+        const va = (a[key]||'').toString().toLowerCase();
+        const vb = (b[key]||'').toString().toLowerCase();
+        const cmp = va < vb ? -1 : (va > vb ? 1 : 0);
+        const dir = (sortDir === 'asc') ? 1 : -1;
+        if (cmp !== 0) return cmp * dir;
+        // tie-breaker: Zeitpunkt absteigend
+        if ((a.date||'') < (b.date||'')) return 1;
+        if ((a.date||'') > (b.date||'')) return -1;
+        return 0;
+      })
+        .filter(e=>{
+          // Textsuche
+          const matchesText = !q || e.text.toLowerCase().includes(q) || (e.date||'').includes(q) || (e.end||'').includes(q) || getCategoryLabel(e.category).toLowerCase().includes(q);
+          // Kategorie-Filter
+          let matchesCat = true;
+          if (catFilter === 'none') {
+            matchesCat = !e.category;
+          } else if (catFilter) {
+            matchesCat = e.category === catFilter;
+          }
+          return matchesText && matchesCat;
+        });
+
+      tbody.innerHTML='';
+      for(const e of filtered){
+        const tr=document.createElement('tr');
+        tr.dataset.id=e.id;
+        tr.innerHTML=`
+          <td><span class="badge">${e.date||''}</span></td>
+          <td><span class="badge">${e.end||''}</span></td>
+          <td>${buildCategoryBadge(e.category)}</td>
+          <td>${escapeHTML(e.text)}</td>
+          <td class="days">${buildDaysCell(e.date, e.end)}</td>
+          <td class="actions">
+            <div class="actions-row">
+              <button class="btn-icon" data-action="edit" title="Bearbeiten" aria-label="Bearbeiten"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25z"/><path d="M20.71 7.04a1 1 0 000-1.41l-2.34-2.34a1 1 0 00-1.41 0l-1.82 1.82 3.75 3.75 1.82-1.82z"/></svg></button>
+              <button class="btn-icon" data-action="dup" title="Duplizieren" aria-label="Duplizieren"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 1H4c-1.1 0-2 .9-2 2v12h2V3h12V1z"/><path d="M19 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v13z"/></svg></button>
+              <button class="btn-icon danger" data-action="del" title="Löschen" aria-label="Löschen"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 19a2 2 0 002 2h8a2 2 0 002-2V7H6v12z"/><path d="M19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg></button>
+            </div>
+          </td>`;
+tbody.appendChild(tr);
+      }
+      adjustDaysColWidth();
+    };
+
+    // Event-Delegation für tbody
+    tbody.addEventListener('click', (e) => {
+      const btn = e.target.closest('[data-action]');
+      if (!btn) return;
+      const tr = btn.closest('tr');
+      if (!tr) return;
+      const id = tr.dataset.id;
+      const entry = entries.find(x => x.id === id);
+      if (!entry) return;
+      const action = btn.dataset.action;
+      if (action === 'edit') enterEditMode(tr, entry);
+      else if (action === 'del') deleteEntry(id);
+      else if (action === 'dup') duplicateEntry(id);
+    });
+
+    tbody.addEventListener('dblclick', (e) => {
+      const tr = e.target.closest('tr');
+      if (!tr || tr.querySelector('input')) return;
+      const id = tr.dataset.id;
+      const entry = entries.find(x => x.id === id);
+      if (entry) enterEditMode(tr, entry);
+    });
+
+    function enterEditMode(tr,e){
+      const editable=document.createElement('tr');
+      editable.dataset.id=e.id;
+      editable.innerHTML=`
+        <td><input type="date" value="${e.date||''}"/></td>
+        <td><input type="date" value="${e.end||''}"/></td>
+        <td>${buildCategorySelect(e.category || '')}</td>
+        <td><input type="text" value="${escapeHTML(e.text)}"/></td>
+        <td class="days">${buildDaysCell(e.date, e.end)}</td>
+        <td class="actions"><div class="actions-row">
+          <button class="btn-icon" data-action="save" title="Speichern" aria-label="Speichern"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.2l-3.5-3.5-1.4 1.4L9 19l12-12-1.4-1.4z"/></svg></button>
+          <button class="btn-icon" data-action="cancel" title="Abbrechen" aria-label="Abbrechen"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.3 5.7L12 12l6.3 6.3-1.4 1.4L12 13.4l-6.3 6.3-1.4-1.4L10.6 12 4.3 5.7l1.4-1.4L12 10.6l4.9-4.9z"/></svg></button>
+        </div></td>`;
+      tbody.replaceChild(editable,tr);
+      const [dateIn,endIn]=editable.querySelectorAll('input[type="date"]');
+      const textIn=editable.querySelector('input[type="text"]');
+      const catIn=editable.querySelector('select');
+      const wrap=editable.querySelector('.days-wrap');
+      const updateDays=()=>{ wrap.innerHTML=buildDaysInner(dateIn.value, endIn.value); adjustDaysColWidth(); };
+      dateIn.addEventListener('input',updateDays);
+      editable.querySelector('[data-action="save"]').addEventListener('click',()=>{
+        const newDate = dateIn.value || e.date;
+        const newEnd = endIn.value || e.end;
+        const newCat = catIn.value || '';
+        if(!validateDates(newDate, newEnd)){
+          alert('Der Endzeitpunkt muss nach dem Zeitpunkt liegen.');
+          endIn.focus();
+          return;
+        }
+        const updated={...e, date:newDate, end:newEnd, category:newCat, text:textIn.value, updatedAt:nowISOTimestamp()};
+        const idx=entries.findIndex(x=>x.id===e.id); if(idx!==-1) entries[idx]=updated; saveToLocalStorage(); render();
+      });
+      editable.querySelector('[data-action="cancel"]').addEventListener('click',render);
+    }
+
+    // ---------- CRUD ----------
+    function validateDates(startDate, endDate) {
+      if (!startDate || !endDate) return true;
+      return startDate <= endDate;
+    }
+
+    function addEntry(){
+      const date = dateEl.value || todayISO();
+      const end  = (endEl.value||'').trim();
+      const category = categoryEl.value || '';
+      const text = textEl.value.trim();
+      if(!text){ textEl.focus(); return; }
+      if(!validateDates(date, end)){
+        alert('Der Endzeitpunkt muss nach dem Zeitpunkt liegen.');
+        endEl.focus();
+        return;
+      }
+      const t = nowISOTimestamp();
+      entries.push({ id: uid(), date, end, category, text, createdAt: t, updatedAt: t });
+      dateEl.value=''; endEl.value=''; categoryEl.value=''; textEl.value='';
+      dateEl.focus(); saveToLocalStorage(); render();
+    }
+    function duplicateEntry(id){
+      const e = entries.find(x => x.id === id); if(!e) return;
+      const t = nowISOTimestamp();
+      entries.push({ id: uid(), date: e.date, end: e.end, category: e.category || '', text: e.text, createdAt: t, updatedAt: t });
+      saveToLocalStorage(); render();
+    }
+    function deleteEntry(id){ if(!confirm('Eintrag wirklich löschen?')) return; entries = entries.filter(e=>e.id!==id); saveToLocalStorage(); render(); }
+
+    // ---------- Datei-Handling ----------
+    const updateFileInfo = (extra)=>{ const name=fileHandle ? (fileHandle.name || 'Ereignisse_Daten.json') : 'Keine Datei geöffnet'; fileInfoEl.textContent = extra ? `${name} · ${extra}` : name; };
+    const fallbackOpen = ()=>{ const input=document.getElementById('fileInput'); input.onchange=async()=>{ const f=input.files[0]; if(!f) return; const text=await f.text(); entries=deserializeSmart(text); fileHandle=null; updateFileInfo('aus Upload'); render(); input.value=''; }; input.click(); };
+    async function openFile(){
+      try {
+        if (supportsFS) {
+          try {
+            const [handle] = await window.showOpenFilePicker({
+              types: [{
+                description: 'JSON-Dateien',
+                accept: { 'application/json': ['.json'] }
+              }],
+              excludeAcceptAllOption: false,
+              multiple: false
+            });
+            // Verify read permission (important for Edge)
+            const hasPermission = await verifyPermission(handle, 'read');
+            if (!hasPermission) {
+              console.warn('Read permission denied, falling back');
+              fallbackOpen();
+              return;
+            }
+            fileHandle = handle;
+            const file = await handle.getFile();
+            const text = await file.text();
+            entries = deserializeSmart(text);
+            saveToLocalStorage();
+            updateFileInfo('Geöffnet');
+            render();
+          } catch (err) {
+            if (err && err.name === 'AbortError') return;
+            if (err && err.name === 'NotAllowedError') {
+              console.warn('Permission not allowed, falling back');
+              fallbackOpen();
+              return;
+            }
+            console.warn('FS open failed, falling back', err);
+            fallbackOpen();
+          }
+        } else {
+          fallbackOpen();
+        }
+      } catch (e) {
+        alert('Konnte Datei nicht öffnen: ' + (e && e.message ? e.message : e));
+      }
+    }
+
+    function fallbackSave(){ const blob=new Blob([serializeJSON()], {type:'application/json;charset=utf-8'}); const url=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download='Ereignisse_Daten.json'; document.body.appendChild(a); a.click(); setTimeout(()=>{ URL.revokeObjectURL(url); a.remove(); },0); updateFileInfo('Heruntergeladen'); }
+    function fallbackSaveAs(){ let name=prompt('Dateiname für Export:','Ereignisse_Daten.json'); if(name===null) return; name=(name||'Ereignisse_Daten.json').trim(); const blob=new Blob([serializeJSON()],{type:'application/json;charset=utf-8'}); const url=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download=name; document.body.appendChild(a); a.click(); setTimeout(()=>{ URL.revokeObjectURL(url); a.remove(); },0); updateFileInfo('Heruntergeladen'); }
+    async function writeHandle(handle, content){
+      // Write robustly as a Blob to avoid UA quirks when passing raw strings
+      // Compatible with Chrome and Edge (Chromium-based)
+      let writable = null;
+      try {
+        writable = await handle.createWritable({ keepExistingData: false });
+        const blob = new Blob(
+          [typeof content === 'string' ? content : JSON.stringify(content)],
+          { type: 'application/json;charset=utf-8' }
+        );
+        await writable.write(blob);
+        await writable.close();
+        writable = null;
+      } catch (err) {
+        // Ensure writable is closed even on error to prevent file locks
+        if (writable) {
+          try { await writable.abort(); } catch (_) {}
+        }
+        throw err;
+      }
+    }
+
+    // Verify file handle permissions (required for Edge in some scenarios)
+    async function verifyPermission(handle, mode = 'readwrite') {
+      const options = { mode };
+      if ((await handle.queryPermission(options)) === 'granted') return true;
+      if ((await handle.requestPermission(options)) === 'granted') return true;
+      return false;
+    }
+    async function saveFile(){
+      try {
+        if (supportsFS) {
+          try {
+            if (fileHandle && fileHandle.createWritable) {
+              // Verify permission before writing (important for Edge)
+              const hasPermission = await verifyPermission(fileHandle, 'readwrite');
+              if (!hasPermission) {
+                console.warn('Permission denied, falling back');
+                fallbackSave();
+                return;
+              }
+              await writeHandle(fileHandle, serializeJSON());
+              updateFileInfo('Gespeichert');
+            } else {
+              await saveFileAs();
+            }
+          } catch (err) {
+            if (err && err.name === 'AbortError') return;
+            if (err && err.name === 'NotAllowedError') {
+              console.warn('Permission not allowed, falling back');
+              fallbackSave();
+              return;
+            }
+            console.warn('FS save failed, falling back', err);
+            fallbackSave();
+          }
+        } else {
+          fallbackSave();
+        }
+      } catch (e) {
+        alert('Konnte nicht speichern: ' + (e && e.message ? e.message : e));
+      }
+    }
+    async function saveFileAs(){
+      try {
+        if (supportsFS) {
+          try {
+            // Reset Handle so the picker does not reuse an old filename
+            fileHandle = null;
+            const handle = await window.showSaveFilePicker({
+              suggestedName: 'Ereignisse_Daten.json',
+              types: [{
+                description: 'JSON-Dateien',
+                accept: { 'application/json': ['.json'] }
+              }],
+              excludeAcceptAllOption: false
+            });
+            // Verify write permission (important for Edge)
+            const hasPermission = await verifyPermission(handle, 'readwrite');
+            if (!hasPermission) {
+              console.warn('Write permission denied, falling back');
+              fallbackSaveAs();
+              return;
+            }
+            fileHandle = handle;
+            await writeHandle(fileHandle, serializeJSON());
+            updateFileInfo('Gespeichert');
+          } catch (err) {
+            if (err && err.name === 'AbortError') return;
+            if (err && err.name === 'NotAllowedError') {
+              console.warn('Permission not allowed, falling back');
+              fallbackSaveAs();
+              return;
+            }
+            console.warn('FS save-as failed, falling back', err);
+            fallbackSaveAs();
+          }
+        } else {
+          fallbackSaveAs();
+        }
+      } catch (e) {
+        alert('Konnte nicht "Speichern unter" ausführen: ' + (e && e.message ? e.message : e));
+      }
+    }
+
+    // ---------- Events & Init ----------
+    document.getElementById('addBtn').addEventListener('click', addEntry);
+    document.getElementById('clearBtn').addEventListener('click', ()=>{ dateEl.value=''; endEl.value=''; categoryEl.value=''; textEl.value=''; dateEl.focus(); });
+    document.getElementById('openBtn').addEventListener('click', openFile);
+    document.getElementById('saveBtn').addEventListener('click', saveFile);
+    document.getElementById('saveAsBtn').addEventListener('click', saveFileAs);
+
+    // Sorting controls
+    function updateSortIcon(){
+      sortDirBtn.innerHTML = (sortDir === 'asc')
+        ? '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 8l6 6H6z"/></svg>'
+        : '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 16l-6-6h12z"/></svg>';
+      sortDirBtn.title = 'Sortierung: ' + (sortDir==='asc'?'aufsteigend':'absteigend');
+    }
+    sortKeyEl.addEventListener('change', ()=>{ sortKey = sortKeyEl.value; render(); });
+    sortDirBtn.addEventListener('click', ()=>{ sortDir = (sortDir==='asc'?'desc':'asc'); updateSortIcon();
+    render(); });
+
+    // Theme controls
+    function updateThemeIcon(){
+      themeBtn.innerHTML = (theme==='dark')
+        ? '<svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="5"/></svg>'
+        : '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 12.79A9 9 0 1111.21 3a7 7 0 109.79 9.79z"/></svg>';
+      themeBtn.title = (theme==='dark') ? 'Helles Design' : 'Dunkles Design';
+    }
+    function applyTheme(){ document.documentElement.setAttribute('data-theme', theme); updateThemeIcon(); }
+    themeBtn.addEventListener('click', ()=>{ theme = (theme==='dark' ? 'light' : 'dark'); localStorage.setItem(THEME_KEY, theme); applyTheme(); });
+    (function(){
+      const mq = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)');
+      if(mq && typeof mq.addEventListener === 'function'){
+        mq.addEventListener('change', e=>{ if(!localStorage.getItem(THEME_KEY)){ theme = e.matches ? 'dark' : 'light'; applyTheme(); } });
+      }
+    })();
+
+    textEl.addEventListener('keydown', (e)=>{ if(e.key==='Enter' && (e.metaKey||e.ctrlKey)) addEntry(); });
+    searchEl.addEventListener('input', render);
+    filterCategoryEl.addEventListener('change', render);
+
+    dateEl.value = todayISO();
+    loadFromLocalStorage();
+    applyTheme();
+    updateSortIcon();
+    render();
+
+    document.addEventListener('keydown', (e)=>{
+      const k = e.key.toLowerCase();
+      if ((e.ctrlKey||e.metaKey) && k==='s' && !e.shiftKey) { e.preventDefault(); saveFile(); }
+      if ((e.ctrlKey||e.metaKey) && e.shiftKey && k==='s') { e.preventDefault(); saveFileAs(); }
+      if ((e.ctrlKey||e.metaKey) && k==='o') { e.preventDefault(); openFile(); }
+    });
+  })();
+  </script>
+</body>
+</html>
