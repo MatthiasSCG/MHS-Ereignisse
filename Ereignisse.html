@@ -405,6 +405,79 @@
     /* Statusleiste Dark Mode */
     [data-theme="dark"] .statusbar{ background:#0f172a; border-top-color:#334155; }
     [data-theme="dark"] .statusbar-separator{ background:#334155; }
+
+    /* Dropdown-Menü */
+    .dropdown {
+      position:relative;
+      display:inline-block;
+    }
+    .dropdown-toggle {
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+    }
+    .dropdown-arrow {
+      width:12px;
+      height:12px;
+      transition:transform .15s;
+    }
+    .dropdown.open .dropdown-arrow {
+      transform:rotate(180deg);
+    }
+    .dropdown-menu {
+      display:none;
+      position:absolute;
+      top:calc(100% + 4px);
+      left:0;
+      min-width:220px;
+      background:var(--card);
+      border:1px solid #e5e7eb;
+      border-radius:10px;
+      box-shadow:0 8px 24px rgba(2,6,23,.12);
+      z-index:100;
+      padding:4px 0;
+    }
+    .dropdown.open .dropdown-menu {
+      display:block;
+    }
+    .dropdown-item {
+      display:flex;
+      align-items:center;
+      width:100%;
+      padding:10px 14px;
+      border:none;
+      background:none;
+      cursor:pointer;
+      font-size:14px;
+      color:var(--ink);
+      text-align:left;
+      gap:10px;
+    }
+    .dropdown-item:hover {
+      background:#f1f5f9;
+    }
+    .dropdown-icon {
+      width:18px;
+      text-align:center;
+    }
+    .dropdown-shortcut {
+      margin-left:auto;
+      font-size:11px;
+      color:var(--muted);
+      font-family:system-ui, sans-serif;
+    }
+    /* Dropdown Dark Mode */
+    [data-theme="dark"] .dropdown-menu {
+      background:var(--card);
+      border-color:#334155;
+      box-shadow:0 8px 24px rgba(0,0,0,.4);
+    }
+    [data-theme="dark"] .dropdown-item {
+      color:var(--ink);
+    }
+    [data-theme="dark"] .dropdown-item:hover {
+      background:#1f2937;
+    }
   </style>
 </head>
 <body>
@@ -416,9 +489,29 @@
           <div><h1>Ereignisse und deren Zeitraum zu heute</h1></div>
         </div>
         <div class="actions">
-          <button id="openBtn" class="btn" title="Datei öffnen">Datei öffnen</button>
-          <button id="saveBtn" class="btn" title="Speichern">Speichern</button>
-          <button id="saveAsBtn" class="btn btn-primary" title="Speichern unter…">Speichern unter…</button>
+          <div class="dropdown" id="fileDropdown">
+            <button class="btn dropdown-toggle" id="fileMenuBtn">
+              Datei
+              <svg class="dropdown-arrow" viewBox="0 0 24 24" fill="currentColor"><path d="M12 16l-6-6h12z"/></svg>
+            </button>
+            <div class="dropdown-menu" id="fileMenu">
+              <button class="dropdown-item" data-action="open">
+                <span class="dropdown-icon">📂</span>
+                Öffnen
+                <span class="dropdown-shortcut">Strg+O</span>
+              </button>
+              <button class="dropdown-item" data-action="save">
+                <span class="dropdown-icon">💾</span>
+                Speichern
+                <span class="dropdown-shortcut">Strg+S</span>
+              </button>
+              <button class="dropdown-item" data-action="saveAs">
+                <span class="dropdown-icon">📥</span>
+                Speichern unter…
+                <span class="dropdown-shortcut">Strg+⇧+S</span>
+              </button>
+            </div>
+          </div>
           <button id="themeBtn" class="btn-icon" title="Dark Mode umschalten" aria-label="Dark Mode">
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.64 13a1 1 0 00-1.05-1.36 7 7 0 01-8.23-8.23A1 1 0 0011 2.36 9 9 0 1021.64 13z"/></svg>
           </button>
@@ -1105,9 +1198,32 @@ tbody.appendChild(tr);
     // ---------- Events & Init ----------
     document.getElementById('addBtn').addEventListener('click', addEntry);
     document.getElementById('clearBtn').addEventListener('click', ()=>{ dateEl.value=''; endEl.value=''; categoryEl.value=''; textEl.value=''; dateEl.focus(); });
-    document.getElementById('openBtn').addEventListener('click', openFile);
-    document.getElementById('saveBtn').addEventListener('click', saveFile);
-    document.getElementById('saveAsBtn').addEventListener('click', saveFileAs);
+
+    // Datei-Dropdown
+    const fileDropdown = document.getElementById('fileDropdown');
+    const fileMenuBtn = document.getElementById('fileMenuBtn');
+    const fileMenu = document.getElementById('fileMenu');
+
+    fileMenuBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      fileDropdown.classList.toggle('open');
+    });
+
+    // Außerhalb klicken schließt Menü
+    document.addEventListener('click', () => {
+      fileDropdown.classList.remove('open');
+    });
+
+    // Menü-Aktionen
+    fileMenu.addEventListener('click', (e) => {
+      const item = e.target.closest('[data-action]');
+      if (!item) return;
+      const action = item.dataset.action;
+      if (action === 'open') openFile();
+      else if (action === 'save') saveFile();
+      else if (action === 'saveAs') saveFileAs();
+      fileDropdown.classList.remove('open');
+    });
 
     // Sorting controls
     function updateSortIcon(){
