@@ -710,7 +710,7 @@
     <div class="statusbar-item" id="statusCount">0 Einträge</div>
     <div class="statusbar-separator"></div>
     <div class="statusbar-item" id="statusSaved">—</div>
-    <div class="statusbar-item statusbar-right">konzeptioniert von Matthias</div>
+    <div class="statusbar-item statusbar-right" id="statusVersion">konzeptioniert von Matthias</div>
   </footer>
 
   <input id="fileInput" type="file" accept=".json,application/json" style="display:none" />
@@ -720,9 +720,12 @@
   /**
    * @fileoverview Ereignisse - Lokale Web-Anwendung zur Verwaltung von Ereignissen
    * @author Matthias
-   * @version 1.4.0
    * @license Proprietary - Interne Verwendung
    */
+
+  /** @constant {string} Zentrale Versionsnummer der Anwendung */
+  const APP_VERSION = '1.5.0';
+
   (function(){
     /**
      * Ein Ereignis-Eintrag mit allen relevanten Feldern
@@ -1057,6 +1060,12 @@ const d=daysFromToday(startIso); if(d==null) return false; const absd=Math.abs(d
     const statusFileEl = document.getElementById('statusFile');
     const statusCountEl = document.getElementById('statusCount');
     const statusSavedEl = document.getElementById('statusSaved');
+    const statusVersionEl = document.getElementById('statusVersion');
+
+    // Version in Statusleiste anzeigen
+    if (statusVersionEl) {
+      statusVersionEl.textContent = `v${APP_VERSION} · Matthias`;
+    }
     let sortKey = 'date';
     let sortDir = 'desc';
     const THEME_KEY = 'zeiten-theme';

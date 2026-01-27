@@ -7,6 +7,15 @@ und dieses Projekt verwendet [Semantic Versioning](https://semver.org/lang/de/).
 
 ## [Unreleased]
 
+## [1.5.0] - 2026-01-27
+
+### Added
+- Zentrale Versionskonstante `APP_VERSION` für einheitliche Versionsverwaltung (#22)
+- Versionsanzeige in der Statusleiste (z.B. "v1.5.0 · Matthias")
+
+### Changed
+- JSDoc `@version` durch Referenz auf `APP_VERSION` Konstante ersetzt
+
 ## [1.4.0] - 2026-01-27
 
 ### Added
@@ -75,7 +84,8 @@ und dieses Projekt verwendet [Semantic Versioning](https://semver.org/lang/de/).
 - XSS-Schutz durch `escapeHTML()` für alle Benutzereingaben
 - Input-Sanitization durch `sanitizeText()` für Textbereinigung
 
-[Unreleased]: https://github.com/MatthiasSCG/MHS-Ereignisse/compare/v1.4.0...HEAD
+[Unreleased]: https://github.com/MatthiasSCG/MHS-Ereignisse/compare/v1.5.0...HEAD
+[1.5.0]: https://github.com/MatthiasSCG/MHS-Ereignisse/compare/v1.4.0...v1.5.0
 [1.4.0]: https://github.com/MatthiasSCG/MHS-Ereignisse/compare/v1.3.0...v1.4.0
 [1.3.0]: https://github.com/MatthiasSCG/MHS-Ereignisse/compare/v1.2.0...v1.3.0
 [1.2.0]: https://github.com/MatthiasSCG/MHS-Ereignisse/compare/v1.1.0...v1.2.0

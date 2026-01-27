@@ -5,7 +5,7 @@
 **Name:** Ereignisse und deren Zeitraum zu heute
 **Typ:** Single-Page Web-Anwendung (SPA)
 **Autor:** Matthias
-**Version:** 1.4
+**Version:** 1.5
 **Letzte Aktualisierung:** 2026-01-27
 **Repository:** https://github.com/MatthiasSCG/MHS-Ereignisse (privat)
 
@@ -296,8 +296,9 @@ Alle geplanten Erweiterungen werden als [GitHub Issues](https://github.com/Matth
 | **v1.2** | Bugfix: Mehrfachbearbeitung | ✅ Abgeschlossen |
 | **v1.3** | UI-Verbesserungen | ✅ Abgeschlossen |
 | **v1.4** | Notizen | ✅ Abgeschlossen (#3, #20) |
-| **v1.5** | PWA-Unterstützung | #9 |
-| **v1.6** | Wiederkehrende Ereignisse, Erweiterte Suche | #1, #12 |
+| **v1.5** | Zentrale Versionsverwaltung | ✅ Abgeschlossen (#22) |
+| **v1.6** | PWA-Unterstützung | #9 |
+| **v1.7** | Wiederkehrende Ereignisse, Erweiterte Suche | #1, #12 |
 | **v2.0** | Kalenderansicht, Dashboard | #5, #6 |
 | **v2.1** | Import/Export-Formate, Benachrichtigungen | #11, #4, #2 |
 | **v2.2** | Drag & Drop, Theme-Optionen | #7, #8 |
