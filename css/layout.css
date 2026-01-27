@@ -1,0 +1,120 @@
+/**
+ * layout.css - Container, Header, Cards, Grid
+ * Ereignisse v1.11.0
+ */
+
+.page{ padding:24px; }
+.container{ width:min(96vw, 1600px); margin:0 auto; }
+
+header {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  color:var(--ink);
+  margin-bottom:18px;
+}
+
+.brand{ display:flex; align-items:center; gap:14px; }
+
+.flag {
+  width:28px;
+  height:28px;
+  border-radius:50%;
+  background:radial-gradient(circle at 30% 30%, rgba(37,99,235,.25), rgba(37,99,235,.65));
+  box-shadow:var(--shadow);
+}
+
+h1{ margin:0; font-size:clamp(20px,3vw,28px); font-weight:700; letter-spacing:.25px; }
+.actions{ display:flex; gap:10px; flex-wrap:wrap; }
+
+.card {
+  background:var(--card);
+  border:1px solid #e5e7eb;
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  padding:16px;
+  position:relative;
+}
+.stack{ display:flex; flex-direction:column; gap:12px; }
+.card + .card{ margin-top:24px; }
+
+/* Tabellen-Card (Hauptfokus - stärkere visuelle Gewichtung) */
+.card-table {
+  box-shadow:0 8px 32px rgba(2,6,23,.12);
+  border:2px solid #e5e7eb;
+}
+
+/* Eingabe-Card (dezenter, am Ende - reduzierte visuelle Gewichtung) */
+.card-input {
+  background:transparent;
+  box-shadow:none;
+  border:1px solid #e5e7eb;
+  margin-top:16px;
+  padding:12px 16px;
+}
+.input-header {
+  font-size:13px;
+  font-weight:500;
+  color:var(--muted);
+  margin-bottom:10px;
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+.input-header::before {
+  content:"+";
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:18px;
+  height:18px;
+  border-radius:4px;
+  background:var(--primary);
+  color:#fff;
+  font-size:14px;
+  font-weight:600;
+}
+.input-grid {
+  display:grid;
+  gap:10px;
+  align-items:end;
+  grid-template-columns:130px 130px 160px 140px 1fr auto;
+}
+.input-grid .stack{ gap:4px; }
+.input-grid label{ font-size:11px; color:var(--muted); }
+.input-grid .stack-text{ min-width:0; }
+.input-grid .stack-buttons .toolbar{ flex-wrap:nowrap; }
+.input-grid .label-spacer{ display:block; height:15px; }
+@media (max-width:960px){
+  .input-grid{ grid-template-columns:1fr 1fr 1fr; }
+  .input-grid .stack-text{ grid-column:1 / -1; }
+  .input-grid .stack-buttons{ grid-column:1 / -1; justify-self:end; }
+}
+@media (max-width:600px){
+  .input-grid{ grid-template-columns:1fr; }
+  .input-grid .stack-buttons{ justify-self:stretch; }
+  .input-grid .stack-buttons .toolbar{ justify-content:stretch; }
+  .input-grid .stack-buttons .btn{ flex:1; }
+}
+
+.grid{ display:grid; gap:12px; align-items:center; grid-template-columns:180px 180px 140px minmax(0,1fr) max-content; }
+@media (max-width:960px){ .grid{ grid-template-columns:1fr 1fr; } }
+@media (max-width:600px){ .grid{ grid-template-columns:1fr; } }
+
+.toolbar{ display:flex; gap:8px; align-items:center; }
+.toolbar-spread{ justify-content:space-between; }
+.toolbar-flex{ flex:1; min-width:0; }
+
+/* Notizen-Zeile im Eingabeformular */
+.input-notes-row {
+  grid-column:1 / -1;
+  margin-top:4px;
+}
+.input-notes-row .stack {
+  gap:4px;
+}
+.input-notes-row label {
+  font-size:11px;
+  color:var(--muted);
+}

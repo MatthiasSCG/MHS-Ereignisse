@@ -1,0 +1,247 @@
+/**
+ * components.css - Buttons, Inputs, Dropdowns, Badges
+ * Ereignisse v1.11.0
+ */
+
+/* Buttons */
+.btn {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  height:var(--ctl-h);
+  padding:0 12px;
+  border-radius:10px;
+  border:1px solid #cbd5e1;
+  background:#fff;
+  color:#0f172a;
+  cursor:pointer;
+  transition:background .15s, border-color .15s, box-shadow .15s;
+}
+.btn:hover{ background:#f8fafc; }
+.btn:focus{ outline:none; box-shadow:0 0 0 3px rgba(37,99,235,.18); }
+.btn-primary{ background:var(--primary); border-color:transparent; color:#fff; }
+.btn-primary:hover{ filter:brightness(.98); }
+.btn-ghost{ background:#f8fafc; color:#0b1220; border-color:#e5e7eb; }
+
+.btn-icon {
+  width:24px;
+  height:24px;
+  padding:0;
+  border-radius:8px;
+  border:1px solid #e5e7eb;
+  background:#fff;
+  color:#0b1220;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+}
+.btn-icon:hover:not(:disabled){ background:#f1f5f9; }
+.btn-icon.danger{ color:#991b1b; border-color:#fecaca; background:#fff1f2; }
+.btn-icon:disabled{ opacity:0.4; cursor:not-allowed; }
+.btn-icon svg{ width:12px; height:12px; pointer-events:none; }
+
+#sortDirBtn.btn-icon{ width:32px; height:32px; }
+#themeBtn.btn-icon{ width:var(--ctl-h); height:var(--ctl-h); }
+
+/* Inputs */
+input[type="date"],input[type="text"] {
+  width:100%;
+  padding:0 12px;
+  border-radius:10px;
+  border:1px solid #d1d5db;
+  background:#fff;
+  font-size:14px;
+  height:var(--ctl-h);
+  line-height:calc(var(--ctl-h) - 2px);
+  transition:border-color .15s, box-shadow .15s;
+}
+input[type="date"]:focus, input[type="text"]:focus {
+  outline:none;
+  border-color:var(--primary);
+  box-shadow:0 0 0 3px rgba(37,99,235,.15);
+}
+#date,#end{ width:100%; }
+#text{ width:100%; }
+
+/* Select */
+select {
+  height:var(--ctl-h);
+  border-radius:10px;
+  border:1px solid #d1d5db;
+  background:#fff;
+  padding:0 10px;
+  font-size:14px;
+}
+#sortKey{ width:180px; }
+
+/* Textarea */
+textarea {
+  width:100%;
+  padding:8px 12px;
+  border-radius:10px;
+  border:1px solid #d1d5db;
+  background:#fff;
+  font-size:14px;
+  font-family:inherit;
+  line-height:1.4;
+  resize:vertical;
+  min-height:60px;
+  transition:border-color .15s, box-shadow .15s;
+}
+textarea:focus {
+  outline:none;
+  border-color:var(--primary);
+  box-shadow:0 0 0 3px rgba(37,99,235,.15);
+}
+textarea::placeholder {
+  color:#9ca3af;
+}
+
+/* Search */
+.search{ flex:1 1 auto; width:100%; min-width:160px; }
+
+/* Badge */
+.badge{ font-size:12px; background:#eef2ff; color:#3730a3; padding:2px 8px; border-radius:999px; }
+
+/* Kategorie-Badges */
+.cat-badge {
+  display:inline-flex;
+  align-items:center;
+  gap:4px;
+  font-size:11px;
+  padding:2px 8px;
+  border-radius:999px;
+  font-weight:500;
+  white-space:nowrap;
+}
+.cat-badge::before {
+  content:"";
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  background:currentColor;
+}
+.cat-none{ color:#6b7280; background:#f3f4f6; }
+.cat-geburtstag{ color:#be185d; background:#fce7f3; }
+.cat-todestag{ color:#1f2937; background:#e5e7eb; }
+.cat-jahrestag{ color:#dc2626; background:#fee2e2; }
+.cat-jubilaeum{ color:#7c3aed; background:#ede9fe; }
+.cat-projekt{ color:#0369a1; background:#e0f2fe; }
+.cat-termin{ color:#b45309; background:#fef3c7; }
+.cat-erinnerung{ color:#047857; background:#d1fae5; }
+.cat-sonstiges{ color:#475569; background:#f1f5f9; }
+
+/* Kategorie-Select Styling */
+#category, #filterCategory { width:140px; }
+
+/* Dropdown-Menü */
+.dropdown {
+  position:relative;
+  display:inline-block;
+}
+.dropdown-toggle {
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+}
+.dropdown-arrow {
+  width:12px;
+  height:12px;
+  transition:transform .15s;
+}
+.dropdown.open .dropdown-arrow {
+  transform:rotate(180deg);
+}
+.dropdown-menu {
+  display:none;
+  position:absolute;
+  top:calc(100% + 4px);
+  left:0;
+  min-width:220px;
+  background:var(--card);
+  border:1px solid #e5e7eb;
+  border-radius:10px;
+  box-shadow:0 8px 24px rgba(2,6,23,.12);
+  z-index:100;
+  padding:4px 0;
+}
+.dropdown.open .dropdown-menu {
+  display:block;
+}
+.dropdown-item {
+  display:flex;
+  align-items:center;
+  width:100%;
+  padding:10px 14px;
+  border:none;
+  background:none;
+  cursor:pointer;
+  font-size:14px;
+  color:var(--ink);
+  text-align:left;
+  gap:10px;
+}
+.dropdown-item:hover {
+  background:#f1f5f9;
+}
+.dropdown-icon {
+  width:18px;
+  text-align:center;
+}
+.dropdown-shortcut {
+  margin-left:auto;
+  font-size:11px;
+  color:var(--muted);
+  font-family:system-ui, sans-serif;
+}
+
+/* Actions row */
+.actions-row{ display:flex; gap:8px; flex-wrap:nowrap; align-items:center; }
+
+/* Wiederkehrende Ereignisse - Checkbox */
+.stack-checkbox {
+  display:flex;
+  align-items:center;
+}
+.stack-checkbox label {
+  display:flex;
+  align-items:center;
+  gap:0.5rem;
+  cursor:pointer;
+  font-size:0.85rem;
+  color:var(--muted);
+}
+.stack-checkbox input[type="checkbox"] {
+  width:1.1rem;
+  height:1.1rem;
+  cursor:pointer;
+  accent-color:var(--primary);
+}
+
+/* Wiederkehrende Ereignisse - Anzeige */
+.recurring-info {
+  display:flex;
+  flex-direction:column;
+  gap:0.15rem;
+  margin-top:0.3rem;
+  font-size:0.8rem;
+}
+.recurring-badge {
+  color:var(--primary);
+  font-weight:500;
+}
+.recurring-countdown {
+  color:var(--muted);
+  font-size:0.75rem;
+}
+.recurring-today {
+  color:var(--primary);
+  font-weight:600;
+}
+.recurring-milestone {
+  color:#d97706;
+  font-size:0.75rem;
+  font-weight:500;
+}

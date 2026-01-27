@@ -1,0 +1,148 @@
+/**
+ * table.css - Tabelle, Zeilen, Zellen, Notizen
+ * Ereignisse v1.11.0
+ */
+
+.table-wrap {
+  overflow:auto;
+  border-radius:12px;
+  border:1px solid #e5e7eb;
+  background:#fff;
+  padding-inline:16px;
+}
+table {
+  border-collapse:separate;
+  border-spacing:var(--col-gap) 0;
+  margin:0;
+  width:100%;
+  min-width:0;
+  background:#fff;
+}
+thead th {
+  position:sticky;
+  top:0;
+  z-index:1;
+  background:#fff;
+  text-align:left;
+  font-size:12px;
+  letter-spacing:.02em;
+  color:#475569;
+  border-bottom:1px solid #e5e7eb;
+  padding:10px 12px;
+}
+tbody td {
+  padding:10px 12px;
+  border-bottom:1px solid #eef2f7;
+  vertical-align:top;
+  background:#fff;
+  border-radius:8px;
+}
+tbody tr:hover td{ background:#f8fafc; }
+
+th.days{ text-align:left; }
+td.days{ text-align:right; }
+th.days,td.days{ width:var(--days-col-w, 140px); }
+th.actions,td.actions{ width:120px; }
+th.col-date{ width:130px; }
+th.col-cat{ width:120px; }
+td.actions{ white-space:nowrap; }
+
+.days-wrap{ display:inline-flex; flex-direction:column; align-items:flex-end; gap:4px; }
+.days-badge,.days-sub {
+  display:inline-block;
+  font-size:12px;
+  color:#374151;
+  padding:2px 8px;
+  border-radius:999px;
+  border:1px solid #e5e7eb;
+  background:#f9fafb;
+  min-width:3ch;
+  text-align:right;
+  white-space:nowrap;
+}
+.days-range{ color:#1d4ed8; border-color:#c7d2fe; background:#eef2ff; }
+.days-milestone{ color:#065f46; border-color:#86efac; background:#ecfdf5; font-weight:600; }
+
+/* Notizen-Anzeige in Tabelle */
+.notes-display {
+  margin-top:6px;
+  padding:6px 10px;
+  max-height:60px;
+  overflow-y:auto;
+  font-size:12px;
+  line-height:1.4;
+  color:var(--muted);
+  background:#f8fafc;
+  border:1px solid #e5e7eb;
+  border-radius:6px;
+  white-space:pre-wrap;
+  word-break:break-word;
+}
+.notes-display::-webkit-scrollbar {
+  width:6px;
+}
+.notes-display::-webkit-scrollbar-track {
+  background:#f1f5f9;
+  border-radius:3px;
+}
+.notes-display::-webkit-scrollbar-thumb {
+  background:#cbd5e1;
+  border-radius:3px;
+}
+.notes-display::-webkit-scrollbar-thumb:hover {
+  background:#94a3b8;
+}
+
+/* Verknüpfungs-Icons in der Tabellenansicht */
+.link-indicators {
+  display:flex;
+  gap:8px;
+  margin-top:4px;
+}
+.link-indicator {
+  display:inline-flex;
+  align-items:center;
+  gap:3px;
+  padding:2px 6px;
+  font-size:11px;
+  color:var(--muted);
+  background:#f1f5f9;
+  border-radius:4px;
+  cursor:default;
+}
+.link-indicator:hover {
+  background:#e2e8f0;
+}
+.link-indicator svg {
+  width:12px;
+  height:12px;
+}
+
+/* Verknüpfungs-Buttons im Bearbeiten-Modus */
+.link-edit-row {
+  display:flex;
+  gap:6px;
+  margin-top:8px;
+  flex-wrap:wrap;
+}
+.link-edit-btn {
+  display:inline-flex;
+  align-items:center;
+  gap:4px;
+  padding:4px 8px;
+  font-size:11px;
+  border:1px solid #d1d5db;
+  border-radius:6px;
+  background:#fff;
+  color:var(--ink);
+  cursor:pointer;
+  transition:background .15s, border-color .15s;
+}
+.link-edit-btn:hover {
+  background:#f8fafc;
+  border-color:#94a3b8;
+}
+.link-edit-btn svg {
+  width:14px;
+  height:14px;
+}

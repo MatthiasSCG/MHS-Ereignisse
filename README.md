@@ -22,7 +22,7 @@
 
 ## Verwendung
 
-1. `Ereignisse.html` im Browser öffnen
+1. `index.html` im Browser öffnen
 2. Ereignisse über das Formular hinzufügen
 3. Daten werden automatisch im Browser gespeichert
 
@@ -58,4 +58,4 @@ Interne Verwendung – Alle Rechte vorbehalten.
 
 ---
 
-*Version 1.7 · Entwickelt von Matthias*
+*Version 1.11 · Entwickelt von Matthias*

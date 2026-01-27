@@ -3,9 +3,9 @@
 ## Projektübersicht
 
 **Name:** Ereignisse und deren Zeitraum zu heute
-**Typ:** Single-Page Web-Anwendung (SPA)
+**Typ:** Modulare Web-Anwendung
 **Autor:** Matthias
-**Version:** 1.10
+**Version:** 1.11
 **Letzte Aktualisierung:** 2026-01-27
 **Repository:** https://github.com/MatthiasSCG/MHS-Ereignisse (privat)
 
@@ -61,7 +61,22 @@ Eine lokale Web-Anwendung zur Verwaltung von Ereignissen mit automatischer Berec
 ├── .git/                 # Git-Repository
 ├── .gitignore            # Git-Ignorierungsliste
 ├── README.md             # GitHub-Startseite
-├── Ereignisse.html       # Hauptanwendung (Single-File)
+├── index.html            # Hauptanwendung (HTML-Markup)
+├── css/                  # CSS-Module
+│   ├── base.css          # Variablen, Reset, Body, Typography
+│   ├── layout.css        # Container, Header, Cards, Grid
+│   ├── components.css    # Buttons, Inputs, Dropdowns, Badges
+│   ├── table.css         # Tabelle, Zeilen, Zellen, Notizen
+│   ├── filters.css       # Filter-Toolbar, Panel, Tags
+│   ├── dialogs.css       # Modals, Verknüpfungs-Dialoge
+│   ├── statusbar.css     # Statusleiste
+│   └── dark-mode.css     # Alle Dark Mode Overrides
+├── js/                   # JavaScript-Module
+│   ├── utils.js          # Hilfsfunktionen, Datum-Berechnungen
+│   ├── data.js           # Datenmodell, Serialisierung, Storage
+│   ├── filters.js        # Filter-Logik, gespeicherte Filter
+│   ├── ui.js             # Rendering, Dialoge, Events
+│   └── app.js            # Initialisierung, Datei-Handling
 ├── manifest.json         # PWA Web App Manifest
 ├── sw.js                 # PWA Service Worker
 ├── icons/                # PWA App-Icons
@@ -200,11 +215,14 @@ Besondere Zeitpunkte werden visuell hervorgehoben:
 ```html
 <meta http-equiv="Content-Security-Policy"
       content="default-src 'self';
-               script-src 'self' 'unsafe-inline';
-               style-src 'self' 'unsafe-inline';
+               script-src 'self';
+               style-src 'self';
                img-src 'self' data:;
                font-src 'self';" />
 ```
+
+> **Hinweis:** Seit v1.11 werden alle CSS- und JavaScript-Dateien extern geladen,
+> wodurch `'unsafe-inline'` entfernt werden konnte.
 
 ### Implementierte Schutzmaßnahmen
 

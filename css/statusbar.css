@@ -1,0 +1,37 @@
+/**
+ * statusbar.css - Statusleiste
+ * Ereignisse v1.11.0
+ */
+
+.statusbar {
+  position:fixed;
+  bottom:0;
+  left:0;
+  right:0;
+  height:28px;
+  display:flex;
+  align-items:center;
+  gap:16px;
+  padding:0 16px;
+  background:#f8fafc;
+  border-top:1px solid #e5e7eb;
+  font-size:12px;
+  color:var(--muted);
+  z-index:50;
+}
+.statusbar-item {
+  display:flex;
+  align-items:center;
+  gap:4px;
+  white-space:nowrap;
+}
+.statusbar-item.saved{ color:#059669; }
+.statusbar-item.unsaved{ color:#d97706; }
+.statusbar-right {
+  margin-left:auto;
+}
+.statusbar-separator {
+  width:1px;
+  height:14px;
+  background:#e5e7eb;
+}

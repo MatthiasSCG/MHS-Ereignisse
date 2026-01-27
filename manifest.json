@@ -2,7 +2,7 @@
   "name": "MHS Ereignisse",
   "short_name": "Ereignisse",
   "description": "Verwaltung von Ereignissen mit automatischer Zeitdifferenz-Berechnung",
-  "start_url": "./Ereignisse.html",
+  "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
   "background_color": "#f5f7fb",
@@ -29,7 +29,7 @@
       "name": "Neues Ereignis",
       "short_name": "Neu",
       "description": "Ein neues Ereignis hinzufügen",
-      "url": "./Ereignisse.html#add"
+      "url": "./index.html#add"
     }
   ]
 }

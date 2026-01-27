@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self';" />
+  <title>Ereignisse</title>
+  <!-- PWA Meta Tags -->
+  <meta name="theme-color" content="#2563eb" />
+  <meta name="description" content="Verwaltung von Ereignissen mit automatischer Zeitdifferenz-Berechnung" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="Ereignisse" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/layout.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/table.css" />
+  <link rel="stylesheet" href="css/filters.css" />
+  <link rel="stylesheet" href="css/dialogs.css" />
+  <link rel="stylesheet" href="css/statusbar.css" />
+  <link rel="stylesheet" href="css/dark-mode.css" />
+</head>
+<body>
+  <div class="page">
+    <div class="container">
+      <header>
+        <div class="brand">
+          <div class="flag" aria-hidden="true"></div>
+          <div><h1>Ereignisse und deren Zeitraum zu heute</h1></div>
+        </div>
+        <div class="actions">
+          <div class="dropdown" id="fileDropdown">
+            <button class="btn dropdown-toggle" id="fileMenuBtn">
+              Datei
+              <svg class="dropdown-arrow" viewBox="0 0 24 24" fill="currentColor"><path d="M12 16l-6-6h12z"/></svg>
+            </button>
+            <div class="dropdown-menu" id="fileMenu">
+              <button class="dropdown-item" data-action="open">
+                <span class="dropdown-icon">📂</span>
+                Öffnen
+                <span class="dropdown-shortcut">Strg+O</span>
+              </button>
+              <button class="dropdown-item" data-action="save">
+                <span class="dropdown-icon">💾</span>
+                Speichern
+                <span class="dropdown-shortcut">Strg+S</span>
+              </button>
+              <button class="dropdown-item" data-action="saveAs">
+                <span class="dropdown-icon">📥</span>
+                Speichern unter…
+                <span class="dropdown-shortcut">Strg+⇧+S</span>
+              </button>
+            </div>
+          </div>
+          <button id="themeBtn" class="btn-icon" title="Dark Mode umschalten" aria-label="Dark Mode">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.64 13a1 1 0 00-1.05-1.36 7 7 0 01-8.23-8.23A1 1 0 0011 2.36 9 9 0 1021.64 13z"/></svg>
+          </button>
+        </div>
+      </header>
+
+      <!-- Filter-Toolbar -->
+      <section class="filter-toolbar">
+        <div class="toolbar toolbar-flex">
+          <input id="search" class="search" type="text" placeholder="Suche..." title="Strg+F" />
+          <button id="advancedFilterBtn" class="filter-toggle-btn" title="Erweiterte Filter (Strg+Umschalt+F)">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M10 18h4v-2h-4v2zM3 6v2h18V6H3zm3 7h12v-2H6v2z"/></svg>
+            Filter
+            <span id="filterBadge" class="filter-badge" style="display:none;">0</span>
+          </button>
+        </div>
+        <div class="toolbar">
+          <select id="sortKey" title="Sortieren nach">
+            <option value="date" selected>Zeitpunkt</option>
+            <option value="end">Endzeitpunkt</option>
+            <option value="text">Ereignis</option>
+            <option value="category">Kategorie</option>
+          </select>
+          <button id="sortDirBtn" class="btn-icon" title="Sortierrichtung umschalten" aria-label="Sortierrichtung">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 16l-6-6h12z"/></svg>
+          </button>
+        </div>
+      </section>
+
+      <!-- Aktive Filter-Tags -->
+      <div id="activeFilters" class="active-filters"></div>
+
+      <!-- Erweitertes Filter-Panel -->
+      <section id="advancedFilterPanel" class="advanced-filter-panel">
+        <div class="filter-panel-header">
+          <div class="filter-panel-title">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M10 18h4v-2h-4v2zM3 6v2h18V6H3zm3 7h12v-2H6v2z"/></svg>
+            Erweiterte Filter
+          </div>
+          <button id="filterResetBtn" class="filter-reset-btn">Alle zurücksetzen</button>
+        </div>
+
+        <div class="filter-groups">
+          <!-- Datumsbereich -->
+          <div class="filter-group">
+            <div class="filter-group-label">Datumsbereich</div>
+            <div class="date-range-inputs">
+              <input type="date" id="filterDateFrom" title="Von" />
+              <span class="date-range-separator">–</span>
+              <input type="date" id="filterDateTo" title="Bis" />
+            </div>
+            <select id="filterDatePreset" class="date-preset-select" title="Vordefinierter Zeitraum">
+              <option value="">Zeitraum wählen...</option>
+              <option value="today">Heute</option>
+              <option value="this-week">Diese Woche</option>
+              <option value="this-month">Dieser Monat</option>
+              <option value="this-year">Dieses Jahr</option>
+              <option value="last-7-days">Letzte 7 Tage</option>
+              <option value="last-30-days">Letzte 30 Tage</option>
+              <option value="next-7-days">Nächste 7 Tage</option>
+              <option value="next-30-days">Nächste 30 Tage</option>
+              <option value="past">Vergangene Ereignisse</option>
+              <option value="future">Zukünftige Ereignisse</option>
+            </select>
+          </div>
+
+          <!-- Kategorien -->
+          <div class="filter-group">
+            <div class="filter-group-label">Kategorien</div>
+            <div id="categoryCheckboxes" class="category-checkboxes">
+              <label class="category-checkbox" data-cat="geburtstag">
+                <input type="checkbox" value="geburtstag" />
+                <span class="cat-badge cat-geburtstag" style="padding:0 6px;">Geburtstag</span>
+              </label>
+              <label class="category-checkbox" data-cat="todestag">
+                <input type="checkbox" value="todestag" />
+                <span class="cat-badge cat-todestag" style="padding:0 6px;">Todestag</span>
+              </label>
+              <label class="category-checkbox" data-cat="jahrestag">
+                <input type="checkbox" value="jahrestag" />
+                <span class="cat-badge cat-jahrestag" style="padding:0 6px;">Jahrestag</span>
+              </label>
+              <label class="category-checkbox" data-cat="jubilaeum">
+                <input type="checkbox" value="jubilaeum" />
+                <span class="cat-badge cat-jubilaeum" style="padding:0 6px;">Jubiläum</span>
+              </label>
+              <label class="category-checkbox" data-cat="projekt">
+                <input type="checkbox" value="projekt" />
+                <span class="cat-badge cat-projekt" style="padding:0 6px;">Projekt</span>
+              </label>
+              <label class="category-checkbox" data-cat="termin">
+                <input type="checkbox" value="termin" />
+                <span class="cat-badge cat-termin" style="padding:0 6px;">Termin</span>
+              </label>
+              <label class="category-checkbox" data-cat="erinnerung">
+                <input type="checkbox" value="erinnerung" />
+                <span class="cat-badge cat-erinnerung" style="padding:0 6px;">Erinnerung</span>
+              </label>
+              <label class="category-checkbox" data-cat="sonstiges">
+                <input type="checkbox" value="sonstiges" />
+                <span class="cat-badge cat-sonstiges" style="padding:0 6px;">Sonstiges</span>
+              </label>
+              <label class="category-checkbox" data-cat="none">
+                <input type="checkbox" value="none" />
+                <span class="cat-badge cat-none" style="padding:0 6px;">Ohne</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Weitere Filter -->
+          <div class="filter-group">
+            <div class="filter-group-label">Weitere Filter</div>
+            <div class="toggle-checkboxes">
+              <label class="toggle-checkbox">
+                <input type="checkbox" id="filterHasNotes" />
+                Nur mit Notizen
+              </label>
+              <label class="toggle-checkbox">
+                <input type="checkbox" id="filterRecurring" />
+                Nur wiederkehrende
+              </label>
+              <label class="toggle-checkbox">
+                <input type="checkbox" id="filterHasTimespan" />
+                Nur mit Zeitspanne
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Gespeicherte Filter -->
+        <div class="saved-filters-section">
+          <div class="saved-filters-header">
+            <div class="saved-filters-title">Gespeicherte Filter</div>
+          </div>
+          <div id="savedFiltersList" class="saved-filters-list">
+            <button id="saveFilterBtn" class="save-filter-btn" title="Aktuellen Filter speichern">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+              Speichern...
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Tabelle (Hauptbereich) -->
+      <section class="card card-table stack">
+        <div class="table-wrap">
+          <table id="table" aria-describedby="tableHint">
+            <thead>
+              <tr>
+                <th class="col-date">Zeitpunkt</th>
+                <th class="col-date">Endzeitpunkt</th>
+                <th class="col-cat">Kategorie</th>
+                <th>Ereignis</th>
+                <th class="days">Differenz zu heute oder Endzeitpunkt</th>
+                <th class="actions">Aktionen</th>
+              </tr>
+            </thead>
+            <tbody id="tbody"></tbody>
+          </table>
+        </div>
+        <div id="tableHint" class="muted">Tipp: Doppelklick auf eine Zeile zum Bearbeiten.</div>
+      </section>
+
+      <!-- Eingabebereich (am Ende, dezenter) -->
+      <section class="card card-input">
+        <div class="input-header">Neues Ereignis</div>
+        <div class="input-grid">
+          <div class="stack">
+            <label for="date">Zeitpunkt</label>
+            <input id="date" type="date" />
+          </div>
+          <div class="stack">
+            <label for="end">Endzeitpunkt</label>
+            <input id="end" type="date" />
+          </div>
+          <div class="stack stack-checkbox">
+            <label>
+              <input id="recurring" type="checkbox" />
+              Jährlich wiederkehrend
+            </label>
+          </div>
+          <div class="stack">
+            <label for="category">Kategorie</label>
+            <select id="category">
+              <option value="">Keine</option>
+              <option value="geburtstag">Geburtstag</option>
+              <option value="todestag">Todestag</option>
+              <option value="jahrestag">Jahrestag</option>
+              <option value="jubilaeum">Jubiläum</option>
+              <option value="projekt">Projekt</option>
+              <option value="termin">Termin</option>
+              <option value="erinnerung">Erinnerung</option>
+              <option value="sonstiges">Sonstiges</option>
+            </select>
+          </div>
+          <div class="stack stack-text">
+            <label for="text">Ereignis</label>
+            <input id="text" type="text" placeholder="Beschreibe das Ereignis…" />
+          </div>
+          <div class="stack stack-buttons">
+            <label class="label-spacer">&nbsp;</label>
+            <div class="toolbar">
+              <button id="addBtn" class="btn btn-primary">Hinzufügen</button>
+              <button id="clearBtn" class="btn btn-ghost">Zurücksetzen</button>
+            </div>
+          </div>
+          <div class="input-notes-row">
+            <div class="stack">
+              <label for="notes">Notizen (optional)</label>
+              <textarea id="notes" rows="2" placeholder="Zusätzliche Informationen..."></textarea>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <!-- Statusleiste -->
+  <footer class="statusbar">
+    <div class="statusbar-item" id="statusFile">Keine Datei</div>
+    <div class="statusbar-separator"></div>
+    <div class="statusbar-item" id="statusCount">0 Einträge</div>
+    <div class="statusbar-separator"></div>
+    <div class="statusbar-item" id="statusSaved">—</div>
+    <div class="statusbar-item statusbar-right" id="statusVersion">konzeptioniert von Matthias</div>
+  </footer>
+
+  <input id="fileInput" type="file" accept=".json,application/json" style="display:none" />
+
+  <!-- JS -->
+  <script src="js/utils.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/filters.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

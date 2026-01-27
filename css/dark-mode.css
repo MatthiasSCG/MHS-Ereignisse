@@ -1,0 +1,262 @@
+/**
+ * dark-mode.css - Alle Dark Mode Overrides
+ * Ereignisse v1.11.0
+ */
+
+/* === Dark mode ===================================================== */
+[data-theme="dark"]{
+  --bg:#0b1220; --card:#0f172a; --ink:#e5e7eb; --muted:#94a3b8;
+}
+[data-theme="dark"] .card{ background:var(--card); border-color:#334155; box-shadow:none; }
+[data-theme="dark"] header{ color:var(--ink); }
+[data-theme="dark"] .btn{ border-color:#334155; background:#0f172a; color:#e5e7eb; }
+[data-theme="dark"] .btn:hover{ background:#111827; }
+[data-theme="dark"] .btn-ghost{ background:#0f172a; color:#e5e7eb; border-color:#334155; }
+[data-theme="dark"] .btn-icon{ border-color:#334155; background:#0f172a; color:#e5e7eb; }
+[data-theme="dark"] .btn-icon:hover:not(:disabled){ background:#111827; }
+[data-theme="dark"] .btn-icon:disabled{ opacity:0.4; }
+[data-theme="dark"] input[type="date"], [data-theme="dark"] input[type="text"]{ background:#0b1220; color:#e5e7eb; border-color:#334155; }
+[data-theme="dark"] input::placeholder{ color:#94a3b8; }
+
+/* Select (Dropdown) in Dark mode */
+[data-theme="dark"] select{ background:#0b1220; color:#e5e7eb; border-color:#334155; }
+[data-theme="dark"] select:focus{ outline:none; border-color:#60a5fa; box-shadow:0 0 0 3px rgba(37,99,235,.25); }
+[data-theme="dark"] select option{ background:#0f172a; color:#e5e7eb; }
+
+/* Textarea Dark Mode */
+[data-theme="dark"] textarea {
+  background:#0b1220;
+  color:#e5e7eb;
+  border-color:#334155;
+}
+[data-theme="dark"] textarea::placeholder {
+  color:#64748b;
+}
+
+/* Tabelle Dark Mode */
+[data-theme="dark"] .table-wrap{ background:#0f172a; border-color:#334155; }
+[data-theme="dark"] table{ background:#0f172a; }
+[data-theme="dark"] thead th{ background:#0f172a; color:#cbd5e1; border-bottom-color:#334155; }
+[data-theme="dark"] tbody td{ background:#0f172a; border-bottom-color:#1f2937; }
+[data-theme="dark"] tbody tr:hover td{ background:#111827; }
+[data-theme="dark"] .badge{ background:#1f2937; color:#cbd5e1; }
+[data-theme="dark"] .days-badge, [data-theme="dark"] .days-sub{ color:#cbd5e1; border-color:#334155; background:#111827; }
+[data-theme="dark"] .days-range{ color:#93c5fd; border-color:#1e3a8a; background:#0b1733; }
+[data-theme="dark"] .days-milestone{ color:#10b981; border-color:#065f46; background:#062d22; }
+
+/* Kategorie-Badges Dark Mode */
+[data-theme="dark"] .cat-none{ color:#9ca3af; background:#1f2937; }
+[data-theme="dark"] .cat-geburtstag{ color:#f472b6; background:#4c1d4c; }
+[data-theme="dark"] .cat-todestag{ color:#d1d5db; background:#374151; }
+[data-theme="dark"] .cat-jahrestag{ color:#f87171; background:#7f1d1d; }
+[data-theme="dark"] .cat-jubilaeum{ color:#a78bfa; background:#3b2d6b; }
+[data-theme="dark"] .cat-projekt{ color:#38bdf8; background:#0c3d5a; }
+[data-theme="dark"] .cat-termin{ color:#fbbf24; background:#4a3412; }
+[data-theme="dark"] .cat-erinnerung{ color:#34d399; background:#0a3d2e; }
+[data-theme="dark"] .cat-sonstiges{ color:#94a3b8; background:#1e293b; }
+
+/* Filter-Toolbar Dark Mode */
+[data-theme="dark"] .filter-toolbar{ background:#0f172a; border-color:#334155; }
+
+/* Eingabe-Card Dark Mode */
+[data-theme="dark"] .card-input{ background:transparent; border-color:#334155; }
+[data-theme="dark"] .input-header{ color:#64748b; }
+[data-theme="dark"] .input-grid label{ color:#64748b; }
+
+/* Tabellen-Card Dark Mode */
+[data-theme="dark"] .card-table{ box-shadow:none; border-color:#475569; }
+
+/* Statusleiste Dark Mode */
+[data-theme="dark"] .statusbar{ background:#0f172a; border-top-color:#334155; }
+[data-theme="dark"] .statusbar-separator{ background:#334155; }
+
+/* Dropdown Dark Mode */
+[data-theme="dark"] .dropdown-menu {
+  background:var(--card);
+  border-color:#334155;
+  box-shadow:0 8px 24px rgba(0,0,0,.4);
+}
+[data-theme="dark"] .dropdown-item {
+  color:var(--ink);
+}
+[data-theme="dark"] .dropdown-item:hover {
+  background:#1f2937;
+}
+
+/* Notizen-Anzeige Dark Mode */
+[data-theme="dark"] .notes-display {
+  background:#1e293b;
+  border-color:#334155;
+  color:#94a3b8;
+}
+[data-theme="dark"] .notes-display::-webkit-scrollbar-track {
+  background:#0f172a;
+}
+[data-theme="dark"] .notes-display::-webkit-scrollbar-thumb {
+  background:#475569;
+}
+[data-theme="dark"] .notes-display::-webkit-scrollbar-thumb:hover {
+  background:#64748b;
+}
+
+/* Verknüpfungs-Indikatoren Dark Mode */
+[data-theme="dark"] .link-indicator {
+  background:#1e293b;
+  color:#94a3b8;
+}
+[data-theme="dark"] .link-indicator:hover {
+  background:#334155;
+}
+
+/* Verknüpfungs-Buttons Dark Mode */
+[data-theme="dark"] .link-edit-btn {
+  background:#1e293b;
+  border-color:#334155;
+  color:var(--ink);
+}
+[data-theme="dark"] .link-edit-btn:hover {
+  background:#334155;
+  border-color:#475569;
+}
+
+/* Modal Dark Mode */
+[data-theme="dark"] .modal {
+  border:1px solid #334155;
+}
+[data-theme="dark"] .modal-header {
+  border-color:#334155;
+}
+[data-theme="dark"] .modal-footer {
+  border-color:#334155;
+}
+[data-theme="dark"] .modal-close:hover {
+  background:#1e293b;
+}
+
+/* Modal-Liste Dark Mode */
+[data-theme="dark"] .link-select-list {
+  border-color:#334155;
+}
+[data-theme="dark"] .link-select-item {
+  border-color:#334155;
+}
+[data-theme="dark"] .link-select-item:hover {
+  background:#1e293b;
+}
+[data-theme="dark"] .link-select-item.selected {
+  background:#1e3a5f;
+}
+[data-theme="dark"] .link-manage-list {
+  border-color:#334155;
+}
+[data-theme="dark"] .link-manage-item {
+  border-color:#334155;
+}
+[data-theme="dark"] .link-manage-remove {
+  background:#450a0a;
+  border-color:#991b1b;
+  color:#fca5a5;
+}
+[data-theme="dark"] .link-manage-remove:hover {
+  background:#7f1d1d;
+}
+
+/* Wiederkehrende Ereignisse - Dark Mode */
+[data-theme="dark"] .recurring-milestone {
+  color:#fbbf24;
+}
+
+/* Erweiterter Filter-Button Dark Mode */
+[data-theme="dark"] .filter-toggle-btn {
+  background:#0f172a;
+  border-color:#334155;
+  color:#e5e7eb;
+}
+[data-theme="dark"] .filter-toggle-btn:hover {
+  background:#1e293b;
+}
+[data-theme="dark"] .filter-toggle-btn.active {
+  background:#1e3a5f;
+  border-color:#3b82f6;
+  color:#93c5fd;
+}
+
+/* Erweitertes Filter-Panel Dark Mode */
+[data-theme="dark"] .advanced-filter-panel {
+  background:#0f172a;
+  border-color:#334155;
+}
+[data-theme="dark"] .filter-reset-btn {
+  background:#1e293b;
+  border-color:#334155;
+  color:#94a3b8;
+}
+[data-theme="dark"] .filter-reset-btn:hover {
+  background:#334155;
+  color:#e5e7eb;
+}
+
+/* Kategorie-Checkboxen Dark Mode */
+[data-theme="dark"] .category-checkbox {
+  background:#1e293b;
+  border-color:#334155;
+  color:#e5e7eb;
+}
+[data-theme="dark"] .category-checkbox:hover {
+  background:#334155;
+}
+[data-theme="dark"] .category-checkbox.selected {
+  background:#1e3a5f;
+  border-color:#3b82f6;
+  color:#93c5fd;
+}
+
+/* Filter-Tags Dark Mode */
+[data-theme="dark"] .filter-tag {
+  background:#1e3a5f;
+  color:#93c5fd;
+  border-color:#1d4ed8;
+}
+[data-theme="dark"] .filter-tag-remove {
+  color:#60a5fa;
+}
+[data-theme="dark"] .filter-tag-remove:hover {
+  background:#1e4976;
+  color:#93c5fd;
+}
+
+/* Treffer-Hervorhebung Dark Mode */
+[data-theme="dark"] .search-highlight {
+  background:#854d0e;
+  color:#fef9c3;
+}
+
+/* Gespeicherte Filter Dark Mode */
+[data-theme="dark"] .saved-filters-section {
+  border-top-color:#334155;
+}
+[data-theme="dark"] .saved-filter-btn {
+  background:#1e293b;
+  border-color:#334155;
+  color:#e5e7eb;
+}
+[data-theme="dark"] .saved-filter-btn:hover {
+  background:#334155;
+}
+[data-theme="dark"] .saved-filter-btn.active {
+  background:#1e3a5f;
+  border-color:#3b82f6;
+  color:#93c5fd;
+}
+[data-theme="dark"] .saved-filter-delete:hover {
+  background:#450a0a;
+  color:#fca5a5;
+}
+[data-theme="dark"] .save-filter-btn {
+  border-color:#475569;
+  color:#94a3b8;
+}
+[data-theme="dark"] .save-filter-btn:hover {
+  border-color:#64748b;
+  color:#e5e7eb;
+}

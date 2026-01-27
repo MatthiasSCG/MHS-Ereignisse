@@ -3,13 +3,28 @@
  * Ermöglicht Offline-Funktionalität und Caching
  */
 
-const CACHE_NAME = 'ereignisse-v1.8.0';
+const CACHE_NAME = 'ereignisse-v1.11.0';
 const ASSETS_TO_CACHE = [
   './',
-  './Ereignisse.html',
+  './index.html',
   './manifest.json',
   './icons/icon-192.png',
-  './icons/icon-512.png'
+  './icons/icon-512.png',
+  // CSS-Dateien
+  './css/base.css',
+  './css/layout.css',
+  './css/components.css',
+  './css/table.css',
+  './css/filters.css',
+  './css/dialogs.css',
+  './css/statusbar.css',
+  './css/dark-mode.css',
+  // JS-Dateien
+  './js/utils.js',
+  './js/data.js',
+  './js/filters.js',
+  './js/ui.js',
+  './js/app.js'
 ];
 
 // Installation: Cache erstellen und Assets hinzufügen
@@ -77,7 +92,7 @@ self.addEventListener('fetch', (event) => {
       .catch(() => {
         // Offline und nicht im Cache: Fallback für HTML
         if (event.request.headers.get('accept').includes('text/html')) {
-          return caches.match('./Ereignisse.html');
+          return caches.match('./index.html');
         }
       })
   );

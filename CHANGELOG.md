@@ -7,6 +7,23 @@ und dieses Projekt verwendet [Semantic Versioning](https://semver.org/lang/de/).
 
 ## [Unreleased]
 
+## [1.11.0] - 2026-01-27
+
+### Changed
+- **Refactoring:** Single-File HTML in separate Dateien aufgeteilt (#27)
+- `Ereignisse.html` umbenannt in `index.html` (Web-Standard)
+- Neue Struktur mit `css/` und `js/` Ordnern
+- 8 CSS-Module: base, layout, components, table, filters, dialogs, statusbar, dark-mode
+- 5 JS-Module: utils, data, filters, ui, app
+- HTML reduziert von ~3550 auf ~295 Zeilen
+- CSP-Header angepasst (`'unsafe-inline'` entfernt)
+- Service Worker Cache-Liste für alle neuen Dateien erweitert
+
+### Technical
+- Bessere Wartbarkeit durch modulare Struktur
+- Jede Datei unter 25.000 Token (AI-Tool-kompatibel)
+- Browser-Caching für CSS/JS möglich
+
 ## [1.10.0] - 2026-01-27
 
 ### Added
@@ -152,7 +169,8 @@ und dieses Projekt verwendet [Semantic Versioning](https://semver.org/lang/de/).
 - XSS-Schutz durch `escapeHTML()` für alle Benutzereingaben
 - Input-Sanitization durch `sanitizeText()` für Textbereinigung
 
-[Unreleased]: https://github.com/MatthiasSCG/MHS-Ereignisse/compare/v1.10.0...HEAD
+[Unreleased]: https://github.com/MatthiasSCG/MHS-Ereignisse/compare/v1.11.0...HEAD
+[1.11.0]: https://github.com/MatthiasSCG/MHS-Ereignisse/compare/v1.10.0...v1.11.0
 [1.10.0]: https://github.com/MatthiasSCG/MHS-Ereignisse/compare/v1.9.0...v1.10.0
 [1.9.0]: https://github.com/MatthiasSCG/MHS-Ereignisse/compare/v1.8.0...v1.9.0
 [1.8.0]: https://github.com/MatthiasSCG/MHS-Ereignisse/compare/v1.7.0...v1.8.0
