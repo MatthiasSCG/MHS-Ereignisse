@@ -717,11 +717,43 @@
 
   <script>
   'use strict';
+  /**
+   * @fileoverview Ereignisse - Lokale Web-Anwendung zur Verwaltung von Ereignissen
+   * @author Matthias
+   * @version 1.4.0
+   * @license Proprietary - Interne Verwendung
+   */
   (function(){
-    /** @typedef {{id:string, date:string, end:string, text:string, category:string, notes:string, createdAt:string, updatedAt:string}} Entry */
+    /**
+     * Ein Ereignis-Eintrag mit allen relevanten Feldern
+     * @typedef {Object} Entry
+     * @property {string} id - Eindeutige ID (Zeitstempel + Zufallsstring)
+     * @property {string} date - Startdatum im ISO-Format (YYYY-MM-DD)
+     * @property {string} end - Enddatum im ISO-Format (optional)
+     * @property {string} text - Beschreibung des Ereignisses
+     * @property {string} category - Kategorie-Schlüssel (optional)
+     * @property {string} notes - Mehrzeilige Notizen (optional)
+     * @property {string} createdAt - Erstellungszeitpunkt (ISO-Timestamp)
+     * @property {string} updatedAt - Letzter Änderungszeitpunkt (ISO-Timestamp)
+     */
+
+    /**
+     * DOM-Selektor-Hilfsfunktion
+     * @param {string} s - CSS-Selektor
+     * @param {Element} [el=document] - Eltern-Element
+     * @returns {Element|null} Gefundenes Element oder null
+     */
     const $ = (s,el=document)=>el.querySelector(s);
+
+    /**
+     * DOM-Selektor für mehrere Elemente
+     * @param {string} s - CSS-Selektor
+     * @param {Element} [el=document] - Eltern-Element
+     * @returns {Element[]} Array der gefundenen Elemente
+     */
     const $$ = (s,el=document)=>Array.from(el.querySelectorAll(s));
 
+    /** @constant {string} LocalStorage-Schlüssel für Einträge */
     const LS_KEY = 'zeiten-eintraege-v2';
 
     // Kategorie-Definitionen
@@ -737,13 +769,37 @@
       'sonstiges': { label: 'Sonstiges', css: 'cat-sonstiges' }
     };
 
+    /**
+     * Gibt das Label einer Kategorie zurück
+     * @param {string} cat - Kategorie-Schlüssel
+     * @returns {string} Kategorie-Label oder 'Keine'
+     */
     const getCategoryLabel = (cat) => CATEGORIES[cat]?.label || 'Keine';
+
+    /**
+     * Gibt die CSS-Klasse einer Kategorie zurück
+     * @param {string} cat - Kategorie-Schlüssel
+     * @returns {string} CSS-Klassenname
+     */
     const getCategoryCss = (cat) => CATEGORIES[cat]?.css || 'cat-none';
+
+    /**
+     * Erstellt HTML für ein Kategorie-Badge
+     * @param {string} cat - Kategorie-Schlüssel
+     * @returns {string} HTML-String für das Badge
+     */
     const buildCategoryBadge = (cat) => {
       const css = getCategoryCss(cat);
       const label = getCategoryLabel(cat);
       return `<span class="cat-badge ${css}">${label}</span>`;
     };
+
+    /**
+     * Erstellt HTML für ein Kategorie-Dropdown
+     * @param {string} selectedCat - Ausgewählte Kategorie
+     * @param {string} [id=''] - Optionale ID für das Select-Element
+     * @returns {string} HTML-String für das Select-Element
+     */
     const buildCategorySelect = (selectedCat, id='') => {
       const idAttr = id ? `id="${id}"` : '';
       const options = Object.entries(CATEGORIES).map(([key, val]) => {
@@ -752,6 +808,12 @@
       }).join('');
       return `<select ${idAttr} style="width:100%">${options}</select>`;
     };
+
+    /**
+     * Erstellt HTML für die Notizen-Anzeige
+     * @param {string} notes - Notizen-Text
+     * @returns {string} HTML-String für die Notizen oder leerer String
+     */
     const buildNotesDisplay = (notes) => {
       if (!notes || !notes.trim()) return '';
       const escaped = escapeHTML(notes);
@@ -762,6 +824,10 @@
     let editingId = null;  // ID des aktuell bearbeiteten Eintrags
 
     // ---------- Edit-Mode Helpers ----------
+    /**
+     * Deaktiviert Aktions-Buttons bei anderen Einträgen während der Bearbeitung
+     * Verhindert gleichzeitiges Bearbeiten mehrerer Einträge
+     */
     const disableOtherActions = () => {
       tbody.querySelectorAll('tr').forEach(tr => {
         if (tr.dataset.id !== editingId) {
@@ -771,6 +837,10 @@
         }
       });
     };
+
+    /**
+     * Aktiviert alle Aktions-Buttons wieder nach Beenden der Bearbeitung
+     */
     const enableAllActions = () => {
       editingId = null;
       tbody.querySelectorAll('.btn-icon[data-action]').forEach(btn => {
@@ -779,24 +849,49 @@
     };
 
     // ---------- Helpers ----------
-    // File System Access API detection (Chrome, Edge, Opera on secure context)
+    /**
+     * Prüft, ob die File System Access API verfügbar ist
+     * Unterstützt Chrome, Edge und Opera auf sicherem Kontext (HTTPS/localhost)
+     * @constant {boolean}
+     */
     const supportsFS = (() => {
       if (!window.isSecureContext) return false;
       if (typeof window.showOpenFilePicker !== 'function') return false;
       if (typeof window.showSaveFilePicker !== 'function') return false;
-      // Additional check for Edge compatibility
       const ua = navigator.userAgent;
       const isChromium = !!window.chrome || ua.includes('Chromium');
       const isEdge = ua.includes('Edg/');
       const isChrome = ua.includes('Chrome/') && !isEdge;
-      // Both Chrome and Edge (Chromium-based) support File System Access API
       return isChromium || isEdge || isChrome;
     })();
+
+    /**
+     * Gibt das heutige Datum im ISO-Format zurück
+     * @returns {string} Datum im Format YYYY-MM-DD
+     */
     const todayISO = () => { const d=new Date(); const y=d.getFullYear(); const m=String(d.getMonth()+1).padStart(2,'0'); const da=String(d.getDate()).padStart(2,'0'); return `${y}-${m}-${da}`; };
+
+    /**
+     * Gibt den aktuellen Zeitstempel im ISO-Format zurück
+     * @returns {string} ISO-Zeitstempel
+     */
     const nowISOTimestamp = () => new Date().toISOString();
+
+    /**
+     * Generiert eine eindeutige ID
+     * @returns {string} Eindeutige ID aus Zeitstempel und Zufallsstring
+     */
     const uid = () => `${Date.now().toString(36)}-${Math.random().toString(36).slice(2,8)}`;
 
+    /**
+     * Speichert alle Einträge im LocalStorage
+     */
     const saveToLocalStorage = () => { try{ localStorage.setItem(LS_KEY, JSON.stringify(entries)); }catch(e){} };
+
+    /**
+     * Lädt Einträge aus dem LocalStorage
+     * Migriert automatisch von v1 zu v2 falls notwendig
+     */
     const loadFromLocalStorage = () => {
       try {
         // Versuche zuerst neue Version zu laden
@@ -820,7 +915,18 @@
       }
     };
 
+    /**
+     * Bereinigt Text durch Entfernen von Zeilenumbrüchen und Tabs
+     * @param {string} [s=''] - Eingabetext
+     * @returns {string} Bereinigter Text
+     */
     const sanitizeText = (s='') => String(s).replace(/\r?\n/g,' ').replace(/\t/g,' ').trim();
+
+    /**
+     * Escaped HTML-Sonderzeichen zur Vermeidung von XSS
+     * @param {string} [str=''] - Eingabetext
+     * @returns {string} HTML-sicherer Text
+     */
     const escapeHTML = (str='') => String(str).replace(/[&<>"']/g, (ch)=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','\'':'&#39;' }[ch]));
 
     const serializePlain = () => entries.map(e => `${e.date||''}\t${e.end||''}\t${sanitizeText(e.text||'')}`).join('\n');
@@ -1090,11 +1196,21 @@ tbody.appendChild(tr);
     }
 
     // ---------- CRUD ----------
+    /**
+     * Validiert, dass das Enddatum nach dem Startdatum liegt
+     * @param {string} startDate - Startdatum im ISO-Format
+     * @param {string} endDate - Enddatum im ISO-Format
+     * @returns {boolean} true wenn gültig oder eines der Daten leer ist
+     */
     function validateDates(startDate, endDate) {
       if (!startDate || !endDate) return true;
       return startDate <= endDate;
     }
 
+    /**
+     * Fügt einen neuen Eintrag hinzu
+     * Liest Werte aus dem Eingabeformular und speichert den Eintrag
+     */
     function addEntry(){
       const date = dateEl.value || todayISO();
       const end  = (endEl.value||'').trim();
@@ -1112,15 +1228,27 @@ tbody.appendChild(tr);
       dateEl.value=''; endEl.value=''; categoryEl.value=''; textEl.value=''; notesEl.value='';
       dateEl.focus(); saveToLocalStorage(); render();
     }
+    /**
+     * Dupliziert einen bestehenden Eintrag
+     * @param {string} id - ID des zu duplizierenden Eintrags
+     */
     function duplicateEntry(id){
       const e = entries.find(x => x.id === id); if(!e) return;
       const t = nowISOTimestamp();
       entries.push({ id: uid(), date: e.date, end: e.end, category: e.category || '', text: e.text, notes: e.notes || '', createdAt: t, updatedAt: t });
       saveToLocalStorage(); render();
     }
+
+    /**
+     * Löscht einen Eintrag nach Bestätigung
+     * @param {string} id - ID des zu löschenden Eintrags
+     */
     function deleteEntry(id){ if(!confirm('Eintrag wirklich löschen?')) return; entries = entries.filter(e=>e.id!==id); saveToLocalStorage(); render(); }
 
     // ---------- Statusleiste ----------
+    /**
+     * Aktualisiert die Statusleiste mit Dateiname und Eintragsanzahl
+     */
     const updateStatusBar = () => {
       // Dateiname
       statusFileEl.textContent = fileHandle ? fileHandle.name : 'Keine Datei';
@@ -1131,6 +1259,10 @@ tbody.appendChild(tr);
         ? `${visibleRows} von ${total} Einträgen`
         : `${total} ${total === 1 ? 'Eintrag' : 'Einträge'}`;
     };
+    /**
+     * Aktualisiert den Speicherstatus in der Statusleiste
+     * @param {string} status - 'saved', 'unsaved' oder anderer Wert für neutral
+     */
     const updateSaveStatus = (status) => {
       statusSavedEl.classList.remove('saved', 'unsaved');
       if (status === 'saved') {
@@ -1147,7 +1279,16 @@ tbody.appendChild(tr);
     };
 
     // ---------- Datei-Handling ----------
+    /**
+     * Fallback-Methode zum Öffnen von Dateien (für Browser ohne File System API)
+     */
     const fallbackOpen = ()=>{ const input=document.getElementById('fileInput'); input.onchange=async()=>{ const f=input.files[0]; if(!f) return; const text=await f.text(); entries=deserializeSmart(text); fileHandle=null; updateStatusBar(); updateSaveStatus('saved'); render(); input.value=''; }; input.click(); };
+
+    /**
+     * Öffnet eine JSON-Datei mit Ereignisdaten
+     * Verwendet File System Access API falls verfügbar, sonst Fallback
+     * @async
+     */
     async function openFile(){
       try {
         if (supportsFS) {
@@ -1192,8 +1333,23 @@ tbody.appendChild(tr);
       }
     }
 
+    /**
+     * Fallback-Methode zum Speichern (für Browser ohne File System API)
+     */
     function fallbackSave(){ const blob=new Blob([serializeJSON()], {type:'application/json;charset=utf-8'}); const url=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download='Ereignisse_Daten.json'; document.body.appendChild(a); a.click(); setTimeout(()=>{ URL.revokeObjectURL(url); a.remove(); },0); updateStatusBar(); updateSaveStatus('saved'); }
+
+    /**
+     * Fallback-Methode für "Speichern unter" (für Browser ohne File System API)
+     */
     function fallbackSaveAs(){ let name=prompt('Dateiname für Export:','Ereignisse_Daten.json'); if(name===null) return; name=(name||'Ereignisse_Daten.json').trim(); const blob=new Blob([serializeJSON()],{type:'application/json;charset=utf-8'}); const url=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download=name; document.body.appendChild(a); a.click(); setTimeout(()=>{ URL.revokeObjectURL(url); a.remove(); },0); updateStatusBar(); updateSaveStatus('saved'); }
+
+    /**
+     * Schreibt Inhalt in ein FileHandle
+     * @async
+     * @param {FileSystemFileHandle} handle - Datei-Handle
+     * @param {string|Object} content - Zu schreibender Inhalt
+     * @throws {Error} Bei Schreibfehlern
+     */
     async function writeHandle(handle, content){
       // Write robustly as a Blob to avoid UA quirks when passing raw strings
       // Compatible with Chrome and Edge (Chromium-based)
@@ -1216,13 +1372,25 @@ tbody.appendChild(tr);
       }
     }
 
-    // Verify file handle permissions (required for Edge in some scenarios)
+    /**
+     * Prüft und fordert Dateiberechtigungen an
+     * Wichtig für Edge-Kompatibilität
+     * @async
+     * @param {FileSystemFileHandle} handle - Datei-Handle
+     * @param {string} [mode='readwrite'] - Berechtigungsmodus
+     * @returns {Promise<boolean>} true wenn Berechtigung erteilt
+     */
     async function verifyPermission(handle, mode = 'readwrite') {
       const options = { mode };
       if ((await handle.queryPermission(options)) === 'granted') return true;
       if ((await handle.requestPermission(options)) === 'granted') return true;
       return false;
     }
+    /**
+     * Speichert die Ereignisse in die aktuelle Datei
+     * Bei erstem Speichern wird "Speichern unter" aufgerufen
+     * @async
+     */
     async function saveFile(){
       try {
         if (supportsFS) {
@@ -1257,6 +1425,10 @@ tbody.appendChild(tr);
         alert('Konnte nicht speichern: ' + (e && e.message ? e.message : e));
       }
     }
+    /**
+     * Speichert die Ereignisse unter einem neuen Dateinamen
+     * @async
+     */
     async function saveFileAs(){
       try {
         if (supportsFS) {

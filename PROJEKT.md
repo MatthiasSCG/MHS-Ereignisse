@@ -58,7 +58,10 @@ Eine lokale Web-Anwendung zur Verwaltung von Ereignissen mit automatischer Berec
 ├── .gitignore            # Git-Ignorierungsliste
 ├── Ereignisse.html       # Hauptanwendung (Single-File)
 ├── PROJEKT.md            # Projektdokumentation
+├── CHANGELOG.md          # Änderungshistorie (Keep a Changelog)
 ├── Pruefergebnisse.md    # Code-Review und Qualitätsprüfung
+├── docs/                 # Dokumentation
+│   └── screenshots/      # UI-Screenshots
 ├── Ereignisse_Daten.json # Exportierte Daten (optional, nicht versioniert)
 └── Archiv/               # Lokale Sicherungen (nicht versioniert)
     └── v01.01/           # Version 1.1 (Format: vXX.YY)
@@ -275,61 +278,9 @@ Archiv/
 
 ## Änderungshistorie
 
-### Version 1.4 (2026-01-27)
+Die vollständige Änderungshistorie befindet sich in [CHANGELOG.md](CHANGELOG.md).
 
-- **Notizen-Funktion implementiert (#3):**
-  - Neues `notes`-Feld im Datenmodell für mehrzeilige Notizen
-  - Textarea im Eingabeformular für Notizen
-  - Notizen beim Bearbeiten änderbar
-  - Suche durchsucht auch Notizen
-  - Automatische Datenmigration für bestehende Einträge
-- **Notizen-Anzeige verbessert (#20):**
-  - Direkte Anzeige der Notizen in der Tabelle statt Icon mit Tooltip
-  - Scrollbare Container für längere Notizen (max. 60px Höhe)
-  - Benutzerdefinierte Scrollbar-Styles
-  - Dark Mode Unterstützung
-
-### Version 1.3 (2026-01-27)
-
-- **UI-Verbesserungen:**
-  - Layout-Umstrukturierung: Filter-Toolbar oben, Tabelle im Fokus, Eingabe unten (#15)
-  - Header-Aktionen in Dropdown-Menü "Datei" zusammengefasst (#16)
-  - Statusleiste am unteren Rand mit Dateiname, Eintragsanzahl und Speicherstatus (#17)
-  - Button "Alle löschen" in "Zurücksetzen" umbenannt (#18)
-  - Visuelle Hierarchie: Tabellen-Card stärker hervorgehoben, Eingabe-Card dezenter (#19)
-
-### Version 1.2 (2026-01-27)
-
-- **Bugfix:** Mehrere Einträge gleichzeitig bearbeiten
-  - Problem: Beim Speichern eines Eintrags gingen Änderungen in anderen bearbeiteten Einträgen verloren
-  - Lösung: Während ein Eintrag bearbeitet wird, sind die Bearbeitungs-Buttons bei anderen Einträgen deaktiviert
-  - Visuelles Feedback durch ausgegraute Buttons
-- GitHub-Integration hinzugefügt
-- Projektdokumentation auf GitHub Issues umgestellt
-
-### Version 1.1 (2026-01-26)
-
-- **Kategorien/Tags implementiert:**
-  - 9 vordefinierte Kategorien mit Farbcodierung
-  - Kategorie-Dropdown im Eingabeformular
-  - Filter nach Kategorie in der Toolbar
-  - Kategorie-Badge in der Tabelle
-  - Kategorie beim Bearbeiten änderbar
-  - Sortierung nach Kategorie möglich
-  - Dark Mode Unterstützung für alle Kategorien
-- Datenmigration von v1 zu v2 (LocalStorage)
-
-### Version 1.0 (2026-01-26)
-
-- Content Security Policy hinzugefügt
-- Event-Delegation für bessere Performance
-- Datumsvalidierung (Startdatum vor Enddatum)
-- CSS bereinigt (redundante Definitionen entfernt)
-- Externes Hintergrundbild entfernt
-- Inline-Styles in CSS-Klassen ausgelagert
-- File System Access API für Microsoft Edge optimiert
-- Berechtigungsprüfung für Dateioperationen
-- Verbessertes Error-Handling
+Das Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.1.0/) und das Projekt verwendet [Semantic Versioning](https://semver.org/lang/de/).
 
 ---
 
