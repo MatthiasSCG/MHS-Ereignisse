@@ -7,6 +7,13 @@ und dieses Projekt verwendet [Semantic Versioning](https://semver.org/lang/de/).
 
 ## [Unreleased]
 
+## [1.11.1] - 2026-01-27
+
+### Added
+- Favicon für Browser-Tab hinzugefügt (#28)
+- SVG-Icon als primäres Favicon (scharf auf allen Auflösungen)
+- PNG-Fallback für ältere Browser
+
 ## [1.11.0] - 2026-01-27
 
 ### Changed
@@ -169,7 +176,8 @@ und dieses Projekt verwendet [Semantic Versioning](https://semver.org/lang/de/).
 - XSS-Schutz durch `escapeHTML()` für alle Benutzereingaben
 - Input-Sanitization durch `sanitizeText()` für Textbereinigung
 
-[Unreleased]: https://github.com/MatthiasSCG/MHS-Ereignisse/compare/v1.11.0...HEAD
+[Unreleased]: https://github.com/MatthiasSCG/MHS-Ereignisse/compare/v1.11.1...HEAD
+[1.11.1]: https://github.com/MatthiasSCG/MHS-Ereignisse/compare/v1.11.0...v1.11.1
 [1.11.0]: https://github.com/MatthiasSCG/MHS-Ereignisse/compare/v1.10.0...v1.11.0
 [1.10.0]: https://github.com/MatthiasSCG/MHS-Ereignisse/compare/v1.9.0...v1.10.0
 [1.9.0]: https://github.com/MatthiasSCG/MHS-Ereignisse/compare/v1.8.0...v1.9.0
