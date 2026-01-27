@@ -7,6 +7,27 @@ und dieses Projekt verwendet [Semantic Versioning](https://semver.org/lang/de/).
 
 ## [Unreleased]
 
+## [1.9.0] - 2026-01-27
+
+### Added
+- Erweiterte Suche mit umfangreichen Filter-Funktionen (#12)
+- Treffer-Hervorhebung in Text und Notizen bei Suche
+- Datumsbereich-Filter mit Von/Bis-Auswahl
+- Vordefinierte Zeiträume (Heute, Diese Woche, Dieser Monat, etc.)
+- Multi-Kategorie-Filter (mehrere Kategorien gleichzeitig auswählbar)
+- Zusätzliche Filter: Nur mit Notizen, Nur wiederkehrende, Nur mit Zeitspanne
+- Aktive Filter als Tags mit Entfernen-Button angezeigt
+- Filter-Badge zeigt Anzahl aktiver Filter
+- Gespeicherte Filter: Aktuelle Filtereinstellungen speichern und laden
+- Neue Tastenkürzel: Strg+F (Suche fokussieren), Strg+Umschalt+F (Erweiterte Filter öffnen), Escape (Filter zurücksetzen)
+
+### Changed
+- Kategorie-Dropdown durch erweitertes Filter-Panel ersetzt
+- Suchfeld-Placeholder von "Filtern..." zu "Suche..." geändert
+
+### Removed
+- Einfaches Kategorie-Dropdown (ersetzt durch Multi-Select im Filter-Panel)
+
 ## [1.8.0] - 2026-01-27
 
 ### Added

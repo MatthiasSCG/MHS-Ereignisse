@@ -898,6 +898,425 @@
     [data-theme="dark"] .recurring-milestone {
       color:#fbbf24;
     }
+
+    /* ============================================================
+       Erweiterte Suche (#12)
+       ============================================================ */
+
+    /* Erweiterter Filter-Button */
+    .filter-toggle-btn {
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      padding:0 12px;
+      height:var(--ctl-h);
+      border:1px solid #d1d5db;
+      border-radius:10px;
+      background:#fff;
+      color:var(--ink);
+      font-size:14px;
+      cursor:pointer;
+      transition:background .15s, border-color .15s;
+    }
+    .filter-toggle-btn:hover {
+      background:#f8fafc;
+      border-color:#94a3b8;
+    }
+    .filter-toggle-btn.active {
+      background:#eff6ff;
+      border-color:#3b82f6;
+      color:#1d4ed8;
+    }
+    .filter-toggle-btn svg {
+      width:16px;
+      height:16px;
+    }
+    .filter-badge {
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-width:18px;
+      height:18px;
+      padding:0 5px;
+      font-size:11px;
+      font-weight:600;
+      background:#3b82f6;
+      color:#fff;
+      border-radius:9px;
+    }
+    [data-theme="dark"] .filter-toggle-btn {
+      background:#0f172a;
+      border-color:#334155;
+      color:#e5e7eb;
+    }
+    [data-theme="dark"] .filter-toggle-btn:hover {
+      background:#1e293b;
+    }
+    [data-theme="dark"] .filter-toggle-btn.active {
+      background:#1e3a5f;
+      border-color:#3b82f6;
+      color:#93c5fd;
+    }
+
+    /* Erweitertes Filter-Panel */
+    .advanced-filter-panel {
+      display:none;
+      margin-bottom:16px;
+      padding:16px;
+      background:var(--card);
+      border:1px solid #e5e7eb;
+      border-radius:var(--radius);
+    }
+    .advanced-filter-panel.open {
+      display:block;
+    }
+    .filter-panel-header {
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      margin-bottom:16px;
+    }
+    .filter-panel-title {
+      font-size:14px;
+      font-weight:600;
+      color:var(--ink);
+      display:flex;
+      align-items:center;
+      gap:8px;
+    }
+    .filter-panel-title svg {
+      width:18px;
+      height:18px;
+      color:var(--primary);
+    }
+    .filter-reset-btn {
+      padding:6px 12px;
+      font-size:12px;
+      border:1px solid #d1d5db;
+      border-radius:6px;
+      background:#fff;
+      color:var(--muted);
+      cursor:pointer;
+    }
+    .filter-reset-btn:hover {
+      background:#f1f5f9;
+      color:var(--ink);
+    }
+    [data-theme="dark"] .advanced-filter-panel {
+      background:#0f172a;
+      border-color:#334155;
+    }
+    [data-theme="dark"] .filter-reset-btn {
+      background:#1e293b;
+      border-color:#334155;
+      color:#94a3b8;
+    }
+    [data-theme="dark"] .filter-reset-btn:hover {
+      background:#334155;
+      color:#e5e7eb;
+    }
+
+    /* Filter-Gruppen */
+    .filter-groups {
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));
+      gap:20px;
+    }
+    .filter-group {
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+    }
+    .filter-group-label {
+      font-size:12px;
+      font-weight:500;
+      color:var(--muted);
+      text-transform:uppercase;
+      letter-spacing:.05em;
+    }
+
+    /* Datumsbereich */
+    .date-range-inputs {
+      display:flex;
+      gap:8px;
+      align-items:center;
+    }
+    .date-range-inputs input[type="date"] {
+      flex:1;
+      min-width:0;
+    }
+    .date-range-separator {
+      color:var(--muted);
+      font-size:12px;
+    }
+    .date-preset-select {
+      width:100%;
+      margin-top:6px;
+    }
+
+    /* Kategorie-Checkboxen */
+    .category-checkboxes {
+      display:flex;
+      flex-wrap:wrap;
+      gap:6px;
+    }
+    .category-checkbox {
+      display:inline-flex;
+      align-items:center;
+      gap:4px;
+      padding:4px 10px;
+      font-size:12px;
+      border:1px solid #e5e7eb;
+      border-radius:6px;
+      background:#fff;
+      cursor:pointer;
+      transition:background .15s, border-color .15s;
+    }
+    .category-checkbox:hover {
+      background:#f8fafc;
+    }
+    .category-checkbox.selected {
+      background:#eff6ff;
+      border-color:#3b82f6;
+      color:#1d4ed8;
+    }
+    .category-checkbox input {
+      display:none;
+    }
+    [data-theme="dark"] .category-checkbox {
+      background:#1e293b;
+      border-color:#334155;
+      color:#e5e7eb;
+    }
+    [data-theme="dark"] .category-checkbox:hover {
+      background:#334155;
+    }
+    [data-theme="dark"] .category-checkbox.selected {
+      background:#1e3a5f;
+      border-color:#3b82f6;
+      color:#93c5fd;
+    }
+
+    /* Toggle-Checkboxen */
+    .toggle-checkboxes {
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+    }
+    .toggle-checkbox {
+      display:flex;
+      align-items:center;
+      gap:8px;
+      font-size:13px;
+      color:var(--ink);
+      cursor:pointer;
+    }
+    .toggle-checkbox input {
+      width:16px;
+      height:16px;
+      accent-color:var(--primary);
+      cursor:pointer;
+    }
+
+    /* Aktive Filter-Tags */
+    .active-filters {
+      display:flex;
+      flex-wrap:wrap;
+      align-items:center;
+      gap:8px;
+      margin-bottom:12px;
+    }
+    .active-filters:empty {
+      display:none;
+    }
+    .active-filters-label {
+      font-size:12px;
+      color:var(--muted);
+    }
+    .filter-tag {
+      display:inline-flex;
+      align-items:center;
+      gap:4px;
+      padding:4px 8px;
+      font-size:12px;
+      background:#eff6ff;
+      color:#1d4ed8;
+      border-radius:6px;
+      border:1px solid #bfdbfe;
+    }
+    .filter-tag-remove {
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      width:14px;
+      height:14px;
+      border:none;
+      background:none;
+      color:#3b82f6;
+      cursor:pointer;
+      border-radius:3px;
+      padding:0;
+    }
+    .filter-tag-remove:hover {
+      background:#dbeafe;
+      color:#1d4ed8;
+    }
+    .filter-tag-remove svg {
+      width:10px;
+      height:10px;
+    }
+    [data-theme="dark"] .filter-tag {
+      background:#1e3a5f;
+      color:#93c5fd;
+      border-color:#1d4ed8;
+    }
+    [data-theme="dark"] .filter-tag-remove {
+      color:#60a5fa;
+    }
+    [data-theme="dark"] .filter-tag-remove:hover {
+      background:#1e4976;
+      color:#93c5fd;
+    }
+
+    /* Filter-Ergebnis-Anzeige */
+    .filter-result-info {
+      font-size:12px;
+      color:var(--muted);
+      margin-left:auto;
+    }
+    .filter-result-count {
+      font-weight:600;
+      color:var(--ink);
+    }
+
+    /* Treffer-Hervorhebung */
+    .search-highlight {
+      background:#fef08a;
+      color:#854d0e;
+      padding:0 2px;
+      border-radius:2px;
+    }
+    [data-theme="dark"] .search-highlight {
+      background:#854d0e;
+      color:#fef9c3;
+    }
+
+    /* Gespeicherte Filter */
+    .saved-filters-section {
+      margin-top:16px;
+      padding-top:16px;
+      border-top:1px solid #e5e7eb;
+    }
+    .saved-filters-header {
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      margin-bottom:10px;
+    }
+    .saved-filters-title {
+      font-size:12px;
+      font-weight:500;
+      color:var(--muted);
+      text-transform:uppercase;
+      letter-spacing:.05em;
+    }
+    .saved-filters-list {
+      display:flex;
+      flex-wrap:wrap;
+      gap:6px;
+    }
+    .saved-filter-btn {
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      padding:6px 12px;
+      font-size:13px;
+      border:1px solid #e5e7eb;
+      border-radius:8px;
+      background:#fff;
+      color:var(--ink);
+      cursor:pointer;
+      transition:background .15s, border-color .15s;
+    }
+    .saved-filter-btn:hover {
+      background:#f8fafc;
+      border-color:#94a3b8;
+    }
+    .saved-filter-btn.active {
+      background:#eff6ff;
+      border-color:#3b82f6;
+      color:#1d4ed8;
+    }
+    .saved-filter-delete {
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      width:16px;
+      height:16px;
+      border:none;
+      background:none;
+      color:var(--muted);
+      cursor:pointer;
+      border-radius:4px;
+      padding:0;
+      margin-left:2px;
+    }
+    .saved-filter-delete:hover {
+      background:#fee2e2;
+      color:#dc2626;
+    }
+    .saved-filter-delete svg {
+      width:12px;
+      height:12px;
+    }
+    .save-filter-btn {
+      display:inline-flex;
+      align-items:center;
+      gap:4px;
+      padding:6px 10px;
+      font-size:12px;
+      border:1px dashed #d1d5db;
+      border-radius:8px;
+      background:transparent;
+      color:var(--muted);
+      cursor:pointer;
+    }
+    .save-filter-btn:hover {
+      border-color:#94a3b8;
+      color:var(--ink);
+    }
+    .save-filter-btn svg {
+      width:14px;
+      height:14px;
+    }
+    [data-theme="dark"] .saved-filters-section {
+      border-top-color:#334155;
+    }
+    [data-theme="dark"] .saved-filter-btn {
+      background:#1e293b;
+      border-color:#334155;
+      color:#e5e7eb;
+    }
+    [data-theme="dark"] .saved-filter-btn:hover {
+      background:#334155;
+    }
+    [data-theme="dark"] .saved-filter-btn.active {
+      background:#1e3a5f;
+      border-color:#3b82f6;
+      color:#93c5fd;
+    }
+    [data-theme="dark"] .saved-filter-delete:hover {
+      background:#450a0a;
+      color:#fca5a5;
+    }
+    [data-theme="dark"] .save-filter-btn {
+      border-color:#475569;
+      color:#94a3b8;
+    }
+    [data-theme="dark"] .save-filter-btn:hover {
+      border-color:#64748b;
+      color:#e5e7eb;
+    }
   </style>
 </head>
 <body>
@@ -941,19 +1360,12 @@
       <!-- Filter-Toolbar -->
       <section class="filter-toolbar">
         <div class="toolbar toolbar-flex">
-          <input id="search" class="search" type="text" placeholder="Filtern..." />
-          <select id="filterCategory" title="Nach Kategorie filtern">
-            <option value="">Alle Kategorien</option>
-            <option value="geburtstag">Geburtstag</option>
-            <option value="todestag">Todestag</option>
-            <option value="jahrestag">Jahrestag</option>
-            <option value="jubilaeum">Jubiläum</option>
-            <option value="projekt">Projekt</option>
-            <option value="termin">Termin</option>
-            <option value="erinnerung">Erinnerung</option>
-            <option value="sonstiges">Sonstiges</option>
-            <option value="none">Ohne Kategorie</option>
-          </select>
+          <input id="search" class="search" type="text" placeholder="Suche..." title="Strg+F" />
+          <button id="advancedFilterBtn" class="filter-toggle-btn" title="Erweiterte Filter (Strg+Umschalt+F)">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M10 18h4v-2h-4v2zM3 6v2h18V6H3zm3 7h12v-2H6v2z"/></svg>
+            Filter
+            <span id="filterBadge" class="filter-badge" style="display:none;">0</span>
+          </button>
         </div>
         <div class="toolbar">
           <select id="sortKey" title="Sortieren nach">
@@ -965,6 +1377,120 @@
           <button id="sortDirBtn" class="btn-icon" title="Sortierrichtung umschalten" aria-label="Sortierrichtung">
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 16l-6-6h12z"/></svg>
           </button>
+        </div>
+      </section>
+
+      <!-- Aktive Filter-Tags -->
+      <div id="activeFilters" class="active-filters"></div>
+
+      <!-- Erweitertes Filter-Panel -->
+      <section id="advancedFilterPanel" class="advanced-filter-panel">
+        <div class="filter-panel-header">
+          <div class="filter-panel-title">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M10 18h4v-2h-4v2zM3 6v2h18V6H3zm3 7h12v-2H6v2z"/></svg>
+            Erweiterte Filter
+          </div>
+          <button id="filterResetBtn" class="filter-reset-btn">Alle zurücksetzen</button>
+        </div>
+
+        <div class="filter-groups">
+          <!-- Datumsbereich -->
+          <div class="filter-group">
+            <div class="filter-group-label">Datumsbereich</div>
+            <div class="date-range-inputs">
+              <input type="date" id="filterDateFrom" title="Von" />
+              <span class="date-range-separator">–</span>
+              <input type="date" id="filterDateTo" title="Bis" />
+            </div>
+            <select id="filterDatePreset" class="date-preset-select" title="Vordefinierter Zeitraum">
+              <option value="">Zeitraum wählen...</option>
+              <option value="today">Heute</option>
+              <option value="this-week">Diese Woche</option>
+              <option value="this-month">Dieser Monat</option>
+              <option value="this-year">Dieses Jahr</option>
+              <option value="last-7-days">Letzte 7 Tage</option>
+              <option value="last-30-days">Letzte 30 Tage</option>
+              <option value="next-7-days">Nächste 7 Tage</option>
+              <option value="next-30-days">Nächste 30 Tage</option>
+              <option value="past">Vergangene Ereignisse</option>
+              <option value="future">Zukünftige Ereignisse</option>
+            </select>
+          </div>
+
+          <!-- Kategorien -->
+          <div class="filter-group">
+            <div class="filter-group-label">Kategorien</div>
+            <div id="categoryCheckboxes" class="category-checkboxes">
+              <label class="category-checkbox" data-cat="geburtstag">
+                <input type="checkbox" value="geburtstag" />
+                <span class="cat-badge cat-geburtstag" style="padding:0 6px;">Geburtstag</span>
+              </label>
+              <label class="category-checkbox" data-cat="todestag">
+                <input type="checkbox" value="todestag" />
+                <span class="cat-badge cat-todestag" style="padding:0 6px;">Todestag</span>
+              </label>
+              <label class="category-checkbox" data-cat="jahrestag">
+                <input type="checkbox" value="jahrestag" />
+                <span class="cat-badge cat-jahrestag" style="padding:0 6px;">Jahrestag</span>
+              </label>
+              <label class="category-checkbox" data-cat="jubilaeum">
+                <input type="checkbox" value="jubilaeum" />
+                <span class="cat-badge cat-jubilaeum" style="padding:0 6px;">Jubiläum</span>
+              </label>
+              <label class="category-checkbox" data-cat="projekt">
+                <input type="checkbox" value="projekt" />
+                <span class="cat-badge cat-projekt" style="padding:0 6px;">Projekt</span>
+              </label>
+              <label class="category-checkbox" data-cat="termin">
+                <input type="checkbox" value="termin" />
+                <span class="cat-badge cat-termin" style="padding:0 6px;">Termin</span>
+              </label>
+              <label class="category-checkbox" data-cat="erinnerung">
+                <input type="checkbox" value="erinnerung" />
+                <span class="cat-badge cat-erinnerung" style="padding:0 6px;">Erinnerung</span>
+              </label>
+              <label class="category-checkbox" data-cat="sonstiges">
+                <input type="checkbox" value="sonstiges" />
+                <span class="cat-badge cat-sonstiges" style="padding:0 6px;">Sonstiges</span>
+              </label>
+              <label class="category-checkbox" data-cat="none">
+                <input type="checkbox" value="none" />
+                <span class="cat-badge cat-none" style="padding:0 6px;">Ohne</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Weitere Filter -->
+          <div class="filter-group">
+            <div class="filter-group-label">Weitere Filter</div>
+            <div class="toggle-checkboxes">
+              <label class="toggle-checkbox">
+                <input type="checkbox" id="filterHasNotes" />
+                Nur mit Notizen
+              </label>
+              <label class="toggle-checkbox">
+                <input type="checkbox" id="filterRecurring" />
+                Nur wiederkehrende
+              </label>
+              <label class="toggle-checkbox">
+                <input type="checkbox" id="filterHasTimespan" />
+                Nur mit Zeitspanne
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Gespeicherte Filter -->
+        <div class="saved-filters-section">
+          <div class="saved-filters-header">
+            <div class="saved-filters-title">Gespeicherte Filter</div>
+          </div>
+          <div id="savedFiltersList" class="saved-filters-list">
+            <button id="saveFilterBtn" class="save-filter-btn" title="Aktuellen Filter speichern">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+              Speichern...
+            </button>
+          </div>
         </div>
       </section>
 
@@ -1064,7 +1590,7 @@
    */
 
   /** @constant {string} Zentrale Versionsnummer der Anwendung */
-  const APP_VERSION = '1.8.0';
+  const APP_VERSION = '1.9.0';
 
   (function(){
     /**
@@ -1164,6 +1690,40 @@
       if (!notes || !notes.trim()) return '';
       const escaped = escapeHTML(notes);
       return `<div class="notes-display">${escaped}</div>`;
+    };
+
+    /**
+     * Erstellt HTML für die Notizen-Anzeige mit Suchhervorhebung
+     * @param {string} notes - Notizen-Text
+     * @param {string} query - Suchbegriff
+     * @returns {string} HTML-String für die Notizen oder leerer String
+     */
+    const buildNotesDisplayWithHighlight = (notes, query) => {
+      if (!notes || !notes.trim()) return '';
+      if (!query) return buildNotesDisplay(notes);
+
+      const escaped = escapeHTML(notes);
+      const queryLower = query.toLowerCase();
+      const textLower = escaped.toLowerCase();
+
+      // Check if query exists in notes
+      if (!textLower.includes(queryLower)) {
+        return `<div class="notes-display">${escaped}</div>`;
+      }
+
+      // Highlight matches
+      let result = '';
+      let lastIndex = 0;
+      let index = textLower.indexOf(queryLower);
+      while (index !== -1) {
+        result += escaped.slice(lastIndex, index);
+        result += `<mark class="search-highlight">${escaped.slice(index, index + query.length)}</mark>`;
+        lastIndex = index + query.length;
+        index = textLower.indexOf(queryLower, lastIndex);
+      }
+      result += escaped.slice(lastIndex);
+
+      return `<div class="notes-display">${result}</div>`;
     };
 
     // ---------- Verknüpfungs-Hilfsfunktionen ----------
@@ -1694,7 +2254,6 @@ const d=daysFromToday(startIso); if(d==null) return false; const absd=Math.abs(d
         recurringEl.disabled = false;
       }
     });
-    const filterCategoryEl = document.getElementById('filterCategory');
     const sortKeyEl = document.getElementById('sortKey');
     const sortDirBtn = document.getElementById('sortDirBtn');
     const themeBtn = document.getElementById('themeBtn');
@@ -1703,6 +2262,42 @@ const d=daysFromToday(startIso); if(d==null) return false; const absd=Math.abs(d
     const statusCountEl = document.getElementById('statusCount');
     const statusSavedEl = document.getElementById('statusSaved');
     const statusVersionEl = document.getElementById('statusVersion');
+
+    // Erweiterte Filter DOM-Elemente
+    const advancedFilterBtn = document.getElementById('advancedFilterBtn');
+    const advancedFilterPanel = document.getElementById('advancedFilterPanel');
+    const filterBadge = document.getElementById('filterBadge');
+    const filterResetBtn = document.getElementById('filterResetBtn');
+    const filterDateFrom = document.getElementById('filterDateFrom');
+    const filterDateTo = document.getElementById('filterDateTo');
+    const filterDatePreset = document.getElementById('filterDatePreset');
+    const categoryCheckboxes = document.getElementById('categoryCheckboxes');
+    const filterHasNotes = document.getElementById('filterHasNotes');
+    const filterRecurring = document.getElementById('filterRecurring');
+    const filterHasTimespan = document.getElementById('filterHasTimespan');
+    const activeFiltersEl = document.getElementById('activeFilters');
+    const savedFiltersList = document.getElementById('savedFiltersList');
+    const saveFilterBtn = document.getElementById('saveFilterBtn');
+
+    // Gespeicherte Filter
+    const SAVED_FILTERS_KEY = 'zeiten-saved-filters';
+    let savedFilters = [];
+    try {
+      savedFilters = JSON.parse(localStorage.getItem(SAVED_FILTERS_KEY) || '[]');
+    } catch(e) {
+      savedFilters = [];
+    }
+
+    // Aktueller Filter-Zustand
+    let currentFilter = {
+      query: '',
+      categories: [],
+      dateFrom: '',
+      dateTo: '',
+      hasNotes: false,
+      isRecurring: false,
+      hasTimespan: false
+    };
 
     // Version in Statusleiste anzeigen
     if (statusVersionEl) {
@@ -1713,10 +2308,319 @@ const d=daysFromToday(startIso); if(d==null) return false; const absd=Math.abs(d
     const THEME_KEY = 'zeiten-theme';
     let theme = localStorage.getItem(THEME_KEY) || ((window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light');
 
+    // ---------- Erweiterte Filter Hilfsfunktionen ----------
+
+    /**
+     * Berechnet Datum-Presets
+     * @param {string} preset - Preset-Schlüssel
+     * @returns {{from: string, to: string}} Datumsbereich
+     */
+    const getDatePreset = (preset) => {
+      const today = new Date();
+      const todayStr = todayISO();
+      const startOfWeek = new Date(today);
+      startOfWeek.setDate(today.getDate() - today.getDay() + 1); // Montag
+      const endOfWeek = new Date(startOfWeek);
+      endOfWeek.setDate(startOfWeek.getDate() + 6);
+      const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+      const endOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+      const startOfYear = new Date(today.getFullYear(), 0, 1);
+      const endOfYear = new Date(today.getFullYear(), 11, 31);
+
+      const formatDate = (d) => d.toISOString().split('T')[0];
+      const addDays = (d, n) => { const r = new Date(d); r.setDate(r.getDate() + n); return r; };
+
+      switch (preset) {
+        case 'today': return { from: todayStr, to: todayStr };
+        case 'this-week': return { from: formatDate(startOfWeek), to: formatDate(endOfWeek) };
+        case 'this-month': return { from: formatDate(startOfMonth), to: formatDate(endOfMonth) };
+        case 'this-year': return { from: formatDate(startOfYear), to: formatDate(endOfYear) };
+        case 'last-7-days': return { from: formatDate(addDays(today, -7)), to: todayStr };
+        case 'last-30-days': return { from: formatDate(addDays(today, -30)), to: todayStr };
+        case 'next-7-days': return { from: todayStr, to: formatDate(addDays(today, 7)) };
+        case 'next-30-days': return { from: todayStr, to: formatDate(addDays(today, 30)) };
+        case 'past': return { from: '', to: formatDate(addDays(today, -1)) };
+        case 'future': return { from: todayStr, to: '' };
+        default: return { from: '', to: '' };
+      }
+    };
+
+    /**
+     * Zählt aktive Filter
+     * @returns {number} Anzahl aktiver Filter
+     */
+    const countActiveFilters = () => {
+      let count = 0;
+      if (currentFilter.categories.length > 0) count++;
+      if (currentFilter.dateFrom || currentFilter.dateTo) count++;
+      if (currentFilter.hasNotes) count++;
+      if (currentFilter.isRecurring) count++;
+      if (currentFilter.hasTimespan) count++;
+      return count;
+    };
+
+    /**
+     * Aktualisiert die Anzeige der aktiven Filter
+     */
+    const updateActiveFilters = () => {
+      const tags = [];
+
+      // Kategorien
+      if (currentFilter.categories.length > 0) {
+        for (const cat of currentFilter.categories) {
+          const label = cat === 'none' ? 'Ohne Kategorie' : getCategoryLabel(cat);
+          tags.push({ type: 'category', value: cat, label });
+        }
+      }
+
+      // Datumsbereich
+      if (currentFilter.dateFrom || currentFilter.dateTo) {
+        let label = '';
+        if (currentFilter.dateFrom && currentFilter.dateTo) {
+          label = `${currentFilter.dateFrom} – ${currentFilter.dateTo}`;
+        } else if (currentFilter.dateFrom) {
+          label = `Ab ${currentFilter.dateFrom}`;
+        } else {
+          label = `Bis ${currentFilter.dateTo}`;
+        }
+        tags.push({ type: 'date', value: 'date', label: `📅 ${label}` });
+      }
+
+      // Weitere Filter
+      if (currentFilter.hasNotes) {
+        tags.push({ type: 'hasNotes', value: 'hasNotes', label: '📝 Mit Notizen' });
+      }
+      if (currentFilter.isRecurring) {
+        tags.push({ type: 'isRecurring', value: 'isRecurring', label: '🔄 Wiederkehrend' });
+      }
+      if (currentFilter.hasTimespan) {
+        tags.push({ type: 'hasTimespan', value: 'hasTimespan', label: '📊 Mit Zeitspanne' });
+      }
+
+      // HTML erstellen
+      if (tags.length === 0) {
+        activeFiltersEl.innerHTML = '';
+        return;
+      }
+
+      let html = '<span class="active-filters-label">Aktive Filter:</span>';
+      for (const tag of tags) {
+        html += `<span class="filter-tag" data-type="${tag.type}" data-value="${tag.value}">
+          ${escapeHTML(tag.label)}
+          <button class="filter-tag-remove" title="Filter entfernen">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.3 5.7L12 12l6.3 6.3-1.4 1.4L12 13.4l-6.3 6.3-1.4-1.4L10.6 12 4.3 5.7l1.4-1.4L12 10.6l4.9-4.9z"/></svg>
+          </button>
+        </span>`;
+      }
+      activeFiltersEl.innerHTML = html;
+
+      // Event-Listener für Entfernen-Buttons
+      activeFiltersEl.querySelectorAll('.filter-tag-remove').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const tag = e.target.closest('.filter-tag');
+          const type = tag.dataset.type;
+          const value = tag.dataset.value;
+          removeFilter(type, value);
+        });
+      });
+    };
+
+    /**
+     * Entfernt einen Filter
+     */
+    const removeFilter = (type, value) => {
+      switch (type) {
+        case 'category':
+          currentFilter.categories = currentFilter.categories.filter(c => c !== value);
+          const checkbox = categoryCheckboxes.querySelector(`input[value="${value}"]`);
+          if (checkbox) {
+            checkbox.checked = false;
+            checkbox.closest('.category-checkbox').classList.remove('selected');
+          }
+          break;
+        case 'date':
+          currentFilter.dateFrom = '';
+          currentFilter.dateTo = '';
+          filterDateFrom.value = '';
+          filterDateTo.value = '';
+          filterDatePreset.value = '';
+          break;
+        case 'hasNotes':
+          currentFilter.hasNotes = false;
+          filterHasNotes.checked = false;
+          break;
+        case 'isRecurring':
+          currentFilter.isRecurring = false;
+          filterRecurring.checked = false;
+          break;
+        case 'hasTimespan':
+          currentFilter.hasTimespan = false;
+          filterHasTimespan.checked = false;
+          break;
+      }
+      updateFilterBadge();
+      updateActiveFilters();
+      render();
+    };
+
+    /**
+     * Aktualisiert das Filter-Badge
+     */
+    const updateFilterBadge = () => {
+      const count = countActiveFilters();
+      if (count > 0) {
+        filterBadge.textContent = count;
+        filterBadge.style.display = 'inline-flex';
+        advancedFilterBtn.classList.add('active');
+      } else {
+        filterBadge.style.display = 'none';
+        advancedFilterBtn.classList.remove('active');
+      }
+    };
+
+    /**
+     * Setzt alle Filter zurück
+     */
+    const resetAllFilters = () => {
+      currentFilter = {
+        query: '',
+        categories: [],
+        dateFrom: '',
+        dateTo: '',
+        hasNotes: false,
+        isRecurring: false,
+        hasTimespan: false
+      };
+      searchEl.value = '';
+      filterDateFrom.value = '';
+      filterDateTo.value = '';
+      filterDatePreset.value = '';
+      filterHasNotes.checked = false;
+      filterRecurring.checked = false;
+      filterHasTimespan.checked = false;
+      categoryCheckboxes.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+        cb.checked = false;
+        cb.closest('.category-checkbox').classList.remove('selected');
+      });
+      updateFilterBadge();
+      updateActiveFilters();
+      render();
+    };
+
+    /**
+     * Hebt Suchbegriff im Text hervor
+     */
+    const highlightText = (text, query) => {
+      if (!query || !text) return escapeHTML(text);
+      const escaped = escapeHTML(text);
+      const queryLower = query.toLowerCase();
+      const textLower = escaped.toLowerCase();
+      let result = '';
+      let lastIndex = 0;
+      let index = textLower.indexOf(queryLower);
+      while (index !== -1) {
+        result += escaped.slice(lastIndex, index);
+        result += `<mark class="search-highlight">${escaped.slice(index, index + query.length)}</mark>`;
+        lastIndex = index + query.length;
+        index = textLower.indexOf(queryLower, lastIndex);
+      }
+      result += escaped.slice(lastIndex);
+      return result;
+    };
+
+    /**
+     * Speichert einen neuen Filter
+     */
+    const saveCurrentFilter = () => {
+      const name = prompt('Name für diesen Filter:');
+      if (!name || !name.trim()) return;
+
+      const filter = {
+        id: uid(),
+        name: name.trim(),
+        filter: { ...currentFilter }
+      };
+      savedFilters.push(filter);
+      localStorage.setItem(SAVED_FILTERS_KEY, JSON.stringify(savedFilters));
+      renderSavedFilters();
+    };
+
+    /**
+     * Lädt einen gespeicherten Filter
+     */
+    const loadSavedFilter = (id) => {
+      const filter = savedFilters.find(f => f.id === id);
+      if (!filter) return;
+
+      currentFilter = { ...filter.filter };
+      searchEl.value = currentFilter.query || '';
+      filterDateFrom.value = currentFilter.dateFrom || '';
+      filterDateTo.value = currentFilter.dateTo || '';
+      filterDatePreset.value = '';
+      filterHasNotes.checked = currentFilter.hasNotes || false;
+      filterRecurring.checked = currentFilter.isRecurring || false;
+      filterHasTimespan.checked = currentFilter.hasTimespan || false;
+
+      categoryCheckboxes.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+        const isSelected = currentFilter.categories.includes(cb.value);
+        cb.checked = isSelected;
+        cb.closest('.category-checkbox').classList.toggle('selected', isSelected);
+      });
+
+      updateFilterBadge();
+      updateActiveFilters();
+      render();
+    };
+
+    /**
+     * Löscht einen gespeicherten Filter
+     */
+    const deleteSavedFilter = (id) => {
+      savedFilters = savedFilters.filter(f => f.id !== id);
+      localStorage.setItem(SAVED_FILTERS_KEY, JSON.stringify(savedFilters));
+      renderSavedFilters();
+    };
+
+    /**
+     * Rendert die Liste der gespeicherten Filter
+     */
+    const renderSavedFilters = () => {
+      let html = '';
+      for (const filter of savedFilters) {
+        html += `<button class="saved-filter-btn" data-id="${filter.id}" title="${escapeHTML(filter.name)}">
+          ${escapeHTML(filter.name)}
+          <button class="saved-filter-delete" data-id="${filter.id}" title="Löschen">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.3 5.7L12 12l6.3 6.3-1.4 1.4L12 13.4l-6.3 6.3-1.4-1.4L10.6 12 4.3 5.7l1.4-1.4L12 10.6l4.9-4.9z"/></svg>
+          </button>
+        </button>`;
+      }
+      html += `<button id="saveFilterBtn" class="save-filter-btn" title="Aktuellen Filter speichern">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+        Speichern...
+      </button>`;
+      savedFiltersList.innerHTML = html;
+
+      // Event-Listener
+      savedFiltersList.querySelectorAll('.saved-filter-btn[data-id]').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          if (e.target.closest('.saved-filter-delete')) return;
+          loadSavedFilter(btn.dataset.id);
+        });
+      });
+      savedFiltersList.querySelectorAll('.saved-filter-delete').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          deleteSavedFilter(btn.dataset.id);
+        });
+      });
+      savedFiltersList.querySelector('#saveFilterBtn')?.addEventListener('click', saveCurrentFilter);
+    };
+
     // ---------- Rendering ----------
     const render = ()=>{
-      const q=(searchEl.value||'').toLowerCase();
-      const catFilter = filterCategoryEl.value;
+      // Suchtext aus Filter-Zustand
+      const q = currentFilter.query.toLowerCase();
+
       const filtered = entries
         .slice()
         .sort((a,b)=>{
@@ -1734,25 +2638,50 @@ const d=daysFromToday(startIso); if(d==null) return false; const absd=Math.abs(d
         .filter(e=>{
           // Textsuche (inkl. Notizen)
           const matchesText = !q || e.text.toLowerCase().includes(q) || (e.notes||'').toLowerCase().includes(q) || (e.date||'').includes(q) || (e.end||'').includes(q) || getCategoryLabel(e.category).toLowerCase().includes(q);
-          // Kategorie-Filter
+
+          // Kategorie-Filter (Multi-Select)
           let matchesCat = true;
-          if (catFilter === 'none') {
-            matchesCat = !e.category;
-          } else if (catFilter) {
-            matchesCat = e.category === catFilter;
+          if (currentFilter.categories.length > 0) {
+            if (currentFilter.categories.includes('none')) {
+              matchesCat = currentFilter.categories.includes(e.category || 'none') ||
+                           (currentFilter.categories.includes('none') && !e.category);
+            } else {
+              matchesCat = currentFilter.categories.includes(e.category);
+            }
           }
-          return matchesText && matchesCat;
+
+          // Datumsbereich-Filter
+          let matchesDate = true;
+          if (currentFilter.dateFrom || currentFilter.dateTo) {
+            const entryDate = e.date || '';
+            const entryEnd = e.end || entryDate;
+            if (currentFilter.dateFrom && entryEnd < currentFilter.dateFrom) matchesDate = false;
+            if (currentFilter.dateTo && entryDate > currentFilter.dateTo) matchesDate = false;
+          }
+
+          // Weitere Filter
+          let matchesOther = true;
+          if (currentFilter.hasNotes && !(e.notes && e.notes.trim())) matchesOther = false;
+          if (currentFilter.isRecurring && !e.recurring) matchesOther = false;
+          if (currentFilter.hasTimespan && !e.end) matchesOther = false;
+
+          return matchesText && matchesCat && matchesDate && matchesOther;
         });
 
       tbody.innerHTML='';
       for(const e of filtered){
         const tr=document.createElement('tr');
         tr.dataset.id=e.id;
+
+        // Text mit Hervorhebung
+        const textDisplay = q ? highlightText(e.text, currentFilter.query) : escapeHTML(e.text);
+        const notesDisplay = e.notes ? buildNotesDisplayWithHighlight(e.notes, currentFilter.query) : '';
+
         tr.innerHTML=`
           <td><span class="badge">${e.date||''}</span>${buildLinkIndicators(e)}</td>
           <td>${buildEndCell(e)}</td>
           <td>${buildCategoryBadge(e.category)}</td>
-          <td>${escapeHTML(e.text)}${buildNotesDisplay(e.notes)}</td>
+          <td>${textDisplay}${notesDisplay}</td>
           <td class="days">${buildDaysCell(e.date, e.end)}</td>
           <td class="actions">
             <div class="actions-row">
@@ -2434,20 +3363,128 @@ tbody.appendChild(tr);
     })();
 
     textEl.addEventListener('keydown', (e)=>{ if(e.key==='Enter' && (e.metaKey||e.ctrlKey)) addEntry(); });
-    searchEl.addEventListener('input', render);
-    filterCategoryEl.addEventListener('change', render);
+
+    // Suchfeld-Event
+    searchEl.addEventListener('input', () => {
+      currentFilter.query = searchEl.value || '';
+      render();
+    });
+
+    // Erweiterter Filter-Button
+    advancedFilterBtn.addEventListener('click', () => {
+      advancedFilterPanel.classList.toggle('open');
+      advancedFilterBtn.setAttribute('aria-expanded', advancedFilterPanel.classList.contains('open'));
+    });
+
+    // Filter zurücksetzen
+    filterResetBtn.addEventListener('click', resetAllFilters);
+
+    // Datumsbereich-Filter
+    filterDateFrom.addEventListener('change', () => {
+      currentFilter.dateFrom = filterDateFrom.value;
+      filterDatePreset.value = '';
+      updateFilterBadge();
+      updateActiveFilters();
+      render();
+    });
+    filterDateTo.addEventListener('change', () => {
+      currentFilter.dateTo = filterDateTo.value;
+      filterDatePreset.value = '';
+      updateFilterBadge();
+      updateActiveFilters();
+      render();
+    });
+    filterDatePreset.addEventListener('change', () => {
+      const preset = filterDatePreset.value;
+      if (preset) {
+        const { from, to } = getDatePreset(preset);
+        currentFilter.dateFrom = from;
+        currentFilter.dateTo = to;
+        filterDateFrom.value = from;
+        filterDateTo.value = to;
+      } else {
+        currentFilter.dateFrom = '';
+        currentFilter.dateTo = '';
+        filterDateFrom.value = '';
+        filterDateTo.value = '';
+      }
+      updateFilterBadge();
+      updateActiveFilters();
+      render();
+    });
+
+    // Kategorie-Checkboxen
+    categoryCheckboxes.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+      cb.addEventListener('change', () => {
+        const label = cb.closest('.category-checkbox');
+        if (cb.checked) {
+          currentFilter.categories.push(cb.value);
+          label.classList.add('selected');
+        } else {
+          currentFilter.categories = currentFilter.categories.filter(c => c !== cb.value);
+          label.classList.remove('selected');
+        }
+        updateFilterBadge();
+        updateActiveFilters();
+        render();
+      });
+    });
+
+    // Weitere Filter-Checkboxen
+    filterHasNotes.addEventListener('change', () => {
+      currentFilter.hasNotes = filterHasNotes.checked;
+      updateFilterBadge();
+      updateActiveFilters();
+      render();
+    });
+    filterRecurring.addEventListener('change', () => {
+      currentFilter.isRecurring = filterRecurring.checked;
+      updateFilterBadge();
+      updateActiveFilters();
+      render();
+    });
+    filterHasTimespan.addEventListener('change', () => {
+      currentFilter.hasTimespan = filterHasTimespan.checked;
+      updateFilterBadge();
+      updateActiveFilters();
+      render();
+    });
 
     dateEl.value = todayISO();
     loadFromLocalStorage();
     applyTheme();
     updateSortIcon();
+    renderSavedFilters();
     render();
 
+    // Tastenkürzel
     document.addEventListener('keydown', (e)=>{
       const k = e.key.toLowerCase();
+      // Datei-Operationen
       if ((e.ctrlKey||e.metaKey) && k==='s' && !e.shiftKey) { e.preventDefault(); saveFile(); }
       if ((e.ctrlKey||e.metaKey) && e.shiftKey && k==='s') { e.preventDefault(); saveFileAs(); }
       if ((e.ctrlKey||e.metaKey) && k==='o') { e.preventDefault(); openFile(); }
+      // Suchfunktionen
+      if ((e.ctrlKey||e.metaKey) && k==='f' && !e.shiftKey) {
+        e.preventDefault();
+        searchEl.focus();
+        searchEl.select();
+      }
+      if ((e.ctrlKey||e.metaKey) && e.shiftKey && k==='f') {
+        e.preventDefault();
+        advancedFilterPanel.classList.add('open');
+        advancedFilterBtn.setAttribute('aria-expanded', 'true');
+        filterDateFrom.focus();
+      }
+      // Escape zum Zurücksetzen der Filter
+      if (e.key === 'Escape' && !editingId) {
+        if (document.activeElement === searchEl || advancedFilterPanel.classList.contains('open')) {
+          resetAllFilters();
+          advancedFilterPanel.classList.remove('open');
+          advancedFilterBtn.setAttribute('aria-expanded', 'false');
+          searchEl.blur();
+        }
+      }
     });
   })();
 

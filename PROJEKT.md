@@ -5,7 +5,7 @@
 **Name:** Ereignisse und deren Zeitraum zu heute
 **Typ:** Single-Page Web-Anwendung (SPA)
 **Autor:** Matthias
-**Version:** 1.8
+**Version:** 1.9
 **Letzte Aktualisierung:** 2026-01-27
 **Repository:** https://github.com/MatthiasSCG/MHS-Ereignisse (privat)
 
@@ -21,7 +21,8 @@ Eine lokale Web-Anwendung zur Verwaltung von Ereignissen mit automatischer Berec
 - **Zeitberechnung:** Automatische Anzeige der Differenz in Tagen, Wochen, Monaten und Jahren
 - **Zeitspannen:** Unterstützung von Ereignissen mit Start- und Endzeitpunkt
 - **Meilenstein-Hervorhebung:** Visuelle Markierung bei runden Zahlen (1000 Tage, 100 Wochen, etc.)
-- **Kategorien:** Farbcodierte Kategorisierung von Ereignissen mit Filterfunktion
+- **Kategorien:** Farbcodierte Kategorisierung von Ereignissen mit Multi-Select-Filter
+- **Erweiterte Suche:** Datumsbereich-Filter, Multi-Kategorie-Filter, speicherbare Filter
 - **Notizen:** Mehrzeilige Notizen für jedes Ereignis mit scrollbarer Anzeige
 - **Verknüpfungen:** Vorgänger/Nachfolger-Beziehungen zwischen Ereignissen (n:m)
 - **Wiederkehrende Ereignisse:** Jährliche Termine mit automatischer Berechnung des nächsten Vorkommens
@@ -165,6 +166,9 @@ Besondere Zeitpunkte werden visuell hervorgehoben:
 | `Ctrl + Shift + S` | Speichern unter... |
 | `Ctrl + O` | Datei öffnen |
 | `Ctrl + Enter` | Ereignis hinzufügen (im Textfeld) |
+| `Ctrl + F` | Suche fokussieren |
+| `Ctrl + Shift + F` | Erweiterte Filter öffnen |
+| `Escape` | Filter zurücksetzen |
 
 ---
 
@@ -316,7 +320,7 @@ Alle geplanten Erweiterungen werden als [GitHub Issues](https://github.com/Matth
 | **v1.6** | Ereignis-Verknüpfungen | ✅ Abgeschlossen (#24) |
 | **v1.7** | PWA-Unterstützung | ✅ Abgeschlossen (#9) |
 | **v1.8** | Wiederkehrende Ereignisse | ✅ Abgeschlossen (#1) |
-| **v1.9** | Erweiterte Suche | #12 |
+| **v1.9** | Erweiterte Suche | ✅ Abgeschlossen (#12) |
 | **v2.0** | Kalenderansicht, Dashboard | #5, #6 |
 | **v2.1** | Import/Export-Formate, Benachrichtigungen | #11, #4, #2 |
 | **v2.2** | Drag & Drop, Theme-Optionen | #7, #8 |
@@ -324,11 +328,6 @@ Alle geplanten Erweiterungen werden als [GitHub Issues](https://github.com/Matth
 | **v4.0** | Cloud-Synchronisation | #10 |
 
 ### Offene Issues nach Priorität
-
-#### Hohe Priorität
-| Issue | Titel |
-|-------|-------|
-| #12 | Erweiterte Suche |
 
 #### Mittlere Priorität
 | Issue | Titel |
