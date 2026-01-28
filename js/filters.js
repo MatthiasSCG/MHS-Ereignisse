@@ -1,6 +1,6 @@
 /**
  * filters.js - Filter-Logik, gespeicherte Filter
- * Ereignisse v1.11.0
+ * Ereignisse v1.15.0
  */
 'use strict';
 
@@ -81,7 +81,9 @@ const updateActiveFilters = () => {
   // Kategorien
   if (currentFilter.categories.length > 0) {
     for (const cat of currentFilter.categories) {
-      const label = cat === 'none' ? 'Ohne Kategorie' : getCategoryLabel(cat);
+      const label = cat === 'none'
+        ? (typeof t === 'function' ? t('cat.without') : 'Ohne Kategorie')
+        : getCategoryLabel(cat);
       tags.push({ type: 'category', value: cat, label });
     }
   }
@@ -89,25 +91,30 @@ const updateActiveFilters = () => {
   // Datumsbereich
   if (currentFilter.dateFrom || currentFilter.dateTo) {
     let label = '';
+    const fromLabel = typeof t === 'function' ? t('label.from') : 'Von';
+    const toLabel = typeof t === 'function' ? t('label.to') : 'Bis';
     if (currentFilter.dateFrom && currentFilter.dateTo) {
       label = `${currentFilter.dateFrom} – ${currentFilter.dateTo}`;
     } else if (currentFilter.dateFrom) {
-      label = `Ab ${currentFilter.dateFrom}`;
+      label = `${fromLabel} ${currentFilter.dateFrom}`;
     } else {
-      label = `Bis ${currentFilter.dateTo}`;
+      label = `${toLabel} ${currentFilter.dateTo}`;
     }
     tags.push({ type: 'date', value: 'date', label: `📅 ${label}` });
   }
 
   // Weitere Filter
   if (currentFilter.hasNotes) {
-    tags.push({ type: 'hasNotes', value: 'hasNotes', label: '📝 Mit Notizen' });
+    const notesLabel = typeof t === 'function' ? t('label.onlyWithNotes') : 'Mit Notizen';
+    tags.push({ type: 'hasNotes', value: 'hasNotes', label: `📝 ${notesLabel}` });
   }
   if (currentFilter.isRecurring) {
-    tags.push({ type: 'isRecurring', value: 'isRecurring', label: '🔄 Wiederkehrend' });
+    const recurLabel = typeof t === 'function' ? t('label.onlyRecurring') : 'Wiederkehrend';
+    tags.push({ type: 'isRecurring', value: 'isRecurring', label: `🔄 ${recurLabel}` });
   }
   if (currentFilter.hasTimespan) {
-    tags.push({ type: 'hasTimespan', value: 'hasTimespan', label: '📊 Mit Zeitspanne' });
+    const spanLabel = typeof t === 'function' ? t('label.onlyWithTimespan') : 'Mit Zeitspanne';
+    tags.push({ type: 'hasTimespan', value: 'hasTimespan', label: `📊 ${spanLabel}` });
   }
 
   // HTML erstellen
@@ -116,11 +123,13 @@ const updateActiveFilters = () => {
     return;
   }
 
-  let html = '<span class="active-filters-label">Aktive Filter:</span>';
+  const activeLabel = typeof t === 'function' ? t('label.filter') : 'Aktive Filter';
+  const removeTitle = typeof t === 'function' ? t('tooltip.remove') : 'Entfernen';
+  let html = `<span class="active-filters-label">${activeLabel}:</span>`;
   for (const tag of tags) {
     html += `<span class="filter-tag" data-type="${tag.type}" data-value="${tag.value}">
       ${escapeHTML(tag.label)}
-      <button class="filter-tag-remove" title="Filter entfernen">
+      <button class="filter-tag-remove" title="${removeTitle}">
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.3 5.7L12 12l6.3 6.3-1.4 1.4L12 13.4l-6.3 6.3-1.4-1.4L10.6 12 4.3 5.7l1.4-1.4L12 10.6l4.9-4.9z"/></svg>
       </button>
     </span>`;
@@ -245,7 +254,8 @@ const highlightText = (text, query) => {
  * Speichert einen neuen Filter
  */
 const saveCurrentFilter = () => {
-  const name = prompt('Name für diesen Filter:');
+  const promptText = typeof t === 'function' ? t('dialog.filterName') : 'Name für diesen Filter:';
+  const name = prompt(promptText);
   if (!name || !name.trim()) return;
 
   const filter = {
@@ -298,18 +308,20 @@ const deleteSavedFilter = (id) => {
  * Rendert die Liste der gespeicherten Filter
  */
 const renderSavedFilters = () => {
+  const deleteTitle = typeof t === 'function' ? t('btn.delete') : 'Löschen';
+  const saveLabel = typeof t === 'function' ? t('btn.saveFilter') : 'Speichern...';
   let html = '';
   for (const filter of savedFilters) {
     html += `<button class="saved-filter-btn" data-id="${filter.id}" title="${escapeHTML(filter.name)}">
       ${escapeHTML(filter.name)}
-      <button class="saved-filter-delete" data-id="${filter.id}" title="Löschen">
+      <button class="saved-filter-delete" data-id="${filter.id}" title="${deleteTitle}">
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.3 5.7L12 12l6.3 6.3-1.4 1.4L12 13.4l-6.3 6.3-1.4-1.4L10.6 12 4.3 5.7l1.4-1.4L12 10.6l4.9-4.9z"/></svg>
       </button>
     </button>`;
   }
-  html += `<button id="saveFilterBtn" class="save-filter-btn" title="Aktuellen Filter speichern">
+  html += `<button id="saveFilterBtn" class="save-filter-btn" title="${saveLabel}">
     <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
-    Speichern...
+    ${saveLabel}
   </button>`;
   savedFiltersList.innerHTML = html;
 

@@ -1,6 +1,6 @@
 /**
  * dashboard.js - Dashboard View Logic
- * Ereignisse v1.14.0
+ * Ereignisse v1.15.0
  *
  * Renders the dashboard with upcoming events, recent events,
  * milestones and statistics.
@@ -211,13 +211,16 @@ const getMilestones = (allEntries, years = MILESTONE_YEARS) => {
           const milestoneDate = new Date(origDate);
           milestoneDate.setFullYear(origDate.getFullYear() + milestone);
 
+          const catLabel = entry.category === 'geburtstag'
+            ? (typeof t === 'function' ? t('cat.geburtstag') : 'Geburtstag')
+            : (typeof t === 'function' ? t('cat.jahrestag') : 'Jahrestag');
           milestones.push({
             entry,
             type: 'year',
             milestone,
             yearsUntil,
             date: milestoneDate,
-            label: `${milestone}. ${entry.category === 'geburtstag' ? 'Geburtstag' : 'Jahrestag'}`
+            label: `${milestone}. ${catLabel}`
           });
         }
       });
@@ -234,13 +237,15 @@ const getMilestones = (allEntries, years = MILESTONE_YEARS) => {
         milestoneDate.setDate(milestoneDate.getDate() + dayMilestone);
 
         if (milestoneDate <= maxDate) {
+          const lang = typeof i18n !== 'undefined' ? i18n.getCurrentLang() : 'de';
+          const daysWord = typeof tn === 'function' ? tn('unit.day.nom', dayMilestone) : 'Tage';
           milestones.push({
             entry,
             type: 'days',
             milestone: dayMilestone,
             daysUntil,
             date: milestoneDate,
-            label: `${dayMilestone.toLocaleString('de-DE')} Tage`
+            label: `${dayMilestone.toLocaleString(lang)} ${daysWord}`
           });
         }
       }
@@ -296,26 +301,32 @@ const getStatistics = (allEntries) => {
 };
 
 /**
- * Formats a date for display
+ * Formats a date for display (locale-aware)
  * @param {Date} date - Date to format
  * @returns {string} Formatted date string
  */
 const formatDateShort = (date) => {
+  const lang = typeof i18n !== 'undefined' ? i18n.getCurrentLang() : 'de';
   const options = { day: '2-digit', month: '2-digit' };
-  return date.toLocaleDateString('de-DE', options);
+  return date.toLocaleDateString(lang === 'en' ? 'en-GB' : lang, options);
 };
 
 /**
- * Formats a weekday name
+ * Formats a weekday name (using i18n)
  * @param {Date} date - Date to get weekday from
  * @returns {string} Abbreviated weekday name
  */
 const formatWeekday = (date) => {
+  const dayOfWeek = date.getDay();
+  const weekdayIndex = dayOfWeek === 0 ? 6 : dayOfWeek - 1; // Convert to Mon=0, Sun=6
+  if (typeof getWeekday === 'function') {
+    return getWeekday(weekdayIndex, true);
+  }
   return date.toLocaleDateString('de-DE', { weekday: 'short' });
 };
 
 /**
- * Formats relative time (e.g., "in 3 Tagen", "vor 2 Tagen")
+ * Formats relative time (e.g., "in 3 Tagen", "vor 2 Tagen") using i18n
  * @param {Date} date - Target date
  * @returns {string} Relative time string
  */
@@ -326,11 +337,19 @@ const formatRelativeTime = (date) => {
   target.setHours(0, 0, 0, 0);
   const diff = Math.round((target - today) / (1000 * 60 * 60 * 24));
 
-  if (diff === 0) return 'heute';
-  if (diff === 1) return 'morgen';
-  if (diff === -1) return 'gestern';
-  if (diff > 0) return `in ${diff} ${diff === 1 ? 'Tag' : 'Tagen'}`;
-  return `vor ${Math.abs(diff)} ${Math.abs(diff) === 1 ? 'Tag' : 'Tagen'}`;
+  if (diff === 0) return typeof t === 'function' ? t('time.today') : 'heute';
+  if (diff === 1) return typeof t === 'function' ? t('time.tomorrow') : 'morgen';
+  if (diff === -1) return typeof t === 'function' ? t('time.yesterday') : 'gestern';
+
+  const abs = Math.abs(diff);
+  const unit = typeof tn === 'function' ? tn('unit.day', abs) : (abs === 1 ? 'Tag' : 'Tagen');
+
+  if (diff > 0) {
+    const inWord = typeof t === 'function' ? t('time.in') : 'in';
+    return `${inWord} ${abs} ${unit}`;
+  }
+  const agoWord = typeof t === 'function' ? t('time.ago') : 'vor';
+  return `${agoWord} ${abs} ${unit}`;
 };
 
 /**
@@ -345,7 +364,8 @@ const renderUpcoming = (allEntries) => {
   const groups = groupByTimeframe(upcoming);
 
   if (upcoming.length === 0) {
-    container.innerHTML = '<div class="dashboard-empty">Keine anstehenden Ereignisse in den n\u00E4chsten 30 Tagen</div>';
+    const msg = typeof t === 'function' ? t('dashboard.noUpcoming') : 'Keine anstehenden Ereignisse in den nächsten 30 Tagen';
+    container.innerHTML = `<div class="dashboard-empty">${msg}</div>`;
     return;
   }
 
@@ -353,7 +373,7 @@ const renderUpcoming = (allEntries) => {
 
   if (groups.today.length > 0) {
     html += '<div class="dashboard-group">';
-    html += '<div class="dashboard-group-header">Heute</div>';
+    html += `<div class="dashboard-group-header">${typeof t === 'function' ? t('dashboard.groupToday') : 'Heute'}</div>`;
     groups.today.forEach(e => {
       html += renderEventItem(e, getEffectiveDate(e));
     });
@@ -362,7 +382,7 @@ const renderUpcoming = (allEntries) => {
 
   if (groups.thisWeek.length > 0) {
     html += '<div class="dashboard-group">';
-    html += '<div class="dashboard-group-header">Diese Woche</div>';
+    html += `<div class="dashboard-group-header">${typeof t === 'function' ? t('dashboard.groupThisWeek') : 'Diese Woche'}</div>`;
     groups.thisWeek.forEach(e => {
       html += renderEventItem(e, getEffectiveDate(e));
     });
@@ -371,7 +391,7 @@ const renderUpcoming = (allEntries) => {
 
   if (groups.thisMonth.length > 0) {
     html += '<div class="dashboard-group">';
-    html += '<div class="dashboard-group-header">Dieser Monat</div>';
+    html += `<div class="dashboard-group-header">${typeof t === 'function' ? t('dashboard.groupThisMonth') : 'Dieser Monat'}</div>`;
     groups.thisMonth.forEach(e => {
       html += renderEventItem(e, getEffectiveDate(e));
     });
@@ -380,7 +400,7 @@ const renderUpcoming = (allEntries) => {
 
   if (groups.later.length > 0) {
     html += '<div class="dashboard-group">';
-    html += '<div class="dashboard-group-header">Sp\u00E4ter</div>';
+    html += `<div class="dashboard-group-header">${typeof t === 'function' ? t('dashboard.groupLater') : 'Später'}</div>`;
     groups.later.forEach(e => {
       html += renderEventItem(e, getEffectiveDate(e));
     });
@@ -408,7 +428,10 @@ const renderEventItem = (entry, date) => {
   if (entry.recurring && entry.date) {
     const age = getAgeAtDate(entry.date, date.getTime());
     if (age !== null && age > 0) {
-      ageInfo = `<span class="dashboard-event-age">${age} ${entry.category === 'geburtstag' ? 'Jahre' : 'J.'}</span>`;
+      const yearsLabel = entry.category === 'geburtstag'
+        ? (typeof tn === 'function' ? tn('unit.year.nom', age) : (age === 1 ? 'Jahr' : 'Jahre'))
+        : (typeof t === 'function' ? t('dashboard.yearsShort') : 'J.');
+      ageInfo = `<span class="dashboard-event-age">${age} ${yearsLabel}</span>`;
     }
   }
 
@@ -434,7 +457,8 @@ const renderRecent = (allEntries) => {
   const recent = getRecentEvents(allEntries);
 
   if (recent.length === 0) {
-    container.innerHTML = '<div class="dashboard-empty">Keine Ereignisse in den letzten 7 Tagen</div>';
+    const msg = typeof t === 'function' ? t('dashboard.noRecent') : 'Keine Ereignisse in den letzten 7 Tagen';
+    container.innerHTML = `<div class="dashboard-empty">${msg}</div>`;
     return;
   }
 
@@ -449,7 +473,10 @@ const renderRecent = (allEntries) => {
     if (e.recurring && e.date) {
       const age = getAgeAtDate(e.date, date.getTime());
       if (age !== null && age > 0) {
-        ageInfo = `<span class="dashboard-event-age">${age} ${e.category === 'geburtstag' ? 'Jahre' : 'J.'}</span>`;
+        const yearsLabel = e.category === 'geburtstag'
+          ? (typeof tn === 'function' ? tn('unit.year.nom', age) : (age === 1 ? 'Jahr' : 'Jahre'))
+          : (typeof t === 'function' ? t('dashboard.yearsShort') : 'J.');
+        ageInfo = `<span class="dashboard-event-age">${age} ${yearsLabel}</span>`;
       }
     }
 
@@ -478,7 +505,8 @@ const renderMilestones = (allEntries) => {
   const milestones = getMilestones(allEntries);
 
   if (milestones.length === 0) {
-    container.innerHTML = '<div class="dashboard-empty">Keine Meilensteine in den n\u00E4chsten Jahren</div>';
+    const msg = typeof t === 'function' ? t('dashboard.noMilestones') : 'Keine Meilensteine in den nächsten Jahren';
+    container.innerHTML = `<div class="dashboard-empty">${msg}</div>`;
     return;
   }
 
@@ -491,9 +519,17 @@ const renderMilestones = (allEntries) => {
 
     let timeInfo = '';
     if (m.type === 'year') {
-      timeInfo = m.yearsUntil === 1 ? 'in 1 Jahr' : `in ${m.yearsUntil} Jahren`;
+      if (m.yearsUntil === 1) {
+        timeInfo = typeof t === 'function' ? t('dashboard.inOneYear') : 'in 1 Jahr';
+      } else {
+        timeInfo = typeof t === 'function' ? t('dashboard.inYears', { n: m.yearsUntil }) : `in ${m.yearsUntil} Jahren`;
+      }
     } else {
-      timeInfo = m.daysUntil === 1 ? 'morgen' : `in ${m.daysUntil} Tagen`;
+      if (m.daysUntil === 1) {
+        timeInfo = typeof t === 'function' ? t('time.tomorrow') : 'morgen';
+      } else {
+        timeInfo = typeof t === 'function' ? t('dashboard.inDays', { n: m.daysUntil }) : `in ${m.daysUntil} Tagen`;
+      }
     }
 
     html += `
@@ -526,14 +562,16 @@ const renderStats = (allEntries) => {
   const stats = getStatistics(allEntries);
 
   if (stats.total === 0) {
-    container.innerHTML = '<div class="dashboard-empty">Keine Ereignisse vorhanden</div>';
+    const msg = typeof t === 'function' ? t('dashboard.noEvents') : 'Keine Ereignisse vorhanden';
+    container.innerHTML = `<div class="dashboard-empty">${msg}</div>`;
     return;
   }
 
   // Find max count for bar scaling
   const maxCount = Math.max(...Object.values(stats.byCategory), 1);
 
-  let html = `<div class="dashboard-stats-total">${stats.total} Ereignisse</div>`;
+  const totalLabel = typeof t === 'function' ? t('dashboard.totalEvents') : 'Ereignisse gesamt';
+  let html = `<div class="dashboard-stats-total">${stats.total} ${totalLabel}</div>`;
 
   // Category bars
   html += '<div class="dashboard-stats-categories">';

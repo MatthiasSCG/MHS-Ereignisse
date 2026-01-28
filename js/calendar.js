@@ -1,6 +1,6 @@
 /**
  * calendar.js - Calendar View Rendering and Logic
- * Ereignisse v1.13.0
+ * Ereignisse v1.15.0
  *
  * Implements month, week, and timeline calendar views with event display.
  */
@@ -18,20 +18,7 @@ let timelineStart = new Date();
 /** @type {number} Timeline duration in months */
 let timelineMonths = 6;
 
-/** @constant {string[]} German month names */
-const MONTH_NAMES = [
-  'Januar', 'Februar', 'März', 'April', 'Mai', 'Juni',
-  'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'
-];
-
-/** @constant {string[]} German weekday names (full, starting Monday) */
-const WEEKDAY_NAMES_FULL = ['Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag', 'Sonntag'];
-
-/** @constant {string[]} German weekday short names (starting Monday) */
-const WEEKDAY_NAMES_SHORT = ['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'];
-
-/** @constant {string[]} German month short names */
-const MONTH_NAMES_SHORT = ['Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez'];
+// Note: getMonthName and getWeekdayName are provided globally by i18n.js
 
 /** @constant {number} Max events to show as dots before "+N" indicator */
 const MAX_VISIBLE_DOTS = 3;
@@ -74,7 +61,7 @@ const formatDateISO = (year, month, day) => {
  * @returns {string}
  */
 const formatMonthYear = (date) => {
-  return `${MONTH_NAMES[date.getMonth()]} ${date.getFullYear()}`;
+  return `${getMonthName(date.getMonth())} ${date.getFullYear()}`;
 };
 
 /**
@@ -294,9 +281,9 @@ const formatDateForPopup = (dateISO) => {
   const date = new Date(dateISO + 'T00:00:00');
   const dayOfWeek = date.getDay();
   const weekdayIndex = dayOfWeek === 0 ? 6 : dayOfWeek - 1;
-  const weekday = WEEKDAY_NAMES_FULL[weekdayIndex];
+  const weekday = getWeekdayName(weekdayIndex);
   const day = date.getDate();
-  const month = MONTH_NAMES[date.getMonth()];
+  const month = getMonthName(date.getMonth());
   const year = date.getFullYear();
   return `${weekday}, ${day}. ${month} ${year}`;
 };
@@ -316,7 +303,8 @@ const showDayDetail = (dateISO) => {
 
   let eventsHtml = '';
   if (events.length === 0) {
-    eventsHtml = '<div class="day-no-events">Keine Ereignisse an diesem Tag</div>';
+    const noEventsText = typeof t === 'function' ? t('msg.noEventsOnDay') : 'Keine Ereignisse an diesem Tag';
+    eventsHtml = `<div class="day-no-events">${noEventsText}</div>`;
   } else {
     eventsHtml = events.map(e => {
       let dateInfo = '';
@@ -329,9 +317,10 @@ const showDayDetail = (dateISO) => {
 
       let recurringInfo = '';
       if (e.recurring) {
+        const recurringText = typeof t === 'function' ? t('label.recurring') : 'Jährlich wiederkehrend';
         recurringInfo = `<div class="day-event-recurring">
           <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 6v3l4-4-4-4v3c-4.42 0-8 3.58-8 8 0 1.57.46 3.03 1.24 4.26L6.7 14.8A5.87 5.87 0 016 12c0-3.31 2.69-6 6-6zm6.76 1.74L17.3 9.2c.44.84.7 1.79.7 2.8 0 3.31-2.69 6-6 6v-3l-4 4 4 4v-3c4.42 0 8-3.58 8-8 0-1.57-.46-3.03-1.24-4.26z"/></svg>
-          Jährlich wiederkehrend
+          ${recurringText}
         </div>`;
       }
 
@@ -344,7 +333,7 @@ const showDayDetail = (dateISO) => {
             ${dateInfo}
             ${recurringInfo}
           </div>
-          <button class="btn-icon" data-action="edit-from-calendar" title="Bearbeiten">
+          <button class="btn-icon" data-action="edit-from-calendar" title="${typeof t === 'function' ? t('btn.edit') : 'Bearbeiten'}">
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25z"/><path d="M20.71 7.04a1 1 0 000-1.41l-2.34-2.34a1 1 0 00-1.41 0l-1.82 1.82 3.75 3.75 1.82-1.82z"/></svg>
           </button>
         </div>
@@ -356,7 +345,7 @@ const showDayDetail = (dateISO) => {
     <div class="modal day-detail-modal">
       <div class="modal-header">
         <h2 class="modal-title">${formatted}</h2>
-        <button class="modal-close" title="Schliessen">
+        <button class="modal-close" title="${typeof t === 'function' ? t('btn.close') : 'Schließen'}">
           <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
         </button>
       </div>
@@ -364,7 +353,7 @@ const showDayDetail = (dateISO) => {
         <div class="day-events-list">${eventsHtml}</div>
       </div>
       <div class="modal-footer">
-        <button class="btn btn-ghost" data-action="close">Schliessen</button>
+        <button class="btn btn-ghost" data-action="close">${typeof t === 'function' ? t('btn.close') : 'Schließen'}</button>
       </div>
     </div>
   `;
@@ -559,7 +548,7 @@ const renderWeek = () => {
     if (isToday) classes += ' today';
     if (isWeekend) classes += ' weekend';
 
-    const dayName = WEEKDAY_NAMES_SHORT[i];
+    const dayName = getWeekdayName(i, true);
     const dayNum = currentDate.getDate();
 
     html += `
@@ -633,8 +622,8 @@ const getTimelineEnd = () => {
  */
 const formatTimelineTitle = () => {
   const end = getTimelineEnd();
-  const startMonth = MONTH_NAMES_SHORT[timelineStart.getMonth()];
-  const endMonth = MONTH_NAMES_SHORT[end.getMonth()];
+  const startMonth = getMonthName(timelineStart.getMonth(), true);
+  const endMonth = getMonthName(end.getMonth(), true);
   const startYear = timelineStart.getFullYear();
   const endYear = end.getFullYear();
 
@@ -891,7 +880,7 @@ const renderTimeline = () => {
   for (let i = 0; i < timelineMonths; i++) {
     const monthDate = new Date(timelineStart);
     monthDate.setMonth(timelineStart.getMonth() + i);
-    const monthName = MONTH_NAMES_SHORT[monthDate.getMonth()];
+    const monthName = getMonthName(monthDate.getMonth(), true);
     const year = monthDate.getFullYear();
     const isCurrent = monthDate.getMonth() === currentMonth && year === currentYear;
 
@@ -905,7 +894,8 @@ const renderTimeline = () => {
   const trackAssignments = assignTracks(timelineEvents);
 
   if (trackAssignments.length === 0) {
-    tracksEl.innerHTML = '<div class="timeline-empty">Keine Ereignisse im gewählten Zeitraum</div>';
+    const emptyMsg = typeof t === 'function' ? t('msg.noEventsInRange') : 'Keine Ereignisse im gewählten Zeitraum';
+    tracksEl.innerHTML = `<div class="timeline-empty">${emptyMsg}</div>`;
     if (todayLineEl) todayLineEl.style.display = 'none';
     updateStatusBar();
     return;

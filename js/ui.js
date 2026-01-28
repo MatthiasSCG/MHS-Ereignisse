@@ -1,6 +1,6 @@
 /**
  * ui.js - Rendering, Dialoge, Events
- * Ereignisse v1.13.0
+ * Ereignisse v1.15.0
  */
 'use strict';
 
@@ -92,11 +92,13 @@ const buildLinkIndicators = (entry) => {
     .map(id => entries.find(e => e.id === id))
     .filter(Boolean);
 
+  const predLabel = typeof t === 'function' ? t('link.predecessors') : 'Vorgänger';
+  const succLabel = typeof t === 'function' ? t('link.successors') : 'Nachfolger';
   const predTooltip = predEntries.length > 0
-    ? `Vorgänger:\n${predEntries.map(e => `• ${e.date}: ${e.text}`).join('\n')}`
+    ? `${predLabel}:\n${predEntries.map(e => `• ${e.date}: ${e.text}`).join('\n')}`
     : '';
   const succTooltip = succEntries.length > 0
-    ? `Nachfolger:\n${succEntries.map(e => `• ${e.date}: ${e.text}`).join('\n')}`
+    ? `${succLabel}:\n${succEntries.map(e => `• ${e.date}: ${e.text}`).join('\n')}`
     : '';
 
   let html = '<div class="link-indicators">';
@@ -124,21 +126,25 @@ const buildLinkIndicators = (entry) => {
 const buildLinkEditButtons = (entry) => {
   const predCount = (entry.predecessors || []).length;
   const succCount = (entry.successors || []).length;
+  const predTitle = typeof t === 'function' ? t('dialog.predecessors') : 'Vorgänger festlegen';
+  const succTitle = typeof t === 'function' ? t('dialog.successors') : 'Nachfolger festlegen';
+  const managePredTitle = typeof t === 'function' ? t('dialog.managePredecessors') : 'Vorgänger pflegen';
+  const manageSuccTitle = typeof t === 'function' ? t('dialog.manageSuccessors') : 'Nachfolger pflegen';
   return `
     <div class="link-edit-row">
-      <button type="button" class="link-edit-btn" data-link-action="add-predecessor" title="Vorgänger festlegen">
+      <button type="button" class="link-edit-btn" data-link-action="add-predecessor" title="${predTitle}">
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z"/></svg>
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
       </button>
-      <button type="button" class="link-edit-btn" data-link-action="manage-predecessors" title="Vorgänger pflegen (${predCount})">
+      <button type="button" class="link-edit-btn" data-link-action="manage-predecessors" title="${managePredTitle} (${predCount})">
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z"/></svg>
         ${predCount}
       </button>
-      <button type="button" class="link-edit-btn" data-link-action="add-successor" title="Nachfolger festlegen">
+      <button type="button" class="link-edit-btn" data-link-action="add-successor" title="${succTitle}">
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg>
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
       </button>
-      <button type="button" class="link-edit-btn" data-link-action="manage-successors" title="Nachfolger pflegen (${succCount})">
+      <button type="button" class="link-edit-btn" data-link-action="manage-successors" title="${manageSuccTitle} (${succCount})">
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg>
         ${succCount}
       </button>
@@ -161,7 +167,8 @@ const buildEndCell = (e) => {
     const daysUntil = daysUntilNext(e.date);
 
     html += `<div class="recurring-info">`;
-    html += `<span class="recurring-badge" title="Nächstes Vorkommen">`;
+    const nextOccTitle = typeof t === 'function' ? t('time.nextOccurrence') : 'Nächstes Vorkommen';
+    html += `<span class="recurring-badge" title="${nextOccTitle}">`;
     html += `${nextISO}`;
     if (age != null) {
       html += ` (${age}.)`;
@@ -170,15 +177,20 @@ const buildEndCell = (e) => {
 
     // Countdown
     if (daysUntil != null && daysUntil > 0) {
-      html += `<span class="recurring-countdown">in ${fmtNum(daysUntil)} ${daysUntil === 1 ? 'Tag' : 'Tagen'}</span>`;
+      const inWord = typeof t === 'function' ? t('time.in') : 'in';
+      const daysWord = typeof tn === 'function' ? tn('unit.day', daysUntil) : (daysUntil === 1 ? 'Tag' : 'Tagen');
+      html += `<span class="recurring-countdown">${inWord} ${fmtNum(daysUntil)} ${daysWord}</span>`;
     } else if (daysUntil === 0) {
-      html += `<span class="recurring-countdown recurring-today">heute!</span>`;
+      const todayText = typeof t === 'function' ? t('time.todayExclaim') : 'heute!';
+      html += `<span class="recurring-countdown recurring-today">${todayText}</span>`;
     }
 
     // Meilenstein-Hinweis
     const ms = getNextMilestone(e.date);
     if (ms && ms.yearsUntil > 0 && ms.yearsUntil <= 5) {
-      html += `<span class="recurring-milestone">${ms.milestone}. in ${ms.yearsUntil} ${ms.yearsUntil === 1 ? 'Jahr' : 'Jahren'}</span>`;
+      const inWord = typeof t === 'function' ? t('time.in') : 'in';
+      const yearsWord = typeof tn === 'function' ? tn('unit.year', ms.yearsUntil) : (ms.yearsUntil === 1 ? 'Jahr' : 'Jahren');
+      html += `<span class="recurring-milestone">${ms.milestone}. ${inWord} ${ms.yearsUntil} ${yearsWord}</span>`;
     }
 
     html += `</div>`;
@@ -308,9 +320,9 @@ const renderTable = () => {
       <td class="days">${buildDaysCell(e.date, e.end)}</td>
       <td class="actions">
         <div class="actions-row">
-          <button class="btn-icon" data-action="edit" title="Bearbeiten" aria-label="Bearbeiten"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25z"/><path d="M20.71 7.04a1 1 0 000-1.41l-2.34-2.34a1 1 0 00-1.41 0l-1.82 1.82 3.75 3.75 1.82-1.82z"/></svg></button>
-          <button class="btn-icon" data-action="dup" title="Duplizieren" aria-label="Duplizieren"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 1H4c-1.1 0-2 .9-2 2v12h2V3h12V1z"/><path d="M19 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v13z"/></svg></button>
-          <button class="btn-icon danger" data-action="del" title="Löschen" aria-label="Löschen"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 19a2 2 0 002 2h8a2 2 0 002-2V7H6v12z"/><path d="M19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg></button>
+          <button class="btn-icon" data-action="edit" title="${typeof t === 'function' ? t('btn.edit') : 'Bearbeiten'}" aria-label="${typeof t === 'function' ? t('btn.edit') : 'Bearbeiten'}"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25z"/><path d="M20.71 7.04a1 1 0 000-1.41l-2.34-2.34a1 1 0 00-1.41 0l-1.82 1.82 3.75 3.75 1.82-1.82z"/></svg></button>
+          <button class="btn-icon" data-action="dup" title="${typeof t === 'function' ? t('btn.duplicate') : 'Duplizieren'}" aria-label="${typeof t === 'function' ? t('btn.duplicate') : 'Duplizieren'}"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 1H4c-1.1 0-2 .9-2 2v12h2V3h12V1z"/><path d="M19 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v13z"/></svg></button>
+          <button class="btn-icon danger" data-action="del" title="${typeof t === 'function' ? t('btn.delete') : 'Löschen'}" aria-label="${typeof t === 'function' ? t('btn.delete') : 'Löschen'}"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 19a2 2 0 002 2h8a2 2 0 002-2V7H6v12z"/><path d="M19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg></button>
         </div>
       </td>`;
     tbody.appendChild(tr);
@@ -370,8 +382,8 @@ function enterEditMode(tr, e) {
     </td>
     <td class="days">${buildDaysCell(e.date, e.end)}</td>
     <td class="actions"><div class="actions-row">
-      <button class="btn-icon" data-action="save" title="Speichern" aria-label="Speichern"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.2l-3.5-3.5-1.4 1.4L9 19l12-12-1.4-1.4z"/></svg></button>
-      <button class="btn-icon" data-action="cancel" title="Abbrechen" aria-label="Abbrechen"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.3 5.7L12 12l6.3 6.3-1.4 1.4L12 13.4l-6.3 6.3-1.4-1.4L10.6 12 4.3 5.7l1.4-1.4L12 10.6l4.9-4.9z"/></svg></button>
+      <button class="btn-icon" data-action="save" title="${typeof t === 'function' ? t('btn.save') : 'Speichern'}" aria-label="${typeof t === 'function' ? t('btn.save') : 'Speichern'}"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.2l-3.5-3.5-1.4 1.4L9 19l12-12-1.4-1.4z"/></svg></button>
+      <button class="btn-icon" data-action="cancel" title="${typeof t === 'function' ? t('btn.cancel') : 'Abbrechen'}" aria-label="${typeof t === 'function' ? t('btn.cancel') : 'Abbrechen'}"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.3 5.7L12 12l6.3 6.3-1.4 1.4L12 13.4l-6.3 6.3-1.4-1.4L10.6 12 4.3 5.7l1.4-1.4L12 10.6l4.9-4.9z"/></svg></button>
     </div></td>`;
   tbody.replaceChild(editable, tr);
 
@@ -422,7 +434,7 @@ function enterEditMode(tr, e) {
     const newCat = catIn.value || '';
     const newNotes = notesIn.value || '';
     if (!validateDates(newDate, newEnd)) {
-      alert('Der Endzeitpunkt muss nach dem Zeitpunkt liegen.');
+      alert(typeof t === 'function' ? t('msg.invalidDateRange') : 'Der Endzeitpunkt muss nach dem Zeitpunkt liegen.');
       endIn.focus();
       return;
     }
@@ -451,7 +463,7 @@ function addEntry() {
   const notes = notesEl.value.trim();
   if (!text) { textEl.focus(); return; }
   if (!validateDates(date, end)) {
-    alert('Der Endzeitpunkt muss nach dem Zeitpunkt liegen.');
+    alert(typeof t === 'function' ? t('msg.invalidDateRange') : 'Der Endzeitpunkt muss nach dem Zeitpunkt liegen.');
     endEl.focus();
     return;
   }
@@ -479,7 +491,8 @@ function duplicateEntry(id) {
  * @param {string} id - ID des zu löschenden Eintrags
  */
 function deleteEntry(id) {
-  if (!confirm('Eintrag wirklich löschen?')) return;
+  const confirmMsg = typeof t === 'function' ? t('dialog.confirmDelete') : 'Eintrag wirklich löschen?';
+  if (!confirm(confirmMsg)) return;
   // Verknüpfungen zu diesem Eintrag bereinigen
   cleanupLinksForDeletedEntry(id);
   entries = entries.filter(e => e.id !== id);
@@ -497,7 +510,9 @@ function showLinkSelectDialog(entryId, type) {
   const entry = entries.find(e => e.id === entryId);
   if (!entry) return;
 
-  const title = type === 'predecessor' ? 'Vorgänger festlegen' : 'Nachfolger festlegen';
+  const title = type === 'predecessor'
+    ? (typeof t === 'function' ? t('dialog.predecessors') : 'Vorgänger festlegen')
+    : (typeof t === 'function' ? t('dialog.successors') : 'Nachfolger festlegen');
   const existingLinks = type === 'predecessor' ? entry.predecessors : entry.successors;
 
   // Alle Einträge außer dem aktuellen und bereits verknüpften
@@ -511,13 +526,13 @@ function showLinkSelectDialog(entryId, type) {
     <div class="modal">
       <div class="modal-header">
         <h2 class="modal-title">${title}</h2>
-        <button class="modal-close" title="Schließen">
+        <button class="modal-close" title="${typeof t === 'function' ? t('btn.close') : 'Schließen'}">
           <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
         </button>
       </div>
       <div class="modal-body">
         <div class="modal-filter">
-          <input type="text" placeholder="Filter..." id="linkFilterInput" />
+          <input type="text" placeholder="${typeof t === 'function' ? t('placeholder.filterList') : 'Filter...'}" id="linkFilterInput" />
         </div>
         <div class="link-select-list" id="linkSelectList">
           ${availableEntries.length === 0
@@ -535,8 +550,8 @@ function showLinkSelectDialog(entryId, type) {
         </div>
       </div>
       <div class="modal-footer">
-        <button class="btn btn-ghost" data-modal-action="cancel">Abbrechen</button>
-        <button class="btn btn-primary" data-modal-action="confirm" ${availableEntries.length === 0 ? 'disabled' : ''}>Hinzufügen</button>
+        <button class="btn btn-ghost" data-modal-action="cancel">${typeof t === 'function' ? t('btn.cancel') : 'Abbrechen'}</button>
+        <button class="btn btn-primary" data-modal-action="confirm" ${availableEntries.length === 0 ? 'disabled' : ''}>${typeof t === 'function' ? t('btn.add') : 'Hinzufügen'}</button>
       </div>
     </div>
   `;
@@ -609,7 +624,9 @@ function showLinkManageDialog(entryId, type) {
   const entry = entries.find(e => e.id === entryId);
   if (!entry) return;
 
-  const title = type === 'predecessor' ? 'Vorgänger pflegen' : 'Nachfolger pflegen';
+  const title = type === 'predecessor'
+    ? (typeof t === 'function' ? t('dialog.managePredecessors') : 'Vorgänger pflegen')
+    : (typeof t === 'function' ? t('dialog.manageSuccessors') : 'Nachfolger pflegen');
   const linkedIds = type === 'predecessor' ? entry.predecessors : entry.successors;
 
   const linkedEntries = linkedIds
@@ -697,13 +714,22 @@ function showLinkManageDialog(entryId, type) {
  */
 const updateStatusBar = () => {
   // Dateiname
-  statusFileEl.textContent = fileHandle ? fileHandle.name : 'Keine Datei';
+  const noFileText = typeof t === 'function' ? t('msg.noFile') : 'Keine Datei';
+  statusFileEl.textContent = fileHandle ? fileHandle.name : noFileText;
   // Anzahl Einträge
   const total = entries.length;
   const visibleRows = tbody.querySelectorAll('tr').length;
-  statusCountEl.textContent = visibleRows < total
-    ? `${visibleRows} von ${total} Einträgen`
-    : `${total} ${total === 1 ? 'Eintrag' : 'Einträge'}`;
+  if (visibleRows < total) {
+    const filteredText = typeof t === 'function'
+      ? t('status.filtered', { visible: visibleRows, total: total })
+      : `${visibleRows} von ${total} Einträgen`;
+    statusCountEl.textContent = filteredText;
+  } else {
+    const entryLabel = typeof tn === 'function'
+      ? tn('status.entries', total)
+      : (total === 1 ? 'Eintrag' : 'Einträge');
+    statusCountEl.textContent = `${total} ${entryLabel}`;
+  }
 };
 
 /**
@@ -713,12 +739,13 @@ const updateStatusBar = () => {
 const updateSaveStatus = (status) => {
   statusSavedEl.classList.remove('saved', 'unsaved');
   if (status === 'saved') {
+    const lang = typeof i18n !== 'undefined' ? i18n.getCurrentLang() : 'de';
     const now = new Date();
-    const time = now.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' });
-    statusSavedEl.textContent = `✓ Gespeichert ${time}`;
+    const time = now.toLocaleTimeString(lang, { hour: '2-digit', minute: '2-digit' });
+    statusSavedEl.textContent = `✓ ${typeof t === 'function' ? t('btn.save') : 'Gespeichert'} ${time}`;
     statusSavedEl.classList.add('saved');
   } else if (status === 'unsaved') {
-    statusSavedEl.textContent = '● Ungespeichert';
+    statusSavedEl.textContent = `● ${typeof t === 'function' ? t('msg.unsaved') : 'Ungespeichert'}`;
     statusSavedEl.classList.add('unsaved');
   } else {
     statusSavedEl.textContent = '—';

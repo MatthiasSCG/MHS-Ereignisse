@@ -5,7 +5,7 @@
 **Name:** Ereignisse und deren Zeitraum zu heute
 **Typ:** Modulare Web-Anwendung
 **Autor:** Matthias
-**Version:** 1.14
+**Version:** 1.15
 **Letzte Aktualisierung:** 2026-01-28
 **Repository:** https://github.com/MatthiasSCG/MHS-Ereignisse (privat)
 
@@ -31,6 +31,7 @@ Eine lokale Web-Anwendung zur Verwaltung von Ereignissen mit automatischer Berec
 - **PWA:** Installierbar als App mit Offline-Unterstützung
 - **Kalenderansichten:** Monats-, Wochen- und Timeline-Ansicht mit Navigation
 - **Dashboard:** Übersicht mit anstehenden Ereignissen, Meilensteinen und Statistiken
+- **Mehrsprachigkeit:** 5 Sprachen (DE, EN, FR, IT, ES) mit Browser-Erkennung
 
 ---
 
@@ -76,6 +77,13 @@ Eine lokale Web-Anwendung zur Verwaltung von Ereignissen mit automatischer Berec
 │   ├── dashboard.css     # Dashboard-View
 │   └── dark-mode.css     # Alle Dark Mode Overrides
 ├── js/                   # JavaScript-Module
+│   ├── i18n.js           # Internationalisierung (Kern-API)
+│   ├── i18n/             # Sprachdateien
+│   │   ├── de.js         # Deutsch (Standard, immer geladen)
+│   │   ├── en.js         # Englisch
+│   │   ├── fr.js         # Französisch
+│   │   ├── it.js         # Italienisch
+│   │   └── es.js         # Spanisch
 │   ├── utils.js          # Hilfsfunktionen, Datum-Berechnungen
 │   ├── data.js           # Datenmodell, Serialisierung, Storage
 │   ├── filters.js        # Filter-Logik, gespeicherte Filter
@@ -372,10 +380,10 @@ Alle geplanten Erweiterungen werden als [GitHub Issues](https://github.com/Matth
 | **v1.12** | Monatsansicht | ✅ Abgeschlossen (#5) |
 | **v1.13** | Wochen- und Timeline-Ansicht | ✅ Abgeschlossen (#5) |
 | **v1.14** | Dashboard | ✅ Abgeschlossen (#6) |
+| **v1.15** | Mehrsprachigkeit (i18n) | ✅ Abgeschlossen (#13) |
 | **v2.0** | Import/Export-Formate, Benachrichtigungen | #11, #4, #2 |
 | **v2.2** | Drag & Drop, Theme-Optionen | #7, #8 |
-| **v3.0** | Mehrsprachigkeit (i18n) | #13 |
-| **v4.0** | Cloud-Synchronisation | #10 |
+| **v3.0** | Cloud-Synchronisation | #10 |
 
 ### Offene Issues nach Priorität
 
@@ -384,7 +392,6 @@ Alle geplanten Erweiterungen werden als [GitHub Issues](https://github.com/Matth
 |-------|-------|
 | #2 | Benachrichtigungen/Erinnerungen |
 | #11 | Import-Funktionen |
-| #13 | Mehrsprachigkeit (i18n) |
 
 #### Niedrige Priorität
 | Issue | Titel |

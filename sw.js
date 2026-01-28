@@ -3,7 +3,7 @@
  * Ermöglicht Offline-Funktionalität und Caching
  */
 
-const CACHE_NAME = 'ereignisse-v1.14.0';
+const CACHE_NAME = 'ereignisse-v1.15.0';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
@@ -21,7 +21,14 @@ const ASSETS_TO_CACHE = [
   './css/dark-mode.css',
   './css/calendar.css',
   './css/dashboard.css',
-  // JS-Dateien
+  // JS-Dateien - i18n (must load first)
+  './js/i18n.js',
+  './js/i18n/de.js',
+  './js/i18n/en.js',
+  './js/i18n/fr.js',
+  './js/i18n/it.js',
+  './js/i18n/es.js',
+  // JS-Dateien - App modules
   './js/utils.js',
   './js/data.js',
   './js/filters.js',

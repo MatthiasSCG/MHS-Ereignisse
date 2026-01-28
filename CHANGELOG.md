@@ -7,6 +7,29 @@ und dieses Projekt verwendet [Semantic Versioning](https://semver.org/lang/de/).
 
 ## [Unreleased]
 
+## [1.15.0] - 2026-01-28
+
+### Added
+- Mehrsprachigkeit (i18n) mit 5 Sprachen (#13)
+  - Deutsch (Standard, immer geladen)
+  - Englisch, Französisch, Italienisch, Spanisch
+- Sprach-Dropdown im Header neben Theme-Button
+- Lazy Loading: Sprachen werden nur bei Bedarf nachgeladen
+- Browser-Spracherkennung mit localStorage-Persistenz (Key: `zeiten-lang`)
+- Sprachwechsel ohne Seitenneuladung
+- Neue Dateien: `js/i18n.js`, `js/i18n/de.js`, `js/i18n/en.js`, `js/i18n/fr.js`, `js/i18n/it.js`, `js/i18n/es.js`
+
+### Changed
+- Service Worker Cache-Version auf v1.15.0 aktualisiert
+- Alle Module aktualisiert für i18n-Unterstützung: utils.js, data.js, calendar.js, dashboard.js, ui.js, filters.js, app.js
+- Pluralisierung über Suffix-Konvention (.1 für Singular, .2 für Plural)
+
+### Technical
+- i18n-API: `t()` für Übersetzungen, `tn()` für Pluralisierung
+- `getMonthName()`, `getWeekdayName()` ersetzen statische Arrays
+- data-i18n Attribute für statische HTML-Texte
+- Fallback-Pattern: `typeof t === 'function' ? t('key') : 'fallback'`
+
 ## [1.14.0] - 2026-01-28
 
 ### Added
@@ -249,7 +272,9 @@ und dieses Projekt verwendet [Semantic Versioning](https://semver.org/lang/de/).
 - XSS-Schutz durch `escapeHTML()` für alle Benutzereingaben
 - Input-Sanitization durch `sanitizeText()` für Textbereinigung
 
-[Unreleased]: https://github.com/MatthiasSCG/MHS-Ereignisse/compare/v1.13.0...HEAD
+[Unreleased]: https://github.com/MatthiasSCG/MHS-Ereignisse/compare/v1.15.0...HEAD
+[1.15.0]: https://github.com/MatthiasSCG/MHS-Ereignisse/compare/v1.14.0...v1.15.0
+[1.14.0]: https://github.com/MatthiasSCG/MHS-Ereignisse/compare/v1.13.0...v1.14.0
 [1.13.0]: https://github.com/MatthiasSCG/MHS-Ereignisse/compare/v1.12.0...v1.13.0
 [1.12.0]: https://github.com/MatthiasSCG/MHS-Ereignisse/compare/v1.11.1...v1.12.0
 [1.11.1]: https://github.com/MatthiasSCG/MHS-Ereignisse/compare/v1.11.0...v1.11.1

@@ -1,6 +1,6 @@
 /**
  * data.js - Datenmodell, Serialisierung, Storage
- * Ereignisse v1.11.0
+ * Ereignisse v1.15.0
  */
 'use strict';
 
@@ -35,28 +35,40 @@ let fileHandle = null;
 /** @type {string|null} ID des aktuell bearbeiteten Eintrags */
 let editingId = null;
 
-// Kategorie-Definitionen
+// Kategorie-Definitionen mit i18n-Keys
 const CATEGORIES = {
-  '': { label: 'Keine', css: 'cat-none' },
-  'geburtstag': { label: 'Geburtstag', css: 'cat-geburtstag' },
-  'todestag': { label: 'Todestag', css: 'cat-todestag' },
-  'jahrestag': { label: 'Jahrestag', css: 'cat-jahrestag' },
-  'jubilaeum': { label: 'Jubiläum', css: 'cat-jubilaeum' },
-  'projekt': { label: 'Projekt', css: 'cat-projekt' },
-  'termin': { label: 'Termin', css: 'cat-termin' },
-  'erinnerung': { label: 'Erinnerung', css: 'cat-erinnerung' },
-  'sonstiges': { label: 'Sonstiges', css: 'cat-sonstiges' }
+  '': { key: 'cat.none', css: 'cat-none' },
+  'geburtstag': { key: 'cat.geburtstag', css: 'cat-geburtstag' },
+  'todestag': { key: 'cat.todestag', css: 'cat-todestag' },
+  'jahrestag': { key: 'cat.jahrestag', css: 'cat-jahrestag' },
+  'jubilaeum': { key: 'cat.jubilaeum', css: 'cat-jubilaeum' },
+  'projekt': { key: 'cat.projekt', css: 'cat-projekt' },
+  'termin': { key: 'cat.termin', css: 'cat-termin' },
+  'erinnerung': { key: 'cat.erinnerung', css: 'cat-erinnerung' },
+  'sonstiges': { key: 'cat.sonstiges', css: 'cat-sonstiges' }
 };
 
 // Kategorien, die automatisch "wiederkehrend" aktivieren
 const RECURRING_CATEGORIES = ['geburtstag', 'todestag', 'jahrestag'];
 
 /**
- * Gibt das Label einer Kategorie zurück
+ * Gibt das Label einer Kategorie zurück (i18n-aware)
  * @param {string} cat - Kategorie-Schlüssel
  * @returns {string} Kategorie-Label oder 'Keine'
  */
-const getCategoryLabel = (cat) => CATEGORIES[cat]?.label || 'Keine';
+const getCategoryLabel = (cat) => {
+  const catDef = CATEGORIES[cat];
+  if (catDef && typeof t === 'function') {
+    return t(catDef.key);
+  }
+  // Fallback without i18n
+  const fallbackLabels = {
+    '': 'Keine', 'geburtstag': 'Geburtstag', 'todestag': 'Todestag',
+    'jahrestag': 'Jahrestag', 'jubilaeum': 'Jubiläum', 'projekt': 'Projekt',
+    'termin': 'Termin', 'erinnerung': 'Erinnerung', 'sonstiges': 'Sonstiges'
+  };
+  return fallbackLabels[cat] || 'Keine';
+};
 
 /**
  * Gibt die CSS-Klasse einer Kategorie zurück

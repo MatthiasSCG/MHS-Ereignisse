@@ -1,11 +1,11 @@
 /**
  * app.js - Initialisierung, Datei-Handling
- * Ereignisse v1.13.0
+ * Ereignisse v1.15.0
  */
 'use strict';
 
 /** @constant {string} Zentrale Versionsnummer der Anwendung */
-const APP_VERSION = '1.13.0';
+const APP_VERSION = '1.15.0';
 
 /**
  * Prüft, ob die File System Access API verfügbar ist
@@ -138,7 +138,8 @@ async function openFile() {
       fallbackOpen();
     }
   } catch (e) {
-    alert('Konnte Datei nicht öffnen: ' + (e && e.message ? e.message : e));
+    const errText = typeof t === 'function' ? t('msg.openError') : 'Konnte Datei nicht öffnen: ';
+    alert(errText + (e && e.message ? e.message : e));
   }
 }
 
@@ -257,7 +258,8 @@ async function saveFile() {
       fallbackSave();
     }
   } catch (e) {
-    alert('Konnte nicht speichern: ' + (e && e.message ? e.message : e));
+    const errText = typeof t === 'function' ? t('msg.saveError') : 'Konnte nicht speichern: ';
+    alert(errText + (e && e.message ? e.message : e));
   }
 }
 
@@ -303,7 +305,8 @@ async function saveFileAs() {
       fallbackSaveAs();
     }
   } catch (e) {
-    alert('Konnte nicht "Speichern unter" ausführen: ' + (e && e.message ? e.message : e));
+    const errText = typeof t === 'function' ? t('msg.saveAsError') : 'Konnte nicht "Speichern unter" ausführen: ';
+    alert(errText + (e && e.message ? e.message : e));
   }
 }
 
@@ -366,7 +369,10 @@ function updateSortIcon() {
   sortDirBtn.innerHTML = (sortDir === 'asc')
     ? '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 8l6 6H6z"/></svg>'
     : '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 16l-6-6h12z"/></svg>';
-  sortDirBtn.title = 'Sortierung: ' + (sortDir === 'asc' ? 'aufsteigend' : 'absteigend');
+  const sortTitle = sortDir === 'asc'
+    ? (typeof t === 'function' ? t('tooltip.sortAsc') : 'Sortierung: aufsteigend')
+    : (typeof t === 'function' ? t('tooltip.sortDesc') : 'Sortierung: absteigend');
+  sortDirBtn.title = sortTitle;
 }
 sortKeyEl.addEventListener('change', () => { sortKey = sortKeyEl.value; render(); });
 sortDirBtn.addEventListener('click', () => {
@@ -380,7 +386,10 @@ function updateThemeIcon() {
   themeBtn.innerHTML = (theme === 'dark')
     ? '<svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="5"/></svg>'
     : '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 12.79A9 9 0 1111.21 3a7 7 0 109.79 9.79z"/></svg>';
-  themeBtn.title = (theme === 'dark') ? 'Helles Design' : 'Dunkles Design';
+  const themeTitle = theme === 'dark'
+    ? (typeof t === 'function' ? t('tooltip.themeLight') : 'Helles Design')
+    : (typeof t === 'function' ? t('tooltip.themeDark') : 'Dunkles Design');
+  themeBtn.title = themeTitle;
 }
 function applyTheme() {
   document.documentElement.setAttribute('data-theme', theme);
@@ -576,6 +585,46 @@ if (timelineZoomEl) {
 }
 
 // ---------- Initialisierung ----------
+
+// i18n initialisieren (falls vorhanden)
+(async function initI18n() {
+  if (typeof i18n === 'undefined') return;
+
+  // Sprache ermitteln und setzen
+  const detectedLang = i18n.init();
+
+  // Falls nicht Deutsch, Sprachdatei laden
+  if (detectedLang !== 'de' && !i18n.isLanguageLoaded(detectedLang)) {
+    try {
+      await i18n.loadLanguage(detectedLang);
+    } catch (e) {
+      console.warn('Failed to load language:', detectedLang, e);
+    }
+  }
+
+  // Sprache aktivieren (ohne erneutes Speichern in localStorage)
+  await i18n.setLanguage(detectedLang, false);
+
+  // Statische HTML-Elemente übersetzen
+  i18n.translateStaticHTML();
+})();
+
+// Sprach-Switcher Event-Handler
+const langSelect = document.getElementById('langSelect');
+if (langSelect) {
+  // Initial die aktuelle Sprache setzen
+  if (typeof i18n !== 'undefined') {
+    langSelect.value = i18n.getCurrentLang();
+  }
+
+  langSelect.addEventListener('change', async () => {
+    const newLang = langSelect.value;
+    if (typeof i18n !== 'undefined' && typeof i18n.setLanguage === 'function') {
+      await i18n.setLanguage(newLang);
+    }
+  });
+}
+
 dateEl.value = todayISO();
 loadFromLocalStorage();
 applyTheme();
@@ -633,7 +682,8 @@ if ('serviceWorker' in navigator) {
           newWorker.addEventListener('statechange', () => {
             if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
               // Neue Version verfügbar
-              if (confirm('Eine neue Version ist verfügbar. Jetzt aktualisieren?')) {
+              const updateMsg = typeof t === 'function' ? t('msg.updateAvailable') : 'Eine neue Version ist verfügbar. Jetzt aktualisieren?';
+              if (confirm(updateMsg)) {
                 newWorker.postMessage({ type: 'SKIP_WAITING' });
                 window.location.reload();
               }

@@ -33,33 +33,40 @@
       <header>
         <div class="brand">
           <div class="flag" aria-hidden="true"></div>
-          <div><h1>Ereignisse und deren Zeitraum zu heute</h1></div>
+          <div><h1 data-i18n="app.description">Ereignisse und deren Zeitraum zu heute</h1></div>
         </div>
         <div class="actions">
           <div class="dropdown" id="fileDropdown">
             <button class="btn dropdown-toggle" id="fileMenuBtn">
-              Datei
+              <span data-i18n="menu.file">Datei</span>
               <svg class="dropdown-arrow" viewBox="0 0 24 24" fill="currentColor"><path d="M12 16l-6-6h12z"/></svg>
             </button>
             <div class="dropdown-menu" id="fileMenu">
               <button class="dropdown-item" data-action="open">
                 <span class="dropdown-icon">📂</span>
-                Öffnen
+                <span data-i18n="menu.open">Öffnen</span>
                 <span class="dropdown-shortcut">Strg+O</span>
               </button>
               <button class="dropdown-item" data-action="save">
                 <span class="dropdown-icon">💾</span>
-                Speichern
+                <span data-i18n="menu.save">Speichern</span>
                 <span class="dropdown-shortcut">Strg+S</span>
               </button>
               <button class="dropdown-item" data-action="saveAs">
                 <span class="dropdown-icon">📥</span>
-                Speichern unter…
+                <span data-i18n="menu.saveAs">Speichern unter…</span>
                 <span class="dropdown-shortcut">Strg+⇧+S</span>
               </button>
             </div>
           </div>
-          <button id="themeBtn" class="btn-icon" title="Dark Mode umschalten" aria-label="Dark Mode">
+          <select id="langSelect" class="lang-select" title="Sprache / Language">
+            <option value="de">DE</option>
+            <option value="en">EN</option>
+            <option value="fr">FR</option>
+            <option value="it">IT</option>
+            <option value="es">ES</option>
+          </select>
+          <button id="themeBtn" class="btn-icon" data-i18n="tooltip.darkMode" data-i18n-attr="title" title="Dark Mode umschalten" aria-label="Dark Mode">
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.64 13a1 1 0 00-1.05-1.36 7 7 0 01-8.23-8.23A1 1 0 0011 2.36 9 9 0 1021.64 13z"/></svg>
           </button>
         </div>
@@ -68,39 +75,39 @@
       <!-- Filter-Toolbar -->
       <section class="filter-toolbar">
         <div class="toolbar toolbar-flex">
-          <input id="search" class="search" type="text" placeholder="Suche..." title="Strg+F" />
-          <button id="advancedFilterBtn" class="filter-toggle-btn" title="Erweiterte Filter (Strg+Umschalt+F)">
+          <input id="search" class="search" type="text" data-i18n="label.search" data-i18n-attr="placeholder" placeholder="Suche..." data-i18n-title="tooltip.search" title="Strg+F" />
+          <button id="advancedFilterBtn" class="filter-toggle-btn" data-i18n="tooltip.advancedFilters" data-i18n-attr="title" title="Erweiterte Filter (Strg+Umschalt+F)">
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M10 18h4v-2h-4v2zM3 6v2h18V6H3zm3 7h12v-2H6v2z"/></svg>
-            Filter
+            <span data-i18n="label.filter">Filter</span>
             <span id="filterBadge" class="filter-badge" style="display:none;">0</span>
           </button>
         </div>
         <div class="toolbar">
           <select id="sortKey" title="Sortieren nach">
-            <option value="date" selected>Zeitpunkt</option>
-            <option value="end">Endzeitpunkt</option>
-            <option value="text">Ereignis</option>
-            <option value="category">Kategorie</option>
+            <option value="date" selected data-i18n="sort.date">Zeitpunkt</option>
+            <option value="end" data-i18n="sort.endDate">Endzeitpunkt</option>
+            <option value="text" data-i18n="sort.event">Ereignis</option>
+            <option value="category" data-i18n="sort.category">Kategorie</option>
           </select>
-          <button id="sortDirBtn" class="btn-icon" title="Sortierrichtung umschalten" aria-label="Sortierrichtung">
+          <button id="sortDirBtn" class="btn-icon" data-i18n="tooltip.sortDirection" data-i18n-attr="title" title="Sortierrichtung umschalten" aria-label="Sortierrichtung">
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 16l-6-6h12z"/></svg>
           </button>
         </div>
         <div class="toolbar toolbar-views">
           <div class="view-toggle" role="group" aria-label="Ansicht wechseln">
-            <button class="view-btn" data-view="dashboard" title="Dashboard">
+            <button class="view-btn" data-view="dashboard" data-i18n="view.dashboard" data-i18n-attr="title" title="Dashboard">
               <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg>
             </button>
-            <button class="view-btn active" data-view="table" title="Tabellenansicht">
+            <button class="view-btn active" data-view="table" data-i18n="view.table" data-i18n-attr="title" title="Tabellenansicht">
               <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 5v14h18V5H3zm4 2v4H5V7h2zm-2 6h2v4H5v-4zm4 4v-4h6v4H9zm6-6H9V7h6v4zm2 0V7h2v4h-2zm0 2h2v4h-2v-4z"/></svg>
             </button>
-            <button class="view-btn" data-view="month" title="Monatsansicht">
+            <button class="view-btn" data-view="month" data-i18n="view.month" data-i18n-attr="title" title="Monatsansicht">
               <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zm0-12H5V6h14v2z"/></svg>
             </button>
-            <button class="view-btn" data-view="week" title="Wochenansicht">
+            <button class="view-btn" data-view="week" data-i18n="view.week" data-i18n-attr="title" title="Wochenansicht">
               <svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 11h2v2H7v-2zm14-5v14c0 1.1-.9 2-2 2H5c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2h1V2h2v2h8V2h2v2h1c1.1 0 2 .9 2 2zM5 8h14V6H5v2zm14 12V10H5v10h14zm-4-7h2v-2h-2v2zm-4 0h2v-2h-2v2z"/></svg>
             </button>
-            <button class="view-btn" data-view="timeline" title="Timeline-Ansicht">
+            <button class="view-btn" data-view="timeline" data-i18n="view.timeline" data-i18n-attr="title" title="Timeline-Ansicht">
               <svg viewBox="0 0 24 24" fill="currentColor"><path d="M2 12h4v2H2v-2zm6-7h10v2H8V5zm0 14h10v2H8v-2zm0-7h12v2H8v-2zm-6 7h4v2H2v-2zm0-14h4v2H2V5z"/></svg>
             </button>
           </div>
@@ -115,93 +122,93 @@
         <div class="filter-panel-header">
           <div class="filter-panel-title">
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M10 18h4v-2h-4v2zM3 6v2h18V6H3zm3 7h12v-2H6v2z"/></svg>
-            Erweiterte Filter
+            <span data-i18n="label.advancedFilters">Erweiterte Filter</span>
           </div>
-          <button id="filterResetBtn" class="filter-reset-btn">Alle zurücksetzen</button>
+          <button id="filterResetBtn" class="filter-reset-btn" data-i18n="btn.resetAll">Alle zurücksetzen</button>
         </div>
 
         <div class="filter-groups">
           <!-- Datumsbereich -->
           <div class="filter-group">
-            <div class="filter-group-label">Datumsbereich</div>
+            <div class="filter-group-label" data-i18n="label.dateRange">Datumsbereich</div>
             <div class="date-range-inputs">
-              <input type="date" id="filterDateFrom" title="Von" />
+              <input type="date" id="filterDateFrom" data-i18n="label.from" data-i18n-attr="title" title="Von" />
               <span class="date-range-separator">–</span>
-              <input type="date" id="filterDateTo" title="Bis" />
+              <input type="date" id="filterDateTo" data-i18n="label.to" data-i18n-attr="title" title="Bis" />
             </div>
-            <select id="filterDatePreset" class="date-preset-select" title="Vordefinierter Zeitraum">
-              <option value="">Zeitraum wählen...</option>
-              <option value="today">Heute</option>
-              <option value="this-week">Diese Woche</option>
-              <option value="this-month">Dieser Monat</option>
-              <option value="this-year">Dieses Jahr</option>
-              <option value="last-7-days">Letzte 7 Tage</option>
-              <option value="last-30-days">Letzte 30 Tage</option>
-              <option value="next-7-days">Nächste 7 Tage</option>
-              <option value="next-30-days">Nächste 30 Tage</option>
-              <option value="past">Vergangene Ereignisse</option>
-              <option value="future">Zukünftige Ereignisse</option>
+            <select id="filterDatePreset" class="date-preset-select" data-i18n="tooltip.period" data-i18n-attr="title" title="Vordefinierter Zeitraum">
+              <option value="" data-i18n="label.selectPeriod">Zeitraum wählen...</option>
+              <option value="today" data-i18n="preset.today">Heute</option>
+              <option value="this-week" data-i18n="preset.thisWeek">Diese Woche</option>
+              <option value="this-month" data-i18n="preset.thisMonth">Dieser Monat</option>
+              <option value="this-year" data-i18n="preset.thisYear">Dieses Jahr</option>
+              <option value="last-7-days" data-i18n="preset.last7Days">Letzte 7 Tage</option>
+              <option value="last-30-days" data-i18n="preset.last30Days">Letzte 30 Tage</option>
+              <option value="next-7-days" data-i18n="preset.next7Days">Nächste 7 Tage</option>
+              <option value="next-30-days" data-i18n="preset.next30Days">Nächste 30 Tage</option>
+              <option value="past" data-i18n="preset.past">Vergangene Ereignisse</option>
+              <option value="future" data-i18n="preset.future">Zukünftige Ereignisse</option>
             </select>
           </div>
 
           <!-- Kategorien -->
           <div class="filter-group">
-            <div class="filter-group-label">Kategorien</div>
+            <div class="filter-group-label" data-i18n="label.categories">Kategorien</div>
             <div id="categoryCheckboxes" class="category-checkboxes">
               <label class="category-checkbox" data-cat="geburtstag">
                 <input type="checkbox" value="geburtstag" />
-                <span class="cat-badge cat-geburtstag" style="padding:0 6px;">Geburtstag</span>
+                <span class="cat-badge cat-geburtstag" style="padding:0 6px;" data-i18n="cat.geburtstag">Geburtstag</span>
               </label>
               <label class="category-checkbox" data-cat="todestag">
                 <input type="checkbox" value="todestag" />
-                <span class="cat-badge cat-todestag" style="padding:0 6px;">Todestag</span>
+                <span class="cat-badge cat-todestag" style="padding:0 6px;" data-i18n="cat.todestag">Todestag</span>
               </label>
               <label class="category-checkbox" data-cat="jahrestag">
                 <input type="checkbox" value="jahrestag" />
-                <span class="cat-badge cat-jahrestag" style="padding:0 6px;">Jahrestag</span>
+                <span class="cat-badge cat-jahrestag" style="padding:0 6px;" data-i18n="cat.jahrestag">Jahrestag</span>
               </label>
               <label class="category-checkbox" data-cat="jubilaeum">
                 <input type="checkbox" value="jubilaeum" />
-                <span class="cat-badge cat-jubilaeum" style="padding:0 6px;">Jubiläum</span>
+                <span class="cat-badge cat-jubilaeum" style="padding:0 6px;" data-i18n="cat.jubilaeum">Jubiläum</span>
               </label>
               <label class="category-checkbox" data-cat="projekt">
                 <input type="checkbox" value="projekt" />
-                <span class="cat-badge cat-projekt" style="padding:0 6px;">Projekt</span>
+                <span class="cat-badge cat-projekt" style="padding:0 6px;" data-i18n="cat.projekt">Projekt</span>
               </label>
               <label class="category-checkbox" data-cat="termin">
                 <input type="checkbox" value="termin" />
-                <span class="cat-badge cat-termin" style="padding:0 6px;">Termin</span>
+                <span class="cat-badge cat-termin" style="padding:0 6px;" data-i18n="cat.termin">Termin</span>
               </label>
               <label class="category-checkbox" data-cat="erinnerung">
                 <input type="checkbox" value="erinnerung" />
-                <span class="cat-badge cat-erinnerung" style="padding:0 6px;">Erinnerung</span>
+                <span class="cat-badge cat-erinnerung" style="padding:0 6px;" data-i18n="cat.erinnerung">Erinnerung</span>
               </label>
               <label class="category-checkbox" data-cat="sonstiges">
                 <input type="checkbox" value="sonstiges" />
-                <span class="cat-badge cat-sonstiges" style="padding:0 6px;">Sonstiges</span>
+                <span class="cat-badge cat-sonstiges" style="padding:0 6px;" data-i18n="cat.sonstiges">Sonstiges</span>
               </label>
               <label class="category-checkbox" data-cat="none">
                 <input type="checkbox" value="none" />
-                <span class="cat-badge cat-none" style="padding:0 6px;">Ohne</span>
+                <span class="cat-badge cat-none" style="padding:0 6px;" data-i18n="cat.without">Ohne</span>
               </label>
             </div>
           </div>
 
           <!-- Weitere Filter -->
           <div class="filter-group">
-            <div class="filter-group-label">Weitere Filter</div>
+            <div class="filter-group-label" data-i18n="label.moreFilters">Weitere Filter</div>
             <div class="toggle-checkboxes">
               <label class="toggle-checkbox">
                 <input type="checkbox" id="filterHasNotes" />
-                Nur mit Notizen
+                <span data-i18n="label.onlyWithNotes">Nur mit Notizen</span>
               </label>
               <label class="toggle-checkbox">
                 <input type="checkbox" id="filterRecurring" />
-                Nur wiederkehrende
+                <span data-i18n="label.onlyRecurring">Nur wiederkehrende</span>
               </label>
               <label class="toggle-checkbox">
                 <input type="checkbox" id="filterHasTimespan" />
-                Nur mit Zeitspanne
+                <span data-i18n="label.onlyWithTimespan">Nur mit Zeitspanne</span>
               </label>
             </div>
           </div>
@@ -210,12 +217,12 @@
         <!-- Gespeicherte Filter -->
         <div class="saved-filters-section">
           <div class="saved-filters-header">
-            <div class="saved-filters-title">Gespeicherte Filter</div>
+            <div class="saved-filters-title" data-i18n="label.savedFilters">Gespeicherte Filter</div>
           </div>
           <div id="savedFiltersList" class="saved-filters-list">
-            <button id="saveFilterBtn" class="save-filter-btn" title="Aktuellen Filter speichern">
+            <button id="saveFilterBtn" class="save-filter-btn" data-i18n="btn.saveFilter" data-i18n-attr="title" title="Aktuellen Filter speichern">
               <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
-              Speichern...
+              <span data-i18n="btn.saveFilter">Speichern...</span>
             </button>
           </div>
         </div>
@@ -226,28 +233,28 @@
         <div class="dashboard-card dashboard-upcoming">
           <h3 class="dashboard-card-title">
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zm0-12H5V6h14v2z"/></svg>
-            Anstehend
+            <span data-i18n="dashboard.upcoming">Anstehend</span>
           </h3>
           <div id="dashboardUpcoming" class="dashboard-card-content"></div>
         </div>
         <div class="dashboard-card dashboard-recent">
           <h3 class="dashboard-card-title">
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M11 17v-5h2v5h-2zm0-8V7h2v2h-2zm1-7C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg>
-            Kürzlich vergangen
+            <span data-i18n="dashboard.recent">Kürzlich vergangen</span>
           </h3>
           <div id="dashboardRecent" class="dashboard-card-content"></div>
         </div>
         <div class="dashboard-card dashboard-milestones">
           <h3 class="dashboard-card-title">
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
-            Meilensteine
+            <span data-i18n="dashboard.milestones">Meilensteine</span>
           </h3>
           <div id="dashboardMilestones" class="dashboard-card-content"></div>
         </div>
         <div class="dashboard-card dashboard-stats">
           <h3 class="dashboard-card-title">
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/></svg>
-            Statistiken
+            <span data-i18n="dashboard.stats">Statistiken</span>
           </h3>
           <div id="dashboardStats" class="dashboard-card-content"></div>
         </div>
@@ -256,17 +263,17 @@
       <!-- Monatsansicht -->
       <section id="calendarView" class="card card-calendar" style="display:none;">
         <div class="calendar-header">
-          <button class="btn-icon" id="calPrev" title="Vorheriger Monat" aria-label="Vorheriger Monat">
+          <button class="btn-icon" id="calPrev" data-i18n="tooltip.prevMonth" data-i18n-attr="title,aria-label" title="Vorheriger Monat" aria-label="Vorheriger Monat">
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6z"/></svg>
           </button>
           <div class="calendar-title" id="calMonthYear">Januar 2026</div>
-          <button class="btn-icon" id="calNext" title="Nächster Monat" aria-label="Nächster Monat">
+          <button class="btn-icon" id="calNext" data-i18n="tooltip.nextMonth" data-i18n-attr="title,aria-label" title="Nächster Monat" aria-label="Nächster Monat">
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
           </button>
-          <button class="btn btn-ghost" id="calToday">Heute</button>
+          <button class="btn btn-ghost" id="calToday" data-i18n="btn.today">Heute</button>
         </div>
         <div class="calendar-grid">
-          <div class="calendar-weekdays">
+          <div class="calendar-weekdays" id="calendarWeekdays">
             <span>Mo</span><span>Di</span><span>Mi</span><span>Do</span><span>Fr</span><span>Sa</span><span>So</span>
           </div>
           <div class="calendar-days" id="calendarDays"></div>
@@ -276,14 +283,14 @@
       <!-- Wochenansicht -->
       <section id="weekView" class="card card-week" style="display:none;">
         <div class="week-header">
-          <button class="btn-icon" id="weekPrev" title="Vorherige Woche" aria-label="Vorherige Woche">
+          <button class="btn-icon" id="weekPrev" data-i18n="tooltip.prevWeek" data-i18n-attr="title,aria-label" title="Vorherige Woche" aria-label="Vorherige Woche">
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6z"/></svg>
           </button>
           <div class="week-title" id="weekTitle">KW 5 (27.01 - 02.02.2026)</div>
-          <button class="btn-icon" id="weekNext" title="Nächste Woche" aria-label="Nächste Woche">
+          <button class="btn-icon" id="weekNext" data-i18n="tooltip.nextWeek" data-i18n-attr="title,aria-label" title="Nächste Woche" aria-label="Nächste Woche">
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
           </button>
-          <button class="btn btn-ghost" id="weekToday">Heute</button>
+          <button class="btn btn-ghost" id="weekToday" data-i18n="btn.today">Heute</button>
         </div>
         <div class="week-grid" id="weekGrid"></div>
       </section>
@@ -291,18 +298,18 @@
       <!-- Timeline-Ansicht -->
       <section id="timelineView" class="card card-timeline" style="display:none;">
         <div class="timeline-header">
-          <button class="btn-icon" id="timelinePrev" title="Früher" aria-label="Früher">
+          <button class="btn-icon" id="timelinePrev" data-i18n="tooltip.earlier" data-i18n-attr="title,aria-label" title="Früher" aria-label="Früher">
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6z"/></svg>
           </button>
           <div class="timeline-title" id="timelineTitle">Jan - Jun 2026</div>
-          <button class="btn-icon" id="timelineNext" title="Später" aria-label="Später">
+          <button class="btn-icon" id="timelineNext" data-i18n="tooltip.later" data-i18n-attr="title,aria-label" title="Später" aria-label="Später">
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
           </button>
-          <button class="btn btn-ghost" id="timelineToday">Heute</button>
-          <select id="timelineZoom" class="timeline-zoom" title="Zeitraum">
-            <option value="3">3 Monate</option>
-            <option value="6" selected>6 Monate</option>
-            <option value="12">12 Monate</option>
+          <button class="btn btn-ghost" id="timelineToday" data-i18n="btn.today">Heute</button>
+          <select id="timelineZoom" class="timeline-zoom" data-i18n="tooltip.period" data-i18n-attr="title" title="Zeitraum">
+            <option value="3">3 <span data-i18n="unit.month.2">Monate</span></option>
+            <option value="6" selected>6 <span data-i18n="unit.month.2">Monate</span></option>
+            <option value="12">12 <span data-i18n="unit.month.2">Monate</span></option>
           </select>
         </div>
         <div class="timeline-container">
@@ -318,67 +325,67 @@
           <table id="table" aria-describedby="tableHint">
             <thead>
               <tr>
-                <th class="col-date">Zeitpunkt</th>
-                <th class="col-date">Endzeitpunkt</th>
-                <th class="col-cat">Kategorie</th>
-                <th>Ereignis</th>
-                <th class="days">Differenz zu heute oder Endzeitpunkt</th>
+                <th class="col-date" data-i18n="label.date">Zeitpunkt</th>
+                <th class="col-date" data-i18n="label.endDate">Endzeitpunkt</th>
+                <th class="col-cat" data-i18n="label.category">Kategorie</th>
+                <th data-i18n="label.event">Ereignis</th>
+                <th class="days" data-i18n="label.differenceToToday">Differenz zu heute oder Endzeitpunkt</th>
                 <th class="actions">Aktionen</th>
               </tr>
             </thead>
             <tbody id="tbody"></tbody>
           </table>
         </div>
-        <div id="tableHint" class="muted">Tipp: Doppelklick auf eine Zeile zum Bearbeiten.</div>
+        <div id="tableHint" class="muted" data-i18n="table.hint">Tipp: Doppelklick auf eine Zeile zum Bearbeiten.</div>
       </section>
 
       <!-- Eingabebereich (am Ende, dezenter) -->
       <section class="card card-input">
-        <div class="input-header">Neues Ereignis</div>
+        <div class="input-header" data-i18n="label.newEvent">Neues Ereignis</div>
         <div class="input-grid">
           <div class="stack">
-            <label for="date">Zeitpunkt</label>
+            <label for="date" data-i18n="label.date">Zeitpunkt</label>
             <input id="date" type="date" />
           </div>
           <div class="stack">
-            <label for="end">Endzeitpunkt</label>
+            <label for="end" data-i18n="label.endDate">Endzeitpunkt</label>
             <input id="end" type="date" />
           </div>
           <div class="stack stack-checkbox">
             <label>
               <input id="recurring" type="checkbox" />
-              Jährlich wiederkehrend
+              <span data-i18n="label.recurring">Jährlich wiederkehrend</span>
             </label>
           </div>
           <div class="stack">
-            <label for="category">Kategorie</label>
+            <label for="category" data-i18n="label.category">Kategorie</label>
             <select id="category">
-              <option value="">Keine</option>
-              <option value="geburtstag">Geburtstag</option>
-              <option value="todestag">Todestag</option>
-              <option value="jahrestag">Jahrestag</option>
-              <option value="jubilaeum">Jubiläum</option>
-              <option value="projekt">Projekt</option>
-              <option value="termin">Termin</option>
-              <option value="erinnerung">Erinnerung</option>
-              <option value="sonstiges">Sonstiges</option>
+              <option value="" data-i18n="cat.none">Keine</option>
+              <option value="geburtstag" data-i18n="cat.geburtstag">Geburtstag</option>
+              <option value="todestag" data-i18n="cat.todestag">Todestag</option>
+              <option value="jahrestag" data-i18n="cat.jahrestag">Jahrestag</option>
+              <option value="jubilaeum" data-i18n="cat.jubilaeum">Jubiläum</option>
+              <option value="projekt" data-i18n="cat.projekt">Projekt</option>
+              <option value="termin" data-i18n="cat.termin">Termin</option>
+              <option value="erinnerung" data-i18n="cat.erinnerung">Erinnerung</option>
+              <option value="sonstiges" data-i18n="cat.sonstiges">Sonstiges</option>
             </select>
           </div>
           <div class="stack stack-text">
-            <label for="text">Ereignis</label>
-            <input id="text" type="text" placeholder="Beschreibe das Ereignis…" />
+            <label for="text" data-i18n="label.event">Ereignis</label>
+            <input id="text" type="text" data-i18n="placeholder.event" data-i18n-attr="placeholder" placeholder="Beschreibe das Ereignis…" />
           </div>
           <div class="stack stack-buttons">
             <label class="label-spacer">&nbsp;</label>
             <div class="toolbar">
-              <button id="addBtn" class="btn btn-primary">Hinzufügen</button>
-              <button id="clearBtn" class="btn btn-ghost">Zurücksetzen</button>
+              <button id="addBtn" class="btn btn-primary" data-i18n="btn.add">Hinzufügen</button>
+              <button id="clearBtn" class="btn btn-ghost" data-i18n="btn.reset">Zurücksetzen</button>
             </div>
           </div>
           <div class="input-notes-row">
             <div class="stack">
-              <label for="notes">Notizen (optional)</label>
-              <textarea id="notes" rows="2" placeholder="Zusätzliche Informationen..."></textarea>
+              <label for="notes" data-i18n="label.notes">Notizen (optional)</label>
+              <textarea id="notes" rows="2" data-i18n="placeholder.notes" data-i18n-attr="placeholder" placeholder="Zusätzliche Informationen..."></textarea>
             </div>
           </div>
         </div>
@@ -389,7 +396,7 @@
 
   <!-- Statusleiste -->
   <footer class="statusbar">
-    <div class="statusbar-item" id="statusFile">Keine Datei</div>
+    <div class="statusbar-item" id="statusFile" data-i18n="msg.noFile">Keine Datei</div>
     <div class="statusbar-separator"></div>
     <div class="statusbar-item" id="statusCount">0 Einträge</div>
     <div class="statusbar-separator"></div>
@@ -399,7 +406,9 @@
 
   <input id="fileInput" type="file" accept=".json,application/json" style="display:none" />
 
-  <!-- JS -->
+  <!-- JS: i18n must load before other modules -->
+  <script src="js/i18n.js"></script>
+  <script src="js/i18n/de.js"></script>
   <script src="js/utils.js"></script>
   <script src="js/data.js"></script>
   <script src="js/filters.js"></script>
