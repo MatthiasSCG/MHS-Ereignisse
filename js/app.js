@@ -1,11 +1,11 @@
 /**
  * app.js - Initialisierung, Datei-Handling
- * Ereignisse v1.11.0
+ * Ereignisse v1.13.0
  */
 'use strict';
 
 /** @constant {string} Zentrale Versionsnummer der Anwendung */
-const APP_VERSION = '1.11.0';
+const APP_VERSION = '1.13.0';
 
 /**
  * Prüft, ob die File System Access API verfügbar ist
@@ -521,12 +521,73 @@ tbody.addEventListener('dblclick', (e) => {
 // Resize-Event für Spaltenbreite
 window.addEventListener('resize', adjustDaysColWidth);
 
+// ---------- View Toggle ----------
+document.querySelectorAll('.view-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    if (typeof switchView === 'function') {
+      switchView(btn.dataset.view);
+    }
+  });
+});
+
+// Kalender-Navigation (Monatsansicht)
+const calPrev = document.getElementById('calPrev');
+const calNext = document.getElementById('calNext');
+const calTodayBtn = document.getElementById('calToday');
+const calendarDays = document.getElementById('calendarDays');
+
+if (calPrev) calPrev.addEventListener('click', () => { if (typeof calendarPrev === 'function') calendarPrev(); });
+if (calNext) calNext.addEventListener('click', () => { if (typeof calendarNext === 'function') calendarNext(); });
+if (calTodayBtn) calTodayBtn.addEventListener('click', () => { if (typeof calendarToday === 'function') calendarToday(); });
+
+// Klick auf Kalendertag
+if (calendarDays) {
+  calendarDays.addEventListener('click', (e) => {
+    const day = e.target.closest('.calendar-day');
+    if (day && day.dataset.date && typeof showDayDetail === 'function') {
+      showDayDetail(day.dataset.date);
+    }
+  });
+}
+
+// Wochenansicht-Navigation
+const weekPrevBtn = document.getElementById('weekPrev');
+const weekNextBtn = document.getElementById('weekNext');
+const weekTodayBtn = document.getElementById('weekToday');
+
+if (weekPrevBtn) weekPrevBtn.addEventListener('click', () => { if (typeof weekPrev === 'function') weekPrev(); });
+if (weekNextBtn) weekNextBtn.addEventListener('click', () => { if (typeof weekNext === 'function') weekNext(); });
+if (weekTodayBtn) weekTodayBtn.addEventListener('click', () => { if (typeof weekToday === 'function') weekToday(); });
+
+// Timeline-Navigation
+const timelinePrevBtn = document.getElementById('timelinePrev');
+const timelineNextBtn = document.getElementById('timelineNext');
+const timelineTodayBtn = document.getElementById('timelineToday');
+const timelineZoomEl = document.getElementById('timelineZoom');
+
+if (timelinePrevBtn) timelinePrevBtn.addEventListener('click', () => { if (typeof timelinePrevFn === 'function') timelinePrevFn(); });
+if (timelineNextBtn) timelineNextBtn.addEventListener('click', () => { if (typeof timelineNextFn === 'function') timelineNextFn(); });
+if (timelineTodayBtn) timelineTodayBtn.addEventListener('click', () => { if (typeof timelineTodayFn === 'function') timelineTodayFn(); });
+if (timelineZoomEl) {
+  timelineZoomEl.addEventListener('change', () => {
+    const months = parseInt(timelineZoomEl.value, 10);
+    if (typeof setTimelineZoom === 'function') setTimelineZoom(months);
+  });
+}
+
 // ---------- Initialisierung ----------
 dateEl.value = todayISO();
 loadFromLocalStorage();
 applyTheme();
 updateSortIcon();
 renderSavedFilters();
+
+// View-State initialisieren und UI aktualisieren
+if (typeof initViewState === 'function') {
+  initViewState();
+  updateViewUI();
+}
+
 render();
 
 // Tastenkürzel

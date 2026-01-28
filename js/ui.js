@@ -1,6 +1,6 @@
 /**
  * ui.js - Rendering, Dialoge, Events
- * Ereignisse v1.11.0
+ * Ereignisse v1.13.0
  */
 'use strict';
 
@@ -237,7 +237,10 @@ const enableAllActions = () => {
 };
 
 // ---------- Rendering ----------
-const render = () => {
+/**
+ * Renders the table view
+ */
+const renderTable = () => {
   // Suchtext aus Filter-Zustand
   const q = currentFilter.query.toLowerCase();
 
@@ -314,6 +317,32 @@ const render = () => {
   }
   adjustDaysColWidth();
   updateStatusBar();
+};
+
+/**
+ * Renders the current view (table, month, week, or timeline)
+ * View-aware wrapper that delegates to the appropriate renderer
+ */
+const render = () => {
+  if (typeof getCurrentView !== 'function') {
+    renderTable();
+    return;
+  }
+
+  const view = getCurrentView();
+  switch (view) {
+    case 'month':
+      if (typeof renderCalendar === 'function') renderCalendar();
+      break;
+    case 'week':
+      if (typeof renderWeek === 'function') renderWeek();
+      break;
+    case 'timeline':
+      if (typeof renderTimeline === 'function') renderTimeline();
+      break;
+    default:
+      renderTable();
+  }
 };
 
 function enterEditMode(tr, e) {

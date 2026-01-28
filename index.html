@@ -24,6 +24,7 @@
   <link rel="stylesheet" href="css/dialogs.css" />
   <link rel="stylesheet" href="css/statusbar.css" />
   <link rel="stylesheet" href="css/dark-mode.css" />
+  <link rel="stylesheet" href="css/calendar.css" />
 </head>
 <body>
   <div class="page">
@@ -83,6 +84,22 @@
           <button id="sortDirBtn" class="btn-icon" title="Sortierrichtung umschalten" aria-label="Sortierrichtung">
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 16l-6-6h12z"/></svg>
           </button>
+        </div>
+        <div class="toolbar toolbar-views">
+          <div class="view-toggle" role="group" aria-label="Ansicht wechseln">
+            <button class="view-btn active" data-view="table" title="Tabellenansicht">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 5v14h18V5H3zm4 2v4H5V7h2zm-2 6h2v4H5v-4zm4 4v-4h6v4H9zm6-6H9V7h6v4zm2 0V7h2v4h-2zm0 2h2v4h-2v-4z"/></svg>
+            </button>
+            <button class="view-btn" data-view="month" title="Monatsansicht">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zm0-12H5V6h14v2z"/></svg>
+            </button>
+            <button class="view-btn" data-view="week" title="Wochenansicht">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 11h2v2H7v-2zm14-5v14c0 1.1-.9 2-2 2H5c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2h1V2h2v2h8V2h2v2h1c1.1 0 2 .9 2 2zM5 8h14V6H5v2zm14 12V10H5v10h14zm-4-7h2v-2h-2v2zm-4 0h2v-2h-2v2z"/></svg>
+            </button>
+            <button class="view-btn" data-view="timeline" title="Timeline-Ansicht">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M2 12h4v2H2v-2zm6-7h10v2H8V5zm0 14h10v2H8v-2zm0-7h12v2H8v-2zm-6 7h4v2H2v-2zm0-14h4v2H2V5z"/></svg>
+            </button>
+          </div>
         </div>
       </section>
 
@@ -200,6 +217,65 @@
         </div>
       </section>
 
+      <!-- Monatsansicht -->
+      <section id="calendarView" class="card card-calendar" style="display:none;">
+        <div class="calendar-header">
+          <button class="btn-icon" id="calPrev" title="Vorheriger Monat" aria-label="Vorheriger Monat">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6z"/></svg>
+          </button>
+          <div class="calendar-title" id="calMonthYear">Januar 2026</div>
+          <button class="btn-icon" id="calNext" title="Nächster Monat" aria-label="Nächster Monat">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
+          </button>
+          <button class="btn btn-ghost" id="calToday">Heute</button>
+        </div>
+        <div class="calendar-grid">
+          <div class="calendar-weekdays">
+            <span>Mo</span><span>Di</span><span>Mi</span><span>Do</span><span>Fr</span><span>Sa</span><span>So</span>
+          </div>
+          <div class="calendar-days" id="calendarDays"></div>
+        </div>
+      </section>
+
+      <!-- Wochenansicht -->
+      <section id="weekView" class="card card-week" style="display:none;">
+        <div class="week-header">
+          <button class="btn-icon" id="weekPrev" title="Vorherige Woche" aria-label="Vorherige Woche">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6z"/></svg>
+          </button>
+          <div class="week-title" id="weekTitle">KW 5 (27.01 - 02.02.2026)</div>
+          <button class="btn-icon" id="weekNext" title="Nächste Woche" aria-label="Nächste Woche">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
+          </button>
+          <button class="btn btn-ghost" id="weekToday">Heute</button>
+        </div>
+        <div class="week-grid" id="weekGrid"></div>
+      </section>
+
+      <!-- Timeline-Ansicht -->
+      <section id="timelineView" class="card card-timeline" style="display:none;">
+        <div class="timeline-header">
+          <button class="btn-icon" id="timelinePrev" title="Früher" aria-label="Früher">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6z"/></svg>
+          </button>
+          <div class="timeline-title" id="timelineTitle">Jan - Jun 2026</div>
+          <button class="btn-icon" id="timelineNext" title="Später" aria-label="Später">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
+          </button>
+          <button class="btn btn-ghost" id="timelineToday">Heute</button>
+          <select id="timelineZoom" class="timeline-zoom" title="Zeitraum">
+            <option value="3">3 Monate</option>
+            <option value="6" selected>6 Monate</option>
+            <option value="12">12 Monate</option>
+          </select>
+        </div>
+        <div class="timeline-container">
+          <div class="timeline-months" id="timelineMonths"></div>
+          <div class="timeline-tracks" id="timelineTracks"></div>
+          <div class="timeline-today-line" id="timelineTodayLine"></div>
+        </div>
+      </section>
+
       <!-- Tabelle (Hauptbereich) -->
       <section class="card card-table stack">
         <div class="table-wrap">
@@ -291,6 +367,8 @@
   <script src="js/utils.js"></script>
   <script src="js/data.js"></script>
   <script src="js/filters.js"></script>
+  <script src="js/views.js"></script>
+  <script src="js/calendar.js"></script>
   <script src="js/ui.js"></script>
   <script src="js/app.js"></script>
 </body>

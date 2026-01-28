@@ -5,8 +5,8 @@
 **Name:** Ereignisse und deren Zeitraum zu heute
 **Typ:** Modulare Web-Anwendung
 **Autor:** Matthias
-**Version:** 1.11
-**Letzte Aktualisierung:** 2026-01-27
+**Version:** 1.13
+**Letzte Aktualisierung:** 2026-01-28
 **Repository:** https://github.com/MatthiasSCG/MHS-Ereignisse (privat)
 
 ---
@@ -29,6 +29,7 @@ Eine lokale Web-Anwendung zur Verwaltung von Ereignissen mit automatischer Berec
 - **Datenpersistenz:** Lokale Speicherung im Browser und Export/Import als JSON
 - **Dark Mode:** Automatische Erkennung der Systemeinstellung mit manueller Umschaltung
 - **PWA:** Installierbar als App mit Offline-Unterstützung
+- **Kalenderansichten:** Monats-, Wochen- und Timeline-Ansicht mit Navigation
 
 ---
 
@@ -70,11 +71,14 @@ Eine lokale Web-Anwendung zur Verwaltung von Ereignissen mit automatischer Berec
 │   ├── filters.css       # Filter-Toolbar, Panel, Tags
 │   ├── dialogs.css       # Modals, Verknüpfungs-Dialoge
 │   ├── statusbar.css     # Statusleiste
+│   ├── calendar.css      # Kalender-Views (Monat, Woche, Timeline)
 │   └── dark-mode.css     # Alle Dark Mode Overrides
 ├── js/                   # JavaScript-Module
 │   ├── utils.js          # Hilfsfunktionen, Datum-Berechnungen
 │   ├── data.js           # Datenmodell, Serialisierung, Storage
 │   ├── filters.js        # Filter-Logik, gespeicherte Filter
+│   ├── views.js          # View-State-Management (4 Ansichten)
+│   ├── calendar.js       # Kalender-Rendering und Navigation
 │   ├── ui.js             # Rendering, Dialoge, Events
 │   └── app.js            # Initialisierung, Datei-Handling
 ├── manifest.json         # PWA Web App Manifest
@@ -361,7 +365,10 @@ Alle geplanten Erweiterungen werden als [GitHub Issues](https://github.com/Matth
 | **v1.8** | Wiederkehrende Ereignisse | ✅ Abgeschlossen (#1) |
 | **v1.9** | Erweiterte Suche | ✅ Abgeschlossen (#12) |
 | **v1.10** | Filter in JSON-Export | ✅ Abgeschlossen (#26) |
-| **v2.0** | Kalenderansicht, Dashboard | #5, #6 |
+| **v1.11** | CSS/JS-Refactoring, Favicon | ✅ Abgeschlossen (#27, #28) |
+| **v1.12** | Monatsansicht | ✅ Abgeschlossen (#5) |
+| **v1.13** | Wochen- und Timeline-Ansicht | ✅ Abgeschlossen (#5) |
+| **v2.0** | Dashboard | #6 |
 | **v2.1** | Import/Export-Formate, Benachrichtigungen | #11, #4, #2 |
 | **v2.2** | Drag & Drop, Theme-Optionen | #7, #8 |
 | **v3.0** | Mehrsprachigkeit (i18n) | #13 |
@@ -373,7 +380,6 @@ Alle geplanten Erweiterungen werden als [GitHub Issues](https://github.com/Matth
 | Issue | Titel |
 |-------|-------|
 | #2 | Benachrichtigungen/Erinnerungen |
-| #5 | Kalenderansicht |
 | #6 | Dashboard/Startseite |
 | #11 | Import-Funktionen |
 | #13 | Mehrsprachigkeit (i18n) |
