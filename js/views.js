@@ -6,14 +6,14 @@
  */
 'use strict';
 
-/** @type {'table'|'month'|'week'|'timeline'} Current active view */
+/** @type {'dashboard'|'table'|'month'|'week'|'timeline'} Current active view */
 let currentView = 'table';
 
 /** @constant {string} LocalStorage key for view preference */
 const VIEW_KEY = 'zeiten-view';
 
 /** @constant {string[]} Valid view types */
-const VALID_VIEWS = ['table', 'month', 'week', 'timeline'];
+const VALID_VIEWS = ['dashboard', 'table', 'month', 'week', 'timeline'];
 
 /**
  * Initializes view state from localStorage
@@ -69,12 +69,14 @@ const updateViewUI = () => {
   });
 
   // Get all view containers
+  const dashboardView = document.getElementById('dashboardView');
   const tableCard = document.querySelector('.card-table');
   const monthView = document.getElementById('calendarView');
   const weekView = document.getElementById('weekView');
   const timelineView = document.getElementById('timelineView');
 
   // Hide all views
+  if (dashboardView) dashboardView.style.display = 'none';
   if (tableCard) tableCard.style.display = 'none';
   if (monthView) monthView.style.display = 'none';
   if (weekView) weekView.style.display = 'none';
@@ -82,6 +84,9 @@ const updateViewUI = () => {
 
   // Show the active view
   switch (currentView) {
+    case 'dashboard':
+      if (dashboardView) dashboardView.style.display = '';
+      break;
     case 'table':
       if (tableCard) tableCard.style.display = '';
       break;
@@ -102,6 +107,9 @@ const updateViewUI = () => {
  */
 const renderCurrentView = () => {
   switch (currentView) {
+    case 'dashboard':
+      if (typeof renderDashboard === 'function') renderDashboard();
+      break;
     case 'month':
       if (typeof renderCalendar === 'function') renderCalendar();
       break;

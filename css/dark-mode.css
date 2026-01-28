@@ -520,3 +520,91 @@
 [data-theme="dark"] .timeline-empty {
   color:#64748b;
 }
+
+/* ========================================
+   Dashboard View Dark Mode
+   ======================================== */
+
+[data-theme="dark"] .dashboard-card {
+  background:var(--card);
+  border:1px solid #334155;
+  box-shadow:none;
+}
+
+[data-theme="dark"] .dashboard-card-title {
+  color:#64748b;
+}
+
+[data-theme="dark"] .dashboard-empty {
+  color:#64748b;
+}
+
+[data-theme="dark"] .dashboard-group-header {
+  color:#64748b;
+  border-color:#334155;
+}
+
+[data-theme="dark"] .dashboard-event:hover {
+  background:#1e293b;
+}
+
+[data-theme="dark"] .dashboard-event-text {
+  color:var(--ink);
+}
+
+[data-theme="dark"] .dashboard-event-age {
+  background:#1e293b;
+  color:#94a3b8;
+}
+
+[data-theme="dark"] .dashboard-event-date {
+  color:#64748b;
+}
+
+[data-theme="dark"] .dashboard-event-relative {
+  color:#93c5fd;
+}
+
+[data-theme="dark"] .dashboard-milestone:hover {
+  background:#1e293b;
+}
+
+[data-theme="dark"] .dashboard-milestone-icon {
+  background:#1e293b;
+}
+
+[data-theme="dark"] .dashboard-milestone-text {
+  color:var(--ink);
+}
+
+[data-theme="dark"] .dashboard-milestone-label {
+  color:#93c5fd;
+}
+
+[data-theme="dark"] .dashboard-milestone-date {
+  color:#64748b;
+}
+
+[data-theme="dark"] .dashboard-stats-total {
+  color:var(--ink);
+}
+
+[data-theme="dark"] .dashboard-stat-label {
+  color:#64748b;
+}
+
+[data-theme="dark"] .dashboard-stat-bar-container {
+  background:#1e293b;
+}
+
+[data-theme="dark"] .dashboard-stat-count {
+  color:var(--ink);
+}
+
+[data-theme="dark"] .dashboard-stats-info {
+  border-color:#334155;
+}
+
+[data-theme="dark"] .dashboard-stat-info-item {
+  color:#94a3b8;
+}

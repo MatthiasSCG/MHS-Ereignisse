@@ -7,6 +7,24 @@ und dieses Projekt verwendet [Semantic Versioning](https://semver.org/lang/de/).
 
 ## [Unreleased]
 
+## [1.14.0] - 2026-01-28
+
+### Added
+- Dashboard-Ansicht als neue Startseite/Übersicht (#6)
+  - Anstehende Ereignisse: Gruppiert nach Heute, Diese Woche, Dieser Monat
+  - Kürzlich vergangene Ereignisse der letzten 7 Tage
+  - Meilenstein-Vorschau: Runde Geburtstage/Jahrestage und Tages-Meilensteine (1000, 2000, etc.)
+  - Statistik-Karte mit Gesamtanzahl und Kategorie-Balkendiagramm
+  - Klick auf Ereignis öffnet Bearbeiten-Dialog
+- View-Toggle erweitert auf 5 Ansichten: Dashboard, Tabelle, Monat, Woche, Timeline
+- Vollständige Dark Mode Unterstützung für Dashboard
+- Responsive Grid-Layout (2x2 auf Desktop, 1 Spalte auf Mobile)
+- Neue Dateien: `css/dashboard.css`, `js/dashboard.js`
+
+### Changed
+- View-System erweitert: `'dashboard' | 'table' | 'month' | 'week' | 'timeline'`
+- Service Worker Cache-Version auf v1.14.0 aktualisiert
+
 ### Fixed
 - Verstecktes File-Input Element war sichtbar - CSS-Fix hinzugefügt (#29)
 

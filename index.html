@@ -25,6 +25,7 @@
   <link rel="stylesheet" href="css/statusbar.css" />
   <link rel="stylesheet" href="css/dark-mode.css" />
   <link rel="stylesheet" href="css/calendar.css" />
+  <link rel="stylesheet" href="css/dashboard.css" />
 </head>
 <body>
   <div class="page">
@@ -87,6 +88,9 @@
         </div>
         <div class="toolbar toolbar-views">
           <div class="view-toggle" role="group" aria-label="Ansicht wechseln">
+            <button class="view-btn" data-view="dashboard" title="Dashboard">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg>
+            </button>
             <button class="view-btn active" data-view="table" title="Tabellenansicht">
               <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 5v14h18V5H3zm4 2v4H5V7h2zm-2 6h2v4H5v-4zm4 4v-4h6v4H9zm6-6H9V7h6v4zm2 0V7h2v4h-2zm0 2h2v4h-2v-4z"/></svg>
             </button>
@@ -214,6 +218,38 @@
               Speichern...
             </button>
           </div>
+        </div>
+      </section>
+
+      <!-- Dashboard -->
+      <section id="dashboardView" class="dashboard" style="display:none;">
+        <div class="dashboard-card dashboard-upcoming">
+          <h3 class="dashboard-card-title">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zm0-12H5V6h14v2z"/></svg>
+            Anstehend
+          </h3>
+          <div id="dashboardUpcoming" class="dashboard-card-content"></div>
+        </div>
+        <div class="dashboard-card dashboard-recent">
+          <h3 class="dashboard-card-title">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M11 17v-5h2v5h-2zm0-8V7h2v2h-2zm1-7C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg>
+            Kürzlich vergangen
+          </h3>
+          <div id="dashboardRecent" class="dashboard-card-content"></div>
+        </div>
+        <div class="dashboard-card dashboard-milestones">
+          <h3 class="dashboard-card-title">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+            Meilensteine
+          </h3>
+          <div id="dashboardMilestones" class="dashboard-card-content"></div>
+        </div>
+        <div class="dashboard-card dashboard-stats">
+          <h3 class="dashboard-card-title">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/></svg>
+            Statistiken
+          </h3>
+          <div id="dashboardStats" class="dashboard-card-content"></div>
         </div>
       </section>
 
@@ -369,6 +405,7 @@
   <script src="js/filters.js"></script>
   <script src="js/views.js"></script>
   <script src="js/calendar.js"></script>
+  <script src="js/dashboard.js"></script>
   <script src="js/ui.js"></script>
   <script src="js/app.js"></script>
 </body>
