@@ -7,6 +7,9 @@ und dieses Projekt verwendet [Semantic Versioning](https://semver.org/lang/de/).
 
 ## [Unreleased]
 
+### Fixed
+- Verstecktes File-Input Element war sichtbar - CSS-Fix hinzugefügt (#29)
+
 ## [1.13.0] - 2026-01-28
 
 ### Fixed
