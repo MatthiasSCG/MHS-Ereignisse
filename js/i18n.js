@@ -1,6 +1,6 @@
 /**
  * i18n.js - Internationalization Module
- * Ereignisse v1.15.0
+ * Ereignisse v1.16.0
  *
  * Provides multi-language support with:
  * - Translation API (t, tn)

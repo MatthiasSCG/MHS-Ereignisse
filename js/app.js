@@ -1,11 +1,11 @@
 /**
  * app.js - Initialisierung, Datei-Handling
- * Ereignisse v1.15.0
+ * Ereignisse v1.16.0
  */
 'use strict';
 
 /** @constant {string} Zentrale Versionsnummer der Anwendung */
-const APP_VERSION = '1.15.0';
+const APP_VERSION = '1.16.0';
 
 /**
  * Prüft, ob die File System Access API verfügbar ist
@@ -342,6 +342,7 @@ fileMenu.addEventListener('click', (e) => {
   if (!item) return;
   const action = item.dataset.action;
   if (action === 'open') openFile();
+  else if (action === 'loadSample') loadSampleData();
   else if (action === 'save') saveFile();
   else if (action === 'saveAs') saveFileAs();
   fileDropdown.classList.remove('open');

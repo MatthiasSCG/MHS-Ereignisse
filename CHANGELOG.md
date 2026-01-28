@@ -7,6 +7,19 @@ und dieses Projekt verwendet [Semantic Versioning](https://semver.org/lang/de/).
 
 ## [Unreleased]
 
+## [1.16.0] - 2026-01-28
+
+### Added
+- Beispieldatei laden im Datei-Menü (#30)
+  - Neuer Menüeintrag zwischen "Öffnen" und "Speichern"
+  - 17 englische Beispiel-Ereignisse mit realistischen Daten
+  - Abdeckung aller 8 Kategorien (Geburtstage, Jahrestage, Termine, Projekte, etc.)
+  - Mix aus wiederkehrenden und einmaligen Ereignissen
+  - Ereignisse mit Zeitspannen
+  - Relative Daten (dynamisch berechnet basierend auf heutigem Datum)
+  - Bestätigungsdialog bei vorhandenen Daten
+- Neue i18n-Keys: `menu.loadSample`, `msg.confirmLoadSample` (alle 5 Sprachen)
+
 ## [1.15.0] - 2026-01-28
 
 ### Added
@@ -272,7 +285,8 @@ und dieses Projekt verwendet [Semantic Versioning](https://semver.org/lang/de/).
 - XSS-Schutz durch `escapeHTML()` für alle Benutzereingaben
 - Input-Sanitization durch `sanitizeText()` für Textbereinigung
 
-[Unreleased]: https://github.com/MatthiasSCG/MHS-Ereignisse/compare/v1.15.0...HEAD
+[Unreleased]: https://github.com/MatthiasSCG/MHS-Ereignisse/compare/v1.16.0...HEAD
+[1.16.0]: https://github.com/MatthiasSCG/MHS-Ereignisse/compare/v1.15.0...v1.16.0
 [1.15.0]: https://github.com/MatthiasSCG/MHS-Ereignisse/compare/v1.14.0...v1.15.0
 [1.14.0]: https://github.com/MatthiasSCG/MHS-Ereignisse/compare/v1.13.0...v1.14.0
 [1.13.0]: https://github.com/MatthiasSCG/MHS-Ereignisse/compare/v1.12.0...v1.13.0

@@ -1,6 +1,6 @@
 /**
  * English translations
- * Ereignisse v1.15.0
+ * Ereignisse v1.16.0
  */
 'use strict';
 
@@ -12,6 +12,7 @@ i18n.registerLanguage('en', {
   // === Menu: File ===
   'menu.file': 'File',
   'menu.open': 'Open',
+  'menu.loadSample': 'Load sample file',
   'menu.save': 'Save',
   'menu.saveAs': 'Save as...',
 
@@ -219,6 +220,7 @@ i18n.registerLanguage('en', {
   'dialog.filterName': 'Name for this filter:',
 
   // === Messages ===
+  'msg.confirmLoadSample': 'Existing data will be replaced with sample data. Continue?',
   'msg.invalidDateRange': 'The end date must be after the start date.',
   'msg.noFile': 'No file',
   'msg.unsaved': 'Unsaved',

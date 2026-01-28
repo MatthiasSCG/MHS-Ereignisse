@@ -1,6 +1,6 @@
 /**
  * Spanish translations (Español)
- * Ereignisse v1.15.0
+ * Ereignisse v1.16.0
  */
 'use strict';
 
@@ -12,6 +12,7 @@ i18n.registerLanguage('es', {
   // === Menu: File ===
   'menu.file': 'Archivo',
   'menu.open': 'Abrir',
+  'menu.loadSample': 'Cargar archivo de ejemplo',
   'menu.save': 'Guardar',
   'menu.saveAs': 'Guardar como...',
 
@@ -219,6 +220,7 @@ i18n.registerLanguage('es', {
   'dialog.filterName': 'Nombre para este filtro:',
 
   // === Messages ===
+  'msg.confirmLoadSample': 'Los datos existentes serán reemplazados por datos de ejemplo. ¿Continuar?',
   'msg.invalidDateRange': 'La fecha de fin debe ser posterior a la fecha de inicio.',
   'msg.noFile': 'Sin archivo',
   'msg.unsaved': 'Sin guardar',

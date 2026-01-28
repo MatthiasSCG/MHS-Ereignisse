@@ -1,6 +1,6 @@
 /**
  * data.js - Datenmodell, Serialisierung, Storage
- * Ereignisse v1.15.0
+ * Ereignisse v1.16.0
  */
 'use strict';
 
@@ -264,4 +264,185 @@ const mergeFilters = (importedFilters) => {
 function validateDates(startDate, endDate) {
   if (!startDate || !endDate) return true;
   return startDate <= endDate;
+}
+
+/**
+ * Generates sample entries with English content
+ * Dates are calculated relative to today for realistic demonstration
+ * @returns {Entry[]} Array of sample event entries
+ */
+function getSampleEntries() {
+  const now = new Date();
+  const ts = nowISOTimestamp();
+
+  // Helper: add/subtract days from today
+  const addDays = (days) => {
+    const d = new Date(now);
+    d.setDate(d.getDate() + days);
+    return d.toISOString().split('T')[0];
+  };
+
+  // Helper: add/subtract months from today
+  const addMonths = (months) => {
+    const d = new Date(now);
+    d.setMonth(d.getMonth() + months);
+    return d.toISOString().split('T')[0];
+  };
+
+  // Helper: add/subtract years from today
+  const addYears = (years) => {
+    const d = new Date(now);
+    d.setFullYear(d.getFullYear() + years);
+    return d.toISOString().split('T')[0];
+  };
+
+  return [
+    // === Birthdays (recurring) - relative dates for realistic age display ===
+    {
+      id: uid(), date: addYears(-36), end: '', category: 'geburtstag',
+      text: 'Emma Thompson - Birthday',
+      notes: 'Loves chocolate cake and gardening books',
+      recurring: true, predecessors: [], successors: [], createdAt: ts, updatedAt: ts
+    },
+    {
+      id: uid(), date: addDays(-120), end: '', category: 'geburtstag',
+      text: 'James Wilson - Birthday',
+      notes: 'Tech enthusiast, prefers experience gifts. Turns 41 this year.',
+      recurring: true, predecessors: [], successors: [], createdAt: ts, updatedAt: ts
+    },
+    {
+      id: uid(), date: addDays(25), end: '', category: 'geburtstag',
+      text: 'Sophie Miller - Birthday',
+      notes: 'Daughter, loves unicorns and painting. Turning 11!',
+      recurring: true, predecessors: [], successors: [], createdAt: ts, updatedAt: ts
+    },
+
+    // === Anniversaries (recurring) ===
+    {
+      id: uid(), date: addYears(-15), end: '', category: 'jahrestag',
+      text: 'Wedding Anniversary',
+      notes: 'Married at St. Mary\'s Church',
+      recurring: true, predecessors: [], successors: [], createdAt: ts, updatedAt: ts
+    },
+    {
+      id: uid(), date: addDays(-200), end: '', category: 'jahrestag',
+      text: 'Started at Current Company',
+      notes: 'First day as Software Developer',
+      recurring: true, predecessors: [], successors: [], createdAt: ts, updatedAt: ts
+    },
+
+    // === Death anniversaries (recurring) ===
+    {
+      id: uid(), date: addYears(-6), end: '', category: 'todestag',
+      text: 'Grandma Helen - Memorial',
+      notes: 'Visit the cemetery, bring white roses',
+      recurring: true, predecessors: [], successors: [], createdAt: ts, updatedAt: ts
+    },
+
+    // === Upcoming appointments ===
+    {
+      id: uid(), date: addDays(3), end: '', category: 'termin',
+      text: 'Dentist Appointment',
+      notes: 'Dr. Smith, 10:30 AM, regular checkup',
+      recurring: false, predecessors: [], successors: [], createdAt: ts, updatedAt: ts
+    },
+    {
+      id: uid(), date: addDays(14), end: '', category: 'termin',
+      text: 'Team Meeting - Q1 Review',
+      notes: 'Prepare presentation slides',
+      recurring: false, predecessors: [], successors: [], createdAt: ts, updatedAt: ts
+    },
+
+    // === Projects with timespans ===
+    {
+      id: uid(), date: addDays(7), end: addDays(21), category: 'projekt',
+      text: 'Home Renovation - Kitchen',
+      notes: 'New countertops and backsplash installation',
+      recurring: false, predecessors: [], successors: [], createdAt: ts, updatedAt: ts
+    },
+    {
+      id: uid(), date: addDays(-30), end: addDays(60), category: 'projekt',
+      text: 'Online Course - Web Development',
+      notes: 'Udemy course, complete 3 modules per week',
+      recurring: false, predecessors: [], successors: [], createdAt: ts, updatedAt: ts
+    },
+
+    // === Reminders ===
+    {
+      id: uid(), date: addDays(5), end: '', category: 'erinnerung',
+      text: 'Renew Car Insurance',
+      notes: 'Compare quotes from at least 3 providers',
+      recurring: false, predecessors: [], successors: [], createdAt: ts, updatedAt: ts
+    },
+    {
+      id: uid(), date: addMonths(1), end: '', category: 'erinnerung',
+      text: 'Submit Tax Documents',
+      notes: 'Gather receipts and contact accountant',
+      recurring: false, predecessors: [], successors: [], createdAt: ts, updatedAt: ts
+    },
+
+    // === Jubilees ===
+    {
+      id: uid(), date: addYears(-25), end: '', category: 'jubilaeum',
+      text: 'Company Founded',
+      notes: '25th anniversary celebration planned',
+      recurring: true, predecessors: [], successors: [], createdAt: ts, updatedAt: ts
+    },
+
+    // === Past events ===
+    {
+      id: uid(), date: addDays(-10), end: '', category: 'termin',
+      text: 'Annual Health Checkup',
+      notes: 'Results: all good, next checkup in 12 months',
+      recurring: false, predecessors: [], successors: [], createdAt: ts, updatedAt: ts
+    },
+    {
+      id: uid(), date: addDays(-60), end: addDays(-30), category: 'projekt',
+      text: 'Garden Landscaping Project',
+      notes: 'Completed: new flower beds and patio area',
+      recurring: false, predecessors: [], successors: [], createdAt: ts, updatedAt: ts
+    },
+
+    // === Other/Miscellaneous ===
+    {
+      id: uid(), date: addMonths(3), end: '', category: 'sonstiges',
+      text: 'Summer Vacation Planning',
+      notes: 'Research destinations: Italy or Greece',
+      recurring: false, predecessors: [], successors: [], createdAt: ts, updatedAt: ts
+    },
+    {
+      id: uid(), date: addDays(45), end: addDays(52), category: 'sonstiges',
+      text: 'Family Reunion',
+      notes: 'Book hotel rooms and coordinate travel plans',
+      recurring: false, predecessors: [], successors: [], createdAt: ts, updatedAt: ts
+    }
+  ];
+}
+
+/**
+ * Loads predefined sample data (English content)
+ * Shows confirmation dialog if existing data is present
+ */
+function loadSampleData() {
+  // Check for existing data and confirm replacement
+  const confirmMsg = typeof t === 'function'
+    ? t('msg.confirmLoadSample')
+    : 'Existing data will be replaced with sample data. Continue?';
+
+  if (entries.length > 0 && !confirm(confirmMsg)) {
+    return;
+  }
+
+  // Load sample entries
+  entries = getSampleEntries();
+  savedFilters = [];
+  fileHandle = null;
+
+  // Save and update UI
+  saveToLocalStorage();
+  localStorage.setItem(SAVED_FILTERS_KEY, JSON.stringify(savedFilters));
+  updateStatusBar();
+  updateSaveStatus('unsaved');
+  if (typeof renderSavedFilters === 'function') renderSavedFilters();
+  render();
 }

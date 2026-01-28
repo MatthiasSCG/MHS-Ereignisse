@@ -1,6 +1,6 @@
 /**
  * utils.js - Hilfsfunktionen, Datum-Berechnungen
- * Ereignisse v1.15.0
+ * Ereignisse v1.16.0
  */
 'use strict';
 

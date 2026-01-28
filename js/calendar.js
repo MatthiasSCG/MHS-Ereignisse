@@ -1,6 +1,6 @@
 /**
  * calendar.js - Calendar View Rendering and Logic
- * Ereignisse v1.15.0
+ * Ereignisse v1.16.0
  *
  * Implements month, week, and timeline calendar views with event display.
  */

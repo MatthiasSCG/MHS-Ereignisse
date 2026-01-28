@@ -1,6 +1,6 @@
 /**
  * ui.js - Rendering, Dialoge, Events
- * Ereignisse v1.15.0
+ * Ereignisse v1.16.0
  */
 'use strict';
 

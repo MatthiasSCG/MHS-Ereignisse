@@ -5,7 +5,7 @@
 **Name:** Ereignisse und deren Zeitraum zu heute
 **Typ:** Modulare Web-Anwendung
 **Autor:** Matthias
-**Version:** 1.15
+**Version:** 1.16
 **Letzte Aktualisierung:** 2026-01-28
 **Repository:** https://github.com/MatthiasSCG/MHS-Ereignisse (privat)
 
@@ -381,6 +381,7 @@ Alle geplanten Erweiterungen werden als [GitHub Issues](https://github.com/Matth
 | **v1.13** | Wochen- und Timeline-Ansicht | ✅ Abgeschlossen (#5) |
 | **v1.14** | Dashboard | ✅ Abgeschlossen (#6) |
 | **v1.15** | Mehrsprachigkeit (i18n) | ✅ Abgeschlossen (#13) |
+| **v1.16** | Beispieldatei laden | ✅ Abgeschlossen (#30) |
 | **v2.0** | Import/Export-Formate, Benachrichtigungen | #11, #4, #2 |
 | **v2.2** | Drag & Drop, Theme-Optionen | #7, #8 |
 | **v3.0** | Cloud-Synchronisation | #10 |

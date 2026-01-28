@@ -1,6 +1,6 @@
 /**
  * German translations (Deutsch)
- * Ereignisse v1.15.0
+ * Ereignisse v1.16.0
  */
 'use strict';
 
@@ -12,6 +12,7 @@ i18n.registerLanguage('de', {
   // === Menu: File ===
   'menu.file': 'Datei',
   'menu.open': 'Öffnen',
+  'menu.loadSample': 'Beispieldatei laden',
   'menu.save': 'Speichern',
   'menu.saveAs': 'Speichern unter…',
 
@@ -219,6 +220,7 @@ i18n.registerLanguage('de', {
   'dialog.filterName': 'Name für diesen Filter:',
 
   // === Messages ===
+  'msg.confirmLoadSample': 'Vorhandene Daten werden durch Beispieldaten ersetzt. Fortfahren?',
   'msg.invalidDateRange': 'Der Endzeitpunkt muss nach dem Zeitpunkt liegen.',
   'msg.noFile': 'Keine Datei',
   'msg.unsaved': 'Ungespeichert',

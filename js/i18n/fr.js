@@ -1,6 +1,6 @@
 /**
  * French translations (Français)
- * Ereignisse v1.15.0
+ * Ereignisse v1.16.0
  */
 'use strict';
 
@@ -12,6 +12,7 @@ i18n.registerLanguage('fr', {
   // === Menu: File ===
   'menu.file': 'Fichier',
   'menu.open': 'Ouvrir',
+  'menu.loadSample': 'Charger fichier exemple',
   'menu.save': 'Enregistrer',
   'menu.saveAs': 'Enregistrer sous...',
 
@@ -220,6 +221,7 @@ i18n.registerLanguage('fr', {
   'dialog.filterName': 'Nom pour ce filtre :',
 
   // === Messages ===
+  'msg.confirmLoadSample': 'Les données existantes seront remplacées par des données d\'exemple. Continuer ?',
   'msg.invalidDateRange': 'La date de fin doit être postérieure à la date de début.',
   'msg.noFile': 'Aucun fichier',
   'msg.unsaved': 'Non enregistré',

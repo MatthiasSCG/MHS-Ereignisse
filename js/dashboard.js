@@ -1,6 +1,6 @@
 /**
  * dashboard.js - Dashboard View Logic
- * Ereignisse v1.15.0
+ * Ereignisse v1.16.0
  *
  * Renders the dashboard with upcoming events, recent events,
  * milestones and statistics.

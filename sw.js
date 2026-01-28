@@ -3,7 +3,7 @@
  * Ermöglicht Offline-Funktionalität und Caching
  */
 
-const CACHE_NAME = 'ereignisse-v1.15.0';
+const CACHE_NAME = 'ereignisse-v1.16.0';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',

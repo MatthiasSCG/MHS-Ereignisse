@@ -1,6 +1,6 @@
 /**
  * views.js - View State Management
- * Ereignisse v1.13.0
+ * Ereignisse v1.16.0
  *
  * Manages switching between table, month, week and timeline views.
  */

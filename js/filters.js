@@ -1,6 +1,6 @@
 /**
  * filters.js - Filter-Logik, gespeicherte Filter
- * Ereignisse v1.15.0
+ * Ereignisse v1.16.0
  */
 'use strict';
 
