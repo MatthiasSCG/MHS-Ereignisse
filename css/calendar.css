@@ -1,0 +1,866 @@
+/**
+ * calendar.css - Calendar View Styles
+ * Ereignisse v1.12.0
+ */
+
+/* ========================================
+   View Toggle
+   ======================================== */
+
+.toolbar-views {
+  margin-left: auto;
+}
+
+.view-toggle {
+  display: inline-flex;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.view-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 32px;
+  background: #fff;
+  border: none;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.view-btn:not(:last-child) {
+  border-right: 1px solid #d1d5db;
+}
+
+.view-btn:hover {
+  background: #f8fafc;
+}
+
+.view-btn.active {
+  background: var(--primary);
+  color: #fff;
+}
+
+.view-btn svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* ========================================
+   Calendar Card
+   ======================================== */
+
+.card-calendar {
+  background: var(--card);
+  padding: 0;
+}
+
+/* ========================================
+   Calendar Header
+   ======================================== */
+
+.calendar-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 16px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.calendar-title {
+  font-size: 18px;
+  font-weight: 600;
+  min-width: 180px;
+  text-align: center;
+  color: var(--ink);
+}
+
+#calToday {
+  margin-left: 8px;
+}
+
+/* ========================================
+   Calendar Grid
+   ======================================== */
+
+.calendar-grid {
+  padding: 16px;
+}
+
+.calendar-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+  margin-bottom: 8px;
+}
+
+.calendar-weekdays span {
+  text-align: center;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--muted);
+  padding: 8px 0;
+}
+
+.calendar-days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+}
+
+/* ========================================
+   Day Cell
+   ======================================== */
+
+.calendar-day {
+  min-height: 90px;
+  padding: 8px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  background: var(--card);
+  cursor: default;
+  display: flex;
+  flex-direction: column;
+  transition: background 0.15s, border-color 0.15s, box-shadow 0.15s;
+  position: relative;
+}
+
+.calendar-day.has-events {
+  cursor: pointer;
+  background: #f0f7ff;
+}
+
+.calendar-day.has-events:hover {
+  background: #f8fafc;
+  border-color: var(--primary);
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.1);
+}
+
+.calendar-day.other-month {
+  background: #f9fafb;
+  opacity: 0.5;
+}
+
+.calendar-day.other-month .day-number {
+  color: var(--muted);
+}
+
+.calendar-day.today {
+  border-color: var(--primary);
+  border-width: 2px;
+}
+
+.calendar-day.today .day-number {
+  background: var(--primary);
+  color: #fff;
+}
+
+.calendar-day.weekend {
+  background: #fafafa;
+}
+
+/* ========================================
+   Day Number
+   ======================================== */
+
+.day-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  font-size: 13px;
+  font-weight: 500;
+  border-radius: 50%;
+  color: var(--ink);
+}
+
+/* ========================================
+   Event Dots
+   ======================================== */
+
+.day-events {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: auto;
+  padding-top: 6px;
+}
+
+.event-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+/* Category colors for dots */
+.event-dot.cat-none { background: #6b7280; }
+.event-dot.cat-geburtstag { background: #be185d; }
+.event-dot.cat-todestag { background: #1f2937; }
+.event-dot.cat-jahrestag { background: #dc2626; }
+.event-dot.cat-jubilaeum { background: #7c3aed; }
+.event-dot.cat-projekt { background: #0369a1; }
+.event-dot.cat-termin { background: #b45309; }
+.event-dot.cat-erinnerung { background: #047857; }
+.event-dot.cat-sonstiges { background: #475569; }
+
+.event-more {
+  font-size: 10px;
+  color: var(--muted);
+  font-weight: 500;
+  line-height: 8px;
+}
+
+/* ========================================
+   Day Detail Modal
+   ======================================== */
+
+.day-detail-modal {
+  max-width: 480px;
+  width: 90vw;
+}
+
+.day-detail-modal .modal-title {
+  font-size: 16px;
+}
+
+.day-events-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.day-event-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  background: #fff;
+  transition: background 0.15s;
+}
+
+.day-event-item:hover {
+  background: #f8fafc;
+}
+
+.day-event-category {
+  flex-shrink: 0;
+}
+
+.day-event-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.day-event-text {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ink);
+  word-break: break-word;
+}
+
+.day-event-notes {
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 4px;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.day-event-dates {
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 4px;
+}
+
+.day-event-recurring {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  color: #059669;
+  margin-top: 4px;
+}
+
+.day-event-recurring svg {
+  width: 12px;
+  height: 12px;
+}
+
+.day-no-events {
+  text-align: center;
+  color: var(--muted);
+  padding: 24px;
+}
+
+/* ========================================
+   Highlight Row Animation (for edit from calendar)
+   ======================================== */
+
+.highlight-row td {
+  animation: highlight-pulse 2s ease-out;
+}
+
+@keyframes highlight-pulse {
+  0%, 30% { background: #fef3c7 !important; }
+  100% { background: inherit; }
+}
+
+/* ========================================
+   Responsive Design
+   ======================================== */
+
+@media (max-width: 900px) {
+  .calendar-day {
+    min-height: 80px;
+    padding: 6px;
+  }
+
+  .day-number {
+    width: 24px;
+    height: 24px;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 768px) {
+  .calendar-day {
+    min-height: 65px;
+    padding: 4px;
+  }
+
+  .day-number {
+    width: 22px;
+    height: 22px;
+    font-size: 11px;
+  }
+
+  .event-dot {
+    width: 6px;
+    height: 6px;
+  }
+
+  .day-events {
+    gap: 3px;
+  }
+
+  .calendar-header {
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 12px;
+  }
+
+  .calendar-title {
+    font-size: 16px;
+    min-width: 150px;
+  }
+
+  #calToday {
+    margin-left: 0;
+  }
+
+  .calendar-grid {
+    padding: 12px;
+  }
+
+  .calendar-weekdays span {
+    font-size: 11px;
+    padding: 6px 0;
+  }
+}
+
+@media (max-width: 540px) {
+  .calendar-day {
+    min-height: 55px;
+  }
+
+  .day-number {
+    width: 20px;
+    height: 20px;
+    font-size: 10px;
+  }
+
+  .day-events {
+    display: none;
+  }
+
+  /* Show single indicator dot on small screens */
+  .calendar-day.has-events::after {
+    content: "";
+    position: absolute;
+    bottom: 4px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 5px;
+    height: 5px;
+    background: var(--primary);
+    border-radius: 50%;
+  }
+
+  .calendar-weekdays span {
+    font-size: 10px;
+  }
+
+  .calendar-header {
+    padding: 10px;
+  }
+
+  .calendar-title {
+    font-size: 14px;
+    min-width: auto;
+    order: -1;
+    width: 100%;
+    margin-bottom: 4px;
+  }
+}
+
+/* ========================================
+   Week View
+   ======================================== */
+
+.card-week {
+  background: var(--card);
+  padding: 0;
+}
+
+.week-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 16px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.week-title {
+  font-size: 18px;
+  font-weight: 600;
+  min-width: 280px;
+  text-align: center;
+  color: var(--ink);
+}
+
+#weekToday {
+  margin-left: 8px;
+}
+
+.week-grid {
+  display: flex;
+  flex-direction: column;
+}
+
+.week-day {
+  display: flex;
+  min-height: 60px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.week-day:last-child {
+  border-bottom: none;
+}
+
+.week-day.today {
+  background: #f0f7ff;
+}
+
+.week-day.weekend {
+  background: #fafafa;
+}
+
+.week-day-label {
+  width: 120px;
+  flex-shrink: 0;
+  padding: 12px;
+  font-weight: 500;
+  color: var(--ink);
+  border-right: 1px solid #e5e7eb;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.week-day-name {
+  font-size: 12px;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+
+.week-day-date {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.week-day.today .week-day-date {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background: var(--primary);
+  color: #fff;
+  border-radius: 50%;
+}
+
+.week-day-events {
+  flex: 1;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  gap: 6px;
+  padding: 8px 12px;
+}
+
+.week-event {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: transform 0.1s, box-shadow 0.1s;
+  max-width: 100%;
+}
+
+.week-event:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.week-event-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.week-event-recurring {
+  font-size: 11px;
+  opacity: 0.8;
+}
+
+/* Week Event Category Colors */
+.week-event.cat-none { background: #f3f4f6; color: #374151; }
+.week-event.cat-geburtstag { background: #fce7f3; color: #9d174d; }
+.week-event.cat-todestag { background: #f3f4f6; color: #1f2937; }
+.week-event.cat-jahrestag { background: #fee2e2; color: #991b1b; }
+.week-event.cat-jubilaeum { background: #ede9fe; color: #5b21b6; }
+.week-event.cat-projekt { background: #e0f2fe; color: #075985; }
+.week-event.cat-termin { background: #fef3c7; color: #92400e; }
+.week-event.cat-erinnerung { background: #d1fae5; color: #065f46; }
+.week-event.cat-sonstiges { background: #f1f5f9; color: #475569; }
+
+/* Week View Responsive */
+@media (max-width: 768px) {
+  .week-header {
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 12px;
+  }
+
+  .week-title {
+    font-size: 14px;
+    min-width: auto;
+    order: -1;
+    width: 100%;
+    margin-bottom: 4px;
+  }
+
+  #weekToday {
+    margin-left: 0;
+  }
+
+  .week-day-label {
+    width: 80px;
+    padding: 8px;
+  }
+
+  .week-day-name {
+    font-size: 10px;
+  }
+
+  .week-day-date {
+    font-size: 14px;
+  }
+
+  .week-day-events {
+    padding: 6px 8px;
+  }
+
+  .week-event {
+    padding: 4px 8px;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 540px) {
+  .week-day-label {
+    width: 60px;
+    padding: 6px;
+  }
+
+  .week-day-name {
+    font-size: 9px;
+  }
+
+  .week-day-date {
+    font-size: 13px;
+  }
+
+  .week-event {
+    padding: 3px 6px;
+    font-size: 11px;
+    gap: 4px;
+  }
+
+  .week-event-recurring {
+    display: none;
+  }
+}
+
+/* ========================================
+   Timeline View
+   ======================================== */
+
+.card-timeline {
+  background: var(--card);
+  padding: 0;
+}
+
+.timeline-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 16px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.timeline-title {
+  font-size: 18px;
+  font-weight: 600;
+  min-width: 200px;
+  text-align: center;
+  color: var(--ink);
+}
+
+#timelineToday {
+  margin-left: 8px;
+}
+
+.timeline-zoom {
+  margin-left: 8px;
+  padding: 6px 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  background: #fff;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.timeline-container {
+  position: relative;
+  overflow-x: auto;
+  min-height: 200px;
+}
+
+.timeline-months {
+  display: flex;
+  position: sticky;
+  top: 0;
+  background: var(--card);
+  border-bottom: 1px solid #e5e7eb;
+  z-index: 5;
+}
+
+.timeline-month {
+  flex: 1;
+  min-width: 60px;
+  text-align: center;
+  padding: 10px 8px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink);
+  border-right: 1px solid #e5e7eb;
+  box-sizing: border-box;
+}
+
+.timeline-month:last-child {
+  border-right: none;
+}
+
+.timeline-month.current {
+  background: #f0f7ff;
+  color: var(--primary);
+}
+
+.timeline-tracks {
+  position: relative;
+  padding: 16px 0;
+  min-height: 150px;
+}
+
+.timeline-track {
+  position: relative;
+  height: 32px;
+  margin: 4px 0;
+}
+
+.timeline-bar {
+  position: absolute;
+  height: 26px;
+  border-radius: 4px;
+  padding: 4px 10px;
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+  transition: transform 0.1s, box-shadow 0.1s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.timeline-bar:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  z-index: 10;
+}
+
+.timeline-bar-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Timeline Bar Category Colors */
+.timeline-bar.cat-none { background: #e5e7eb; color: #374151; }
+.timeline-bar.cat-geburtstag { background: #fbcfe8; color: #9d174d; }
+.timeline-bar.cat-todestag { background: #d1d5db; color: #1f2937; }
+.timeline-bar.cat-jahrestag { background: #fecaca; color: #991b1b; }
+.timeline-bar.cat-jubilaeum { background: #ddd6fe; color: #5b21b6; }
+.timeline-bar.cat-projekt { background: #bae6fd; color: #075985; }
+.timeline-bar.cat-termin { background: #fde68a; color: #92400e; }
+.timeline-bar.cat-erinnerung { background: #a7f3d0; color: #065f46; }
+.timeline-bar.cat-sonstiges { background: #e2e8f0; color: #475569; }
+
+/* Timeline Marker (for single-day events) */
+.timeline-marker {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  transform: translateX(-50%);
+  cursor: pointer;
+  transition: transform 0.1s;
+  top: 8px;
+}
+
+.timeline-marker:hover {
+  transform: translateX(-50%) scale(1.3);
+}
+
+/* Timeline Marker Category Colors */
+.timeline-marker.cat-none { background: #6b7280; }
+.timeline-marker.cat-geburtstag { background: #db2777; }
+.timeline-marker.cat-todestag { background: #1f2937; }
+.timeline-marker.cat-jahrestag { background: #dc2626; }
+.timeline-marker.cat-jubilaeum { background: #7c3aed; }
+.timeline-marker.cat-projekt { background: #0284c7; }
+.timeline-marker.cat-termin { background: #d97706; }
+.timeline-marker.cat-erinnerung { background: #059669; }
+.timeline-marker.cat-sonstiges { background: #475569; }
+
+/* Today line */
+.timeline-today-line {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--primary);
+  z-index: 8;
+  pointer-events: none;
+}
+
+.timeline-today-line::before {
+  content: 'Heute';
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 10px;
+  color: var(--primary);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* No events message */
+.timeline-empty {
+  text-align: center;
+  color: var(--muted);
+  padding: 40px 20px;
+  font-size: 14px;
+}
+
+/* Timeline Responsive */
+@media (max-width: 768px) {
+  .timeline-header {
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 12px;
+  }
+
+  .timeline-title {
+    font-size: 14px;
+    min-width: auto;
+    order: -1;
+    width: 100%;
+    margin-bottom: 4px;
+  }
+
+  #timelineToday {
+    margin-left: 0;
+  }
+
+  .timeline-zoom {
+    margin-left: 0;
+  }
+
+  .timeline-month {
+    min-width: 80px;
+    padding: 8px 4px;
+    font-size: 11px;
+  }
+
+  .timeline-bar {
+    font-size: 11px;
+    padding: 3px 6px;
+  }
+}
+
+@media (max-width: 540px) {
+  .timeline-month {
+    min-width: 60px;
+    font-size: 10px;
+  }
+
+  .timeline-bar {
+    font-size: 10px;
+    height: 22px;
+    padding: 2px 4px;
+  }
+
+  .timeline-marker {
+    width: 8px;
+    height: 8px;
+  }
+}

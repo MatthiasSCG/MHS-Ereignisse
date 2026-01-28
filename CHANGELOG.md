@@ -7,6 +7,58 @@ und dieses Projekt verwendet [Semantic Versioning](https://semver.org/lang/de/).
 
 ## [Unreleased]
 
+## [1.13.0] - 2026-01-28
+
+### Fixed
+- Timeline-Positionierung: Events werden jetzt korrekt unter dem jeweiligen Monat angezeigt (#5)
+- Marker in Timeline erscheinen jetzt über den Balken, nicht darunter (#5)
+
+### Added
+- Wochenansicht mit 7-Tage-Übersicht (#5)
+  - Navigation: vorherige/nächste Woche, Heute-Button
+  - Kalenderwoche (KW) und Datumsbereich in der Überschrift
+  - Ereignisse als farbige Blöcke mit Kategorie-Farbe
+  - Klick auf Ereignis wechselt zur Tabelle und markiert den Eintrag
+  - Klick auf Wochentag öffnet Detail-Popup
+  - Heutiger Tag und Wochenenden visuell hervorgehoben
+- Timeline-Ansicht für Zeitspannen (#5)
+  - Horizontale Zeitachse mit Monatsmarkierungen
+  - Zoom: 3, 6 oder 12 Monate wählbar
+  - Navigation: früher/später, Heute zentrieren
+  - Ereignisse mit Zeitspanne als farbige Balken
+  - Einzelereignisse als Marker-Punkte
+  - "Heute"-Linie als vertikale Markierung
+  - Automatische Track-Zuweisung (keine Überlappung)
+  - Klick auf Balken/Marker öffnet Detail oder wechselt zur Tabelle
+- View-Toggle erweitert auf 4 Ansichten: Tabelle, Monat, Woche, Timeline
+- Vollständige Dark Mode Unterstützung für Wochen- und Timeline-Ansicht
+- Responsive Design für alle neuen Ansichten
+
+### Changed
+- View-System erweitert: `'table' | 'month' | 'week' | 'timeline'`
+- Rückwärtskompatibilität: gespeicherter Wert `'calendar'` wird zu `'month'` migriert
+- `render()` Funktion delegiert jetzt an alle 4 View-Renderer
+
+## [1.12.0] - 2026-01-28
+
+### Added
+- Kalenderansicht als alternative Darstellung der Ereignisse (#5)
+- View-Toggle in der Toolbar zum Wechseln zwischen Tabellen- und Kalenderansicht
+- Monatskalender mit Navigation (vorheriger/nächster Monat, Heute-Button)
+- Farbige Event-Dots zeigen Ereignisse pro Tag nach Kategorie
+- Klick auf Tag öffnet Detail-Popup mit Ereignisliste
+- "Bearbeiten"-Button im Popup wechselt zur Tabelle und scrollt zum Eintrag
+- Zeitspannen werden über mehrere Tage angezeigt
+- Wiederkehrende Ereignisse erscheinen am Jahrestag
+- Filter wirken auf beide Ansichten (Tabelle und Kalender)
+- View-Präferenz wird in localStorage gespeichert
+- Vollständige Dark Mode Unterstützung für Kalender
+- Responsive Design für Mobile (angepasste Darstellung bei kleinen Bildschirmen)
+- Neue Dateien: `css/calendar.css`, `js/views.js`, `js/calendar.js`
+
+### Changed
+- `render()` Funktion ist jetzt view-aware und delegiert an `renderTable()` oder `renderCalendar()`
+
 ## [1.11.1] - 2026-01-27
 
 ### Added
@@ -176,7 +228,9 @@ und dieses Projekt verwendet [Semantic Versioning](https://semver.org/lang/de/).
 - XSS-Schutz durch `escapeHTML()` für alle Benutzereingaben
 - Input-Sanitization durch `sanitizeText()` für Textbereinigung
 
-[Unreleased]: https://github.com/MatthiasSCG/MHS-Ereignisse/compare/v1.11.1...HEAD
+[Unreleased]: https://github.com/MatthiasSCG/MHS-Ereignisse/compare/v1.13.0...HEAD
+[1.13.0]: https://github.com/MatthiasSCG/MHS-Ereignisse/compare/v1.12.0...v1.13.0
+[1.12.0]: https://github.com/MatthiasSCG/MHS-Ereignisse/compare/v1.11.1...v1.12.0
 [1.11.1]: https://github.com/MatthiasSCG/MHS-Ereignisse/compare/v1.11.0...v1.11.1
 [1.11.0]: https://github.com/MatthiasSCG/MHS-Ereignisse/compare/v1.10.0...v1.11.0
 [1.10.0]: https://github.com/MatthiasSCG/MHS-Ereignisse/compare/v1.9.0...v1.10.0
