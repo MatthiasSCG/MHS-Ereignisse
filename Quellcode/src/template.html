@@ -3,29 +3,29 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self';" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; manifest-src 'self' data:; font-src 'self';" />
   <title>Ereignisse</title>
-  <!-- PWA Meta Tags -->
+  <!-- App Meta Tags -->
   <meta name="theme-color" content="#2563eb" />
   <meta name="description" content="Verwaltung von Ereignissen mit automatischer Zeitdifferenz-Berechnung" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <meta name="apple-mobile-web-app-title" content="Ereignisse" />
-  <link rel="manifest" href="manifest.json" />
-  <link rel="icon" type="image/svg+xml" href="icons/icon.svg" />
-  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png" />
-  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+  <link rel="manifest" href="<!--{{MANIFEST_DATA_URL:manifest.json}}-->" />
+  <link rel="icon" type="image/svg+xml" href="<!--{{DATA_URL:icons/icon.svg}}-->" />
+  <link rel="icon" type="image/png" sizes="192x192" href="<!--{{DATA_URL:icons/icon-192.png}}-->" />
+  <link rel="apple-touch-icon" href="<!--{{DATA_URL:icons/icon-192.png}}-->" />
   <!-- CSS -->
-  <link rel="stylesheet" href="css/base.css" />
-  <link rel="stylesheet" href="css/layout.css" />
-  <link rel="stylesheet" href="css/components.css" />
-  <link rel="stylesheet" href="css/table.css" />
-  <link rel="stylesheet" href="css/filters.css" />
-  <link rel="stylesheet" href="css/dialogs.css" />
-  <link rel="stylesheet" href="css/statusbar.css" />
-  <link rel="stylesheet" href="css/dark-mode.css" />
-  <link rel="stylesheet" href="css/calendar.css" />
-  <link rel="stylesheet" href="css/dashboard.css" />
+  <style><!--{{INSERT:css/base.css}}--></style>
+  <style><!--{{INSERT:css/layout.css}}--></style>
+  <style><!--{{INSERT:css/components.css}}--></style>
+  <style><!--{{INSERT:css/table.css}}--></style>
+  <style><!--{{INSERT:css/filters.css}}--></style>
+  <style><!--{{INSERT:css/dialogs.css}}--></style>
+  <style><!--{{INSERT:css/statusbar.css}}--></style>
+  <style><!--{{INSERT:css/dark-mode.css}}--></style>
+  <style><!--{{INSERT:css/calendar.css}}--></style>
+  <style><!--{{INSERT:css/dashboard.css}}--></style>
 </head>
 <body>
   <div class="page">
@@ -410,16 +410,20 @@
 
   <input id="fileInput" type="file" accept=".json,application/json" style="display:none" />
 
-  <!-- JS: i18n must load before other modules -->
-  <script src="js/i18n.js"></script>
-  <script src="js/i18n/de.js"></script>
-  <script src="js/utils.js"></script>
-  <script src="js/data.js"></script>
-  <script src="js/filters.js"></script>
-  <script src="js/views.js"></script>
-  <script src="js/calendar.js"></script>
-  <script src="js/dashboard.js"></script>
-  <script src="js/ui.js"></script>
-  <script src="js/app.js"></script>
+  <!-- JS: i18n must load before other modules; alle 5 Sprachen werden eingebettet -->
+  <script><!--{{INSERT:js/i18n.js}}--></script>
+  <script><!--{{INSERT:i18n/de.js}}--></script>
+  <script><!--{{INSERT:i18n/en.js}}--></script>
+  <script><!--{{INSERT:i18n/fr.js}}--></script>
+  <script><!--{{INSERT:i18n/it.js}}--></script>
+  <script><!--{{INSERT:i18n/es.js}}--></script>
+  <script><!--{{INSERT:js/utils.js}}--></script>
+  <script><!--{{INSERT:js/data.js}}--></script>
+  <script><!--{{INSERT:js/filters.js}}--></script>
+  <script><!--{{INSERT:js/views.js}}--></script>
+  <script><!--{{INSERT:js/calendar.js}}--></script>
+  <script><!--{{INSERT:js/dashboard.js}}--></script>
+  <script><!--{{INSERT:js/ui.js}}--></script>
+  <script><!--{{INSERT:js/app.js}}--></script>
 </body>
 </html>

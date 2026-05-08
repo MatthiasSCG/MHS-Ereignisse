@@ -5,8 +5,8 @@
 **Name:** Ereignisse und deren Zeitraum zu heute
 **Typ:** Modulare Web-Anwendung
 **Autor:** Matthias
-**Version:** 1.16
-**Letzte Aktualisierung:** 2026-01-28
+**Version:** 1.17
+**Letzte Aktualisierung:** 2026-05-08
 **Repository:** https://github.com/MatthiasSCG/MHS-Ereignisse (privat)
 
 ---
@@ -28,7 +28,7 @@ Eine lokale Web-Anwendung zur Verwaltung von Ereignissen mit automatischer Berec
 - **Wiederkehrende Ereignisse:** Jährliche Termine mit automatischer Berechnung des nächsten Vorkommens
 - **Datenpersistenz:** Lokale Speicherung im Browser und Export/Import als JSON
 - **Dark Mode:** Automatische Erkennung der Systemeinstellung mit manueller Umschaltung
-- **PWA:** Installierbar als App mit Offline-Unterstützung
+- **Single-File-Auslieferung:** Komplette Anwendung in einer einzigen HTML-Datei (Manifest und Icons als Data-URLs eingebettet)
 - **Kalenderansichten:** Monats-, Wochen- und Timeline-Ansicht mit Navigation
 - **Dashboard:** Übersicht mit anstehenden Ereignissen, Meilensteinen und Statistiken
 - **Mehrsprachigkeit:** 5 Sprachen (DE, EN, FR, IT, ES) mit Browser-Erkennung
@@ -60,55 +60,67 @@ Eine lokale Web-Anwendung zur Verwaltung von Ereignissen mit automatischer Berec
 ### Dateistruktur
 
 ```
-0003_MHS_Ereignisse/
-├── .git/                 # Git-Repository
-├── .gitignore            # Git-Ignorierungsliste
-├── README.md             # GitHub-Startseite
-├── index.html            # Hauptanwendung (HTML-Markup)
-├── css/                  # CSS-Module
-│   ├── base.css          # Variablen, Reset, Body, Typography
-│   ├── layout.css        # Container, Header, Cards, Grid
-│   ├── components.css    # Buttons, Inputs, Dropdowns, Badges
-│   ├── table.css         # Tabelle, Zeilen, Zellen, Notizen
-│   ├── filters.css       # Filter-Toolbar, Panel, Tags
-│   ├── dialogs.css       # Modals, Verknüpfungs-Dialoge
-│   ├── statusbar.css     # Statusleiste
-│   ├── calendar.css      # Kalender-Views (Monat, Woche, Timeline)
-│   ├── dashboard.css     # Dashboard-View
-│   └── dark-mode.css     # Alle Dark Mode Overrides
-├── js/                   # JavaScript-Module
-│   ├── i18n.js           # Internationalisierung (Kern-API)
-│   ├── i18n/             # Sprachdateien
-│   │   ├── de.js         # Deutsch (Standard, immer geladen)
-│   │   ├── en.js         # Englisch
-│   │   ├── fr.js         # Französisch
-│   │   ├── it.js         # Italienisch
-│   │   └── es.js         # Spanisch
-│   ├── utils.js          # Hilfsfunktionen, Datum-Berechnungen
-│   ├── data.js           # Datenmodell, Serialisierung, Storage
-│   ├── filters.js        # Filter-Logik, gespeicherte Filter
-│   ├── views.js          # View-State-Management (5 Ansichten)
-│   ├── calendar.js       # Kalender-Rendering und Navigation
-│   ├── dashboard.js      # Dashboard-Rendering und Statistiken
-│   ├── ui.js             # Rendering, Dialoge, Events
-│   └── app.js            # Initialisierung, Datei-Handling
-├── manifest.json         # PWA Web App Manifest
-├── sw.js                 # PWA Service Worker
-├── icons/                # PWA App-Icons
-│   ├── icon.svg          # Vektor-Quelle
-│   ├── icon-192.png      # Android/Chrome Icon
-│   └── icon-512.png      # Splash Screen Icon
-├── PROJEKT.md            # Projektdokumentation
-├── CHANGELOG.md          # Änderungshistorie (Keep a Changelog)
-├── Pruefergebnisse.md    # Code-Review und Qualitätsprüfung
-├── docs/                 # Dokumentation
-│   └── screenshots/      # UI-Screenshots
-├── Ereignisse_Daten.json # Exportierte Daten (optional, nicht versioniert)
-└── Archiv/               # Lokale Sicherungen (nicht versioniert)
-    └── v01.01/           # Version 1.1 (Format: vXX.YY)
-        ├── Ereignisse.html
-        └── PROJEKT.md
+0001_MHS_Ereignisse/
+├── .git/                       # Git-Repository
+├── .gitignore                  # Git-Ignorierungsliste
+├── README.md                   # GitHub-Startseite
+├── Ereignisse.html             # Hauptanwendung — Single-File, generiert!
+├── Quellcode/                  # Modular bearbeitbarer Quellcode
+│   ├── build.py                # Build-Skript (erzeugt Ereignisse.html)
+│   └── src/
+│       ├── template.html       # HTML-Gerüst mit INSERT-/DATA_URL-Markern
+│       ├── manifest.json       # PWA Manifest (wird inline als Data-URL eingebettet)
+│       ├── css/                # CSS-Module
+│       │   ├── base.css        # Variablen, Reset, Body, Typography
+│       │   ├── layout.css      # Container, Header, Cards, Grid
+│       │   ├── components.css  # Buttons, Inputs, Dropdowns, Badges
+│       │   ├── table.css       # Tabelle, Zeilen, Zellen, Notizen
+│       │   ├── filters.css     # Filter-Toolbar, Panel, Tags
+│       │   ├── dialogs.css     # Modals, Verknüpfungs-Dialoge
+│       │   ├── statusbar.css   # Statusleiste
+│       │   ├── calendar.css    # Kalender-Views (Monat, Woche, Timeline)
+│       │   ├── dashboard.css   # Dashboard-View
+│       │   └── dark-mode.css   # Alle Dark Mode Overrides
+│       ├── js/                 # JS-Module
+│       │   ├── i18n.js         # Internationalisierung (Kern-API)
+│       │   ├── utils.js        # Hilfsfunktionen, Datum-Berechnungen
+│       │   ├── data.js         # Datenmodell, Serialisierung, Storage
+│       │   ├── filters.js      # Filter-Logik, gespeicherte Filter
+│       │   ├── views.js        # View-State-Management (5 Ansichten)
+│       │   ├── calendar.js     # Kalender-Rendering und Navigation
+│       │   ├── dashboard.js    # Dashboard-Rendering und Statistiken
+│       │   ├── ui.js           # Rendering, Dialoge, Events
+│       │   └── app.js          # Initialisierung, Datei-Handling
+│       ├── i18n/               # Sprachdateien
+│       │   ├── de.js           # Deutsch (Standard)
+│       │   ├── en.js           # Englisch
+│       │   ├── fr.js           # Französisch
+│       │   ├── it.js           # Italienisch
+│       │   └── es.js           # Spanisch
+│       └── icons/              # SVG/PNG (werden als Data-URLs eingebettet)
+│           ├── icon.svg        # Vektor-Quelle
+│           ├── icon-192.png    # Android/Chrome Icon
+│           └── icon-512.png    # Splash Screen Icon
+├── PROJEKT.md                  # Projektdokumentation
+├── CHANGELOG.md                # Änderungshistorie (Keep a Changelog)
+├── Pruefergebnisse.md          # Code-Review und Qualitätsprüfung
+├── docs/                       # Dokumentation
+│   └── screenshots/            # UI-Screenshots
+├── Ereignisse_Daten.json       # Exportierte Daten (optional, nicht versioniert)
+└── Archiv/                     # Lokale Sicherungen (nicht versioniert)
 ```
+
+### Build-Pipeline
+
+`Quellcode/build.py` ersetzt im Template drei Marker-Typen:
+
+| Marker | Zweck |
+|--------|-------|
+| `<!--{{INSERT:path}}-->` | Text-Inhalt (CSS, JS, i18n) verbatim einbetten |
+| `<!--{{DATA_URL:path}}-->` | Asset (Icon) als `data:<mime>;base64,...`-URL |
+| `<!--{{MANIFEST_DATA_URL:path}}-->` | Manifest mit eingebetteten Icon-Data-URLs als `data:application/manifest+json;base64,...` |
+
+Aufruf: `python Quellcode/build.py` (im Repo-Root oder im `Quellcode/`-Ordner).
 
 ---
 
@@ -230,14 +242,16 @@ Besondere Zeitpunkte werden visuell hervorgehoben:
 ```html
 <meta http-equiv="Content-Security-Policy"
       content="default-src 'self';
-               script-src 'self';
-               style-src 'self';
+               script-src 'self' 'unsafe-inline';
+               style-src 'self' 'unsafe-inline';
                img-src 'self' data:;
+               manifest-src 'self' data:;
                font-src 'self';" />
 ```
 
-> **Hinweis:** Seit v1.11 werden alle CSS- und JavaScript-Dateien extern geladen,
-> wodurch `'unsafe-inline'` entfernt werden konnte.
+> **Hinweis:** Seit v1.17 wird der Quellcode zu einer einzigen `Ereignisse.html` gebündelt.
+> CSS und JS stehen dadurch inline im HTML, was `'unsafe-inline'` zwingend erforderlich macht.
+> Bei lokaler `file://`-Nutzung vertretbar — es werden keine externen Skripte geladen.
 
 ### Implementierte Schutzmaßnahmen
 
@@ -382,6 +396,7 @@ Alle geplanten Erweiterungen werden als [GitHub Issues](https://github.com/Matth
 | **v1.14** | Dashboard | ✅ Abgeschlossen (#6) |
 | **v1.15** | Mehrsprachigkeit (i18n) | ✅ Abgeschlossen (#13) |
 | **v1.16** | Beispieldatei laden | ✅ Abgeschlossen (#30) |
+| **v1.17** | Build-System: `Quellcode/src/` + Single-File-HTML | ✅ Abgeschlossen (#44) |
 | **v2.0** | Import/Export-Formate, Benachrichtigungen | #11, #4, #2 |
 | **v2.2** | Drag & Drop, Theme-Optionen | #7, #8 |
 | **v3.0** | Cloud-Synchronisation | #10 |

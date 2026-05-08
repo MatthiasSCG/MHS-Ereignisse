@@ -7,6 +7,26 @@ und dieses Projekt verwendet [Semantic Versioning](https://semver.org/lang/de/).
 
 ## [Unreleased]
 
+## [1.17.0] - 2026-05-08
+
+### Changed
+- **Refactoring:** Build-System mit `Quellcode/src/`-Struktur und Single-File-HTML-Build (#44)
+- Quellcode liegt jetzt modular unter `Quellcode/src/` (CSS, JS, i18n, Icons, Manifest, Template)
+- Neues Build-Skript `Quellcode/build.py` erzeugt eine einzelne autarke `Ereignisse.html` am Repo-Root
+- Manifest und Icons werden als Data-URLs eingebettet — keine externen Asset-Dateien mehr nötig
+- CSP gelockert auf `'unsafe-inline'` für `script-src` und `style-src` (durch Bundling unausweichlich, lokal akzeptabel)
+- Alle 5 Sprachen werden gebundelt (kein Lazy Loading mehr)
+- Drei Marker-Typen im Template: `INSERT` (Text), `DATA_URL` (Asset als base64), `MANIFEST_DATA_URL` (Manifest mit eingebetteten Icons)
+
+### Removed
+- Service Worker (`sw.js`) entfernt — funktionierte bei lokaler `file://`-Nutzung ohnehin nicht (Browser-Sicherheitsrichtlinie)
+- PWA-Installierbarkeit entfällt (war an den Service Worker gekoppelt)
+- Externe Datei `index.html` entfällt (ersetzt durch generierte `Ereignisse.html`)
+
+### Technical
+- Bumped `APP_VERSION` auf `1.17.0`
+- `start_url` im Manifest zeigt jetzt auf `./Ereignisse.html`
+
 ## [1.16.0] - 2026-01-28
 
 ### Added
@@ -285,7 +305,8 @@ und dieses Projekt verwendet [Semantic Versioning](https://semver.org/lang/de/).
 - XSS-Schutz durch `escapeHTML()` für alle Benutzereingaben
 - Input-Sanitization durch `sanitizeText()` für Textbereinigung
 
-[Unreleased]: https://github.com/MatthiasSCG/MHS-Ereignisse/compare/v1.16.0...HEAD
+[Unreleased]: https://github.com/MatthiasSCG/MHS-Ereignisse/compare/v1.17.0...HEAD
+[1.17.0]: https://github.com/MatthiasSCG/MHS-Ereignisse/compare/v1.16.0...v1.17.0
 [1.16.0]: https://github.com/MatthiasSCG/MHS-Ereignisse/compare/v1.15.0...v1.16.0
 [1.15.0]: https://github.com/MatthiasSCG/MHS-Ereignisse/compare/v1.14.0...v1.15.0
 [1.14.0]: https://github.com/MatthiasSCG/MHS-Ereignisse/compare/v1.13.0...v1.14.0

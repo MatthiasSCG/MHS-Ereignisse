@@ -5,7 +5,7 @@
 'use strict';
 
 /** @constant {string} Zentrale Versionsnummer der Anwendung */
-const APP_VERSION = '1.16.0';
+const APP_VERSION = '1.17.0';
 
 /**
  * Prüft, ob die File System Access API verfügbar ist
@@ -669,31 +669,3 @@ document.addEventListener('keydown', (e) => {
     }
   }
 });
-
-// Service Worker Registration (PWA)
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('./sw.js')
-      .then((registration) => {
-        console.log('[PWA] Service Worker registered:', registration.scope);
-
-        // Update-Check bei Seitenladung
-        registration.addEventListener('updatefound', () => {
-          const newWorker = registration.installing;
-          newWorker.addEventListener('statechange', () => {
-            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-              // Neue Version verfügbar
-              const updateMsg = typeof t === 'function' ? t('msg.updateAvailable') : 'Eine neue Version ist verfügbar. Jetzt aktualisieren?';
-              if (confirm(updateMsg)) {
-                newWorker.postMessage({ type: 'SKIP_WAITING' });
-                window.location.reload();
-              }
-            }
-          });
-        });
-      })
-      .catch((error) => {
-        console.log('[PWA] Service Worker registration failed:', error);
-      });
-  });
-}
