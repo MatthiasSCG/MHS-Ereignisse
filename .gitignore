@@ -13,6 +13,9 @@ desktop.ini
 .vscode/
 .idea/
 
+# Claude Code lokale Konfiguration (enthält maschinenspezifische Pfade)
+.claude/settings.local.json
+
 # Temporäre Dateien
 *.tmp
 *.temp

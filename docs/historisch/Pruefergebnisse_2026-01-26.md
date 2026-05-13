@@ -1,5 +1,14 @@
 # Prüfergebnisse: Ereignisse.html
 
+> **Hinweis:** Historischer Stand v1.0 vom 26. Januar 2026. Dieses Dokument
+> beschreibt eine frühe Version der Anwendung vor Einführung des Build-Systems
+> und der modularen Quellcode-Struktur. Es wird hier zur Dokumentation des
+> initialen Qualitätsstandes aufbewahrt. Der aktuelle Stand der Anwendung
+> wird in [PROJEKT.md](../../PROJEKT.md) und [CHANGELOG.md](../../CHANGELOG.md)
+> beschrieben.
+
+---
+
 **Datei:** `Ereignisse.html`
 **Prüfdatum:** 2026-01-26
 **Aktualisiert:** 2026-01-26 (nach Verbesserungen)

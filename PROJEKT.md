@@ -7,7 +7,8 @@
 **Autor:** Matthias
 **Version:** 1.17
 **Letzte Aktualisierung:** 2026-05-08
-**Repository:** https://github.com/MatthiasSCG/MHS-Ereignisse (privat)
+**Repository:** https://github.com/MatthiasSCG/MHS-Ereignisse
+**Lizenz:** MIT (siehe [LICENSE](LICENSE))
 
 ---
 

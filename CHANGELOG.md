@@ -7,6 +7,14 @@ und dieses Projekt verwendet [Semantic Versioning](https://semver.org/lang/de/).
 
 ## [Unreleased]
 
+### Added
+- MIT-Lizenz hinzugefügt (`LICENSE`-Datei) als Vorbereitung für die Umstellung des Repositories auf öffentliche Sichtbarkeit (#45)
+
+### Changed
+- `README.md` für externe Zielgruppe überarbeitet: Build-Anleitung, Architektur-Hinweis, Lizenz-Verweis (#45)
+- `Pruefergebnisse.md` (historischer Stand v1.0) nach `docs/historisch/Pruefergebnisse_2026-01-26.md` verschoben (#45)
+- `.claude/settings.local.json` aus dem Repository entfernt und in `.gitignore` aufgenommen, da maschinenspezifische Pfade (#45)
+
 ## [1.17.0] - 2026-05-08
 
 ### Changed

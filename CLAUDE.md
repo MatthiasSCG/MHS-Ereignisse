@@ -7,7 +7,8 @@
 - **Quellcode:** `Quellcode/src/` (modular: `css/`, `js/`, `i18n/`, `icons/`, `manifest.json`, `template.html`)
 - **Build:** `python Quellcode/build.py` bündelt den Quellcode zu `Ereignisse.html`
 - **Dokumentation:** `PROJEKT.md` (Architektur), `CHANGELOG.md` (Änderungshistorie)
-- **Repository:** https://github.com/MatthiasSCG/MHS-Ereignisse (privat)
+- **Repository:** https://github.com/MatthiasSCG/MHS-Ereignisse
+- **Lizenz:** MIT (siehe `LICENSE`)
 
 ## Architektur
 

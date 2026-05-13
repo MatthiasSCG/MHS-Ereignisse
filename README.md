@@ -46,16 +46,27 @@
 | Firefox | ❌ | ✅ Download/Upload |
 | Safari | ❌ | ✅ Download/Upload |
 
+## Build
+
+Die Anwendung wird modular unter `Quellcode/src/` gepflegt (CSS, JS, i18n, Icons) und per Build-Skript zu einer einzigen, autarken `Ereignisse.html` gebündelt.
+
+```bash
+python Quellcode/build.py
+```
+
+Voraussetzung: Python 3 (keine weiteren Abhängigkeiten). Das Build-Skript liest `Quellcode/src/template.html` und ersetzt die Marker durch die jeweiligen Inhalte (Quelltext bzw. base64-Data-URLs für Icons).
+
+**Hinweis:** Direktes Editieren der `Ereignisse.html` ist nicht vorgesehen, Änderungen erfolgen ausschließlich am Quellcode unter `Quellcode/src/`.
+
 ## Dokumentation
 
-Ausführliche technische Dokumentation in [PROJEKT.md](PROJEKT.md)
-
-Änderungshistorie in [CHANGELOG.md](CHANGELOG.md)
+- Architektur und technische Details: [PROJEKT.md](PROJEKT.md)
+- Änderungshistorie: [CHANGELOG.md](CHANGELOG.md)
 
 ## Lizenz
 
-Interne Verwendung – Alle Rechte vorbehalten.
+[MIT-Lizenz](LICENSE) — Nutzung, Modifikation und Weiterverbreitung sind unter Einhaltung der Lizenzbedingungen erlaubt.
 
 ---
 
-*Version 1.17 · Entwickelt von Matthias*
+*Version 1.17 · Entwickelt von Matthias Stumm*
