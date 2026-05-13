@@ -6,10 +6,25 @@
 
 > Hinweis zur Demo: Die Daten werden im LocalStorage des Browsers unter der Demo-Domain gespeichert. Sie sind weder mit einer lokalen Installation noch mit anderen Geräten synchron. Für persistente Nutzung wird empfohlen, die `Ereignisse.html` herunterzuladen und lokal zu speichern, da der Browser-LocalStorage jederzeit (z. B. durch Cache-Reinigung) gelöscht werden kann.
 
-<!-- Screenshots werden hier eingebunden, sobald vorhanden:
-![Light Mode](docs/screenshots/light-mode.png)
-![Dark Mode](docs/screenshots/dark-mode.png)
--->
+## Screenshots
+
+### Dashboard
+
+Überblick über anstehende und kürzlich vergangene Ereignisse, Meilensteine sowie Statistiken nach Kategorie.
+
+![Dashboard-Ansicht](docs/screenshots/dashboard.png)
+
+### Tabellenansicht
+
+Detaillierte Verwaltung mit Zeitpunkt, optionalem Endzeitpunkt, Kategorie und automatisch berechneter Differenz zum aktuellen Datum (in Tagen, Wochen und Monaten).
+
+![Tabellenansicht](docs/screenshots/table.png)
+
+### Timeline
+
+Zeitlich gestaffelte Darstellung von Ereignissen und Zeitspannen über Monate hinweg.
+
+![Timeline-Ansicht](docs/screenshots/timeline.png)
 
 ## Features
 

@@ -2,22 +2,17 @@
 
 Dieser Ordner enthält Screenshots der Anwendung für die Dokumentation.
 
-## Benötigte Screenshots
+## Vorhandene Screenshots
 
 | Dateiname | Beschreibung |
 |-----------|--------------|
-| `light-mode.png` | Hauptansicht im Light Mode |
-| `dark-mode.png` | Hauptansicht im Dark Mode |
+| `dashboard.png` | Dashboard mit Anstehend, Kürzlich vergangen, Meilensteine, Statistiken |
+| `table.png` | Tabellenansicht mit Zeitspannen und Differenz-Berechnung |
+| `timeline.png` | Timeline-Ansicht über mehrere Monate |
 
-## Anleitung zum Erstellen
+Eingebunden im [README am Repo-Root](../../README.md).
 
-1. `Ereignisse.html` im Browser öffnen
-2. Einige Beispiel-Ereignisse mit verschiedenen Kategorien hinzufügen
-3. Screenshot im Light Mode erstellen (F12 > Device Toolbar > Screenshot)
-4. Theme umschalten (Mond-Icon im Header)
-5. Screenshot im Dark Mode erstellen
+## Hinweis zur Aktualisierung
 
-## Empfohlene Größe
-
-- Breite: 1200px
-- Höhe: 800px (oder passend zum Inhalt)
+Bei größeren UI-Änderungen die Screenshots im Browser neu aufnehmen
+(F12 → Device Toolbar → Screenshot, Breite ca. 1200 px) und überschreiben.

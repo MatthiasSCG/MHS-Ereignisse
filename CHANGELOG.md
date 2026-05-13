@@ -11,6 +11,7 @@ und dieses Projekt verwendet [Semantic Versioning](https://semver.org/lang/de/).
 - MIT-Lizenz hinzugefügt (`LICENSE`-Datei) als Vorbereitung für die Umstellung des Repositories auf öffentliche Sichtbarkeit (#45)
 - GitHub Pages aktiviert: Online-Demo unter https://matthiasscg.github.io/MHS-Ereignisse/Ereignisse.html (#45)
 - Online-Demo-Link im README mit Hinweis auf LocalStorage-Charakter der Demo-Daten (#45)
+- Screenshots im README ergänzt: Dashboard, Tabellenansicht und Timeline (`docs/screenshots/`) (#45)
 
 ### Changed
 - `README.md` für externe Zielgruppe überarbeitet: Build-Anleitung, Architektur-Hinweis, Lizenz-Verweis, Demo-Link (#45)
