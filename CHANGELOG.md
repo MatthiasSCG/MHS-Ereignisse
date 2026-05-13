@@ -9,9 +9,12 @@ und dieses Projekt verwendet [Semantic Versioning](https://semver.org/lang/de/).
 
 ### Added
 - MIT-Lizenz hinzugefügt (`LICENSE`-Datei) als Vorbereitung für die Umstellung des Repositories auf öffentliche Sichtbarkeit (#45)
+- GitHub Pages aktiviert: Online-Demo unter https://matthiasscg.github.io/MHS-Ereignisse/Ereignisse.html (#45)
+- Online-Demo-Link im README mit Hinweis auf LocalStorage-Charakter der Demo-Daten (#45)
 
 ### Changed
-- `README.md` für externe Zielgruppe überarbeitet: Build-Anleitung, Architektur-Hinweis, Lizenz-Verweis (#45)
+- `README.md` für externe Zielgruppe überarbeitet: Build-Anleitung, Architektur-Hinweis, Lizenz-Verweis, Demo-Link (#45)
+- `PROJEKT.md`: Demo-URL ergänzt (#45)
 - `Pruefergebnisse.md` (historischer Stand v1.0) nach `docs/historisch/Pruefergebnisse_2026-01-26.md` verschoben (#45)
 - `.claude/settings.local.json` aus dem Repository entfernt und in `.gitignore` aufgenommen, da maschinenspezifische Pfade (#45)
 

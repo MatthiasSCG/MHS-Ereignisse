@@ -2,6 +2,10 @@
 
 > Lokale Web-Anwendung zur Verwaltung von Ereignissen mit automatischer Berechnung der Zeitdifferenz zum aktuellen Datum
 
+**Online-Demo:** [matthiasscg.github.io/MHS-Ereignisse/Ereignisse.html](https://matthiasscg.github.io/MHS-Ereignisse/Ereignisse.html)
+
+> Hinweis zur Demo: Die Daten werden im LocalStorage des Browsers unter der Demo-Domain gespeichert. Sie sind weder mit einer lokalen Installation noch mit anderen Geräten synchron. Für persistente Nutzung wird empfohlen, die `Ereignisse.html` herunterzuladen und lokal zu speichern, da der Browser-LocalStorage jederzeit (z. B. durch Cache-Reinigung) gelöscht werden kann.
+
 <!-- Screenshots werden hier eingebunden, sobald vorhanden:
 ![Light Mode](docs/screenshots/light-mode.png)
 ![Dark Mode](docs/screenshots/dark-mode.png)

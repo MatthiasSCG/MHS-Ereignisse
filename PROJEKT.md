@@ -8,6 +8,7 @@
 **Version:** 1.17
 **Letzte Aktualisierung:** 2026-05-08
 **Repository:** https://github.com/MatthiasSCG/MHS-Ereignisse
+**Online-Demo:** https://matthiasscg.github.io/MHS-Ereignisse/Ereignisse.html
 **Lizenz:** MIT (siehe [LICENSE](LICENSE))
 
 ---
